@@ -1,11 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Valentine 💖</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question 1 ❤️</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffe6e6;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            overflow: hidden;
+        }
+        .card {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 400px;
+        }
+        h1 {
+            color: #ff4d4d;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .btn {
+            background-color: #fff;
+            color: #ff4d4d;
+            border: 2px solid #ff4d4d;
+            padding: 12px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background-color: #ff4d4d;
+            color: white;
+        }
+        /* Big Heart Animation */
+        #big-heart {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-size: 10rem;
+            z-index: 100;
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+        }
+    </style>
 </head>
 <body>
-  <h1>Hello Valentine 💘</h1>
-  <p>If you see this, the URL works.</p>
+
+    <div class="card">
+        <h1>Do you remember... <br>When was our first kiss? 💋</h1>
+        
+        <div class="options">
+            <button class="btn" onclick="wrongAnswer(this)">12 June</button>
+            <button class="btn" onclick="wrongAnswer(this)">20 July</button>
+            
+            <button class="btn" onclick="correctAnswer()">14 July</button>
+            
+            <button class="btn" onclick="wrongAnswer(this)">4 August</button>
+        </div>
+    </div>
+
+    <div id="big-heart">❤️</div>
+
+    <script>
+        function wrongAnswer(element) {
+            // Turn button red and shake
+            element.style.backgroundColor = "#ffcccc";
+            element.style.borderColor = "#ff0000";
+            element.innerText = "Try Again! 😅";
+            
+            // Shake animation
+            element.animate([
+                { transform: 'translateX(0)' },
+                { transform: 'translateX(-10px)' },
+                { transform: 'translateX(10px)' },
+                { transform: 'translateX(0)' }
+            ], {
+                duration: 300
+            });
+        }
+
+        function correctAnswer() {
+            // Show the big heart
+            const heart = document.getElementById('big-heart');
+            heart.style.transform = "translate(-50%, -50%) scale(1)";
+            
+            // Wait 1 second, then go to next page
+            setTimeout(() => {
+                // This links to the next page we will make
+                window.location.href = "proposal.html"; 
+            }, 1500);
+        }
+    </script>
 </body>
 </html>
