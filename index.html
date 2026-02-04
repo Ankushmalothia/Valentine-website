@@ -3,109 +3,478 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Question 1 ❤️</title>
+    <title>For You ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Pacifico&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
+        /* --- RESET & BODY --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-color: #ffe6e6;
-            font-family: 'Arial', sans-serif;
-            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ffc3a0 0%, #ffafbd 100%);
+            font-family: 'Fredoka', sans-serif;
             overflow: hidden;
+            perspective: 1000px;
         }
-        .card {
+
+        /* Background Particles */
+        .bg-element {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.4);
+            animation: floatUp 15s infinite linear;
+            z-index: 0;
+            font-size: 2rem;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) rotate(0deg) scale(0.8); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg) scale(1.2); opacity: 0; }
+        }
+
+        /* --- 3D CARD CONTAINER --- */
+        .container {
             text-align: center;
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.6); 
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 40px 30px;
+            border-radius: 40px;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.15), inset 0 0 0 1px rgba(255,255,255,0.6);
             width: 90%;
-            max-width: 400px;
+            max-width: 480px;
+            z-index: 10;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out;
+            position: relative;
         }
+
+        .content-layer { transform: translateZ(60px); }
+
         h1 {
-            color: #ff4d4d;
-            font-size: 1.8rem;
-            margin-bottom: 30px;
+            color: #ff4757;
+            font-family: 'Pacifico', cursive;
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 0px rgba(255,255,255,0.5);
         }
-        .options {
+
+        p {
+            color: #555;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            font-weight: 600;
+        }
+
+        /* --- LETTER STYLING --- */
+        .letter-paper {
+            background: #fffdf0;
+            padding: 25px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            font-family: 'Dancing Script', cursive;
+            text-align: left;
+            color: #000000; /* Pure Black */
+            max-height: 55vh;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            border: 1px solid #e6dec3;
+        }
+        
+        .letter-text {
+            font-size: 1.8rem; /* Big and Clear */
+            line-height: 1.6;
+            font-weight: 700;
+        }
+
+        .highlight-text {
+            color: #ff4757;
+            font-weight: bold;
+            background: rgba(255, 71, 87, 0.1);
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        /* --- BUTTONS --- */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .btn {
+            background: white;
+            color: #ff6b81;
+            border: 2px solid white;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(255, 107, 129, 0.15);
+            font-weight: 600;
+            min-width: 120px;
+            transition: all 0.3s;
+            width: 100%;
+            max-width: 250px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            background: #ff6b81;
+            color: white;
+            box-shadow: 0 15px 30px rgba(255, 107, 129, 0.3);
+        }
+
+        .intro-btns .btn { width: auto; }
+
+        /* --- GIFT BOXES --- */
+        .gift-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .gift-wrapper {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-        }
-        .btn {
-            background-color: #fff;
-            color: #ff4d4d;
-            border: 2px solid #ff4d4d;
-            padding: 12px;
-            font-size: 1.1rem;
-            border-radius: 50px;
+            align-items: center;
             cursor: pointer;
-            transition: 0.3s;
+            transition: transform 0.3s;
         }
-        .btn:hover {
-            background-color: #ff4d4d;
-            color: white;
+
+        .gift-box {
+            font-size: 3.5rem;
+            position: relative;
+            filter: drop-shadow(0 10px 15px rgba(255, 107, 129, 0.3));
+            animation: floatGift 3s ease-in-out infinite;
         }
-        /* Big Heart Animation */
-        #big-heart {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            font-size: 10rem;
-            z-index: 100;
-            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            pointer-events: none;
+        
+        .gift-label {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #ff6b81;
+            background: white;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+
+        .gift-wrapper:nth-child(1) .gift-box { animation-delay: 0s; }
+        .gift-wrapper:nth-child(2) .gift-box { animation-delay: 1s; }
+        .gift-wrapper:nth-child(3) .gift-box { animation-delay: 2s; }
+
+        @keyframes floatGift {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .gift-wrapper:hover .gift-box { transform: scale(1.2); }
+        .gift-wrapper.disabled { opacity: 0.5; filter: grayscale(1); pointer-events: none; }
+        .gift-wrapper.completed .gift-box::after {
+            content: '❤️'; position: absolute; bottom: -5px; right: -10px; font-size: 1.5rem;
+        }
+
+        /* --- UTILS --- */
+        .hidden { display: none; }
+        .fade-in { animation: fadeIn 0.8s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateZ(60px) scale(0.9); } to { opacity: 1; transform: translateZ(60px) scale(1); } }
+
+        /* OVERLAY */
+        .overlay-popup {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        .overlay-popup.active { opacity: 1; pointer-events: auto; }
+        .overlay-content { background: white; padding: 20px; border-radius: 20px; text-align: center; transform: scale(0.8); transition: transform 0.3s; }
+        .overlay-popup.active .overlay-content { transform: scale(1); }
+        .overlay-content img { max-width: 250px; border-radius: 15px; border: 4px solid #ffeff1; }
+
+        /* --- SPECIAL YES BUTTON ANIMATION --- */
+        #g3-yes-btn {
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 50;
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h1>Do you remember... <br>When was our first kiss? 💋</h1>
-        
-        <div class="options">
-            <button class="btn" onclick="wrongAnswer(this)">12 June</button>
-            <button class="btn" onclick="wrongAnswer(this)">20 July</button>
-            
-            <button class="btn" onclick="correctAnswer()">14 July</button>
-            
-            <button class="btn" onclick="wrongAnswer(this)">4 August</button>
+    <script>
+        const shapes = ['❤️', '✨', '🌸', '🎀'];
+        for(let i=0; i<20; i++){
+            let el = document.createElement('div');
+            el.className = 'bg-element';
+            el.innerHTML = shapes[Math.floor(Math.random() * shapes.length)];
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            el.style.animationDelay = (Math.random() * 5) + 's';
+            document.body.appendChild(el);
+        }
+    </script>
+
+    <div id="gif-overlay" class="overlay-popup">
+        <div class="overlay-content">
+            <img id="overlay-img" src="" alt="Reaction">
+            <h2 id="overlay-text" style="color: #ff4757; margin-top: 15px; font-family: 'Fredoka';"></h2>
         </div>
     </div>
 
-    <div id="big-heart">❤️</div>
+    <div class="container fade-in" id="card3d">
+        <div class="content-layer">
+            
+            <div id="intro-section">
+                <h1>Hey You! 👋</h1>
+                <p>I made a little magical world for you.<br>Do you wanna enter?</p>
+                <div class="btn-group intro-btns">
+                    <button class="btn" onclick="triggerReaction('think.gif', 'Please please 🥺')">No</button>
+                    <button class="btn" onclick="startJourney()">Yes!</button>
+                </div>
+            </div>
+
+            <div id="anya-section" class="hidden">
+                <h1 style="font-size: 3rem; margin-bottom: 10px;">😁❤️</h1>
+                <img src="GIF/Anya heh.gif" alt="Anya" style="width: 100%; max-width: 250px; border-radius: 20px;">
+            </div>
+
+            <div id="gift-menu" class="hidden">
+                <h1>Your Gifts 🎁</h1>
+                <p>Open them one by one!</p>
+                
+                <div class="gift-grid">
+                    <div class="gift-wrapper" id="gift1-wrap" onclick="openGift(1)">
+                        <div class="gift-box">🎁</div>
+                        <div class="gift-label">Start</div>
+                    </div>
+                    <div class="gift-wrapper disabled" id="gift2-wrap" onclick="openGift(2)">
+                        <div class="gift-box">💌</div>
+                        <div class="gift-label">Read Me</div>
+                    </div>
+                    <div class="gift-wrapper disabled" id="gift3-wrap" onclick="openGift(3)">
+                        <div class="gift-box">💖</div>
+                        <div class="gift-label">Ask Me</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="g1-q1" class="hidden">
+                <h1>Question 1 🧐</h1>
+                <p>Who is the boss?</p>
+                <div class="btn-group">
+                    <button class="btn" onclick="triggerNah()">Ankush</button>
+                    <button class="btn" onclick="nextQ('g1-q1', 'g1-q2')">Riya</button>
+                </div>
+            </div>
+
+            <div id="g1-q2" class="hidden">
+                <h1>Question 2 🥰</h1>
+                <p>Who is more cute?</p>
+                <div class="btn-group">
+                    <button class="btn" onclick="triggerNah()">Me</button>
+                    <button class="btn" onclick="triggerNah()">You</button>
+                    <button class="btn" onclick="nextQ('g1-q2', 'g1-q3')">Sammy</button>
+                </div>
+            </div>
+
+            <div id="g1-q3" class="hidden">
+                <h1>Question 3 🎭</h1>
+                <p>Who is the drama queen?</p>
+                <div class="btn-group">
+                    <button class="btn" onclick="triggerNah()">Me</button>
+                    <button class="btn" onclick="nextQ('g1-q3', 'g1-q4')">You</button>
+                </div>
+            </div>
+
+            <div id="g1-q4" class="hidden">
+                <h1>Question 4 🧠</h1>
+                <p>Who is the overthinker?</p>
+                <div class="btn-group">
+                    <button class="btn" onclick="triggerNah()">Me</button>
+                    <button class="btn" onclick="triggerNah()">You</button>
+                    <button class="btn" onclick="finishGift1()">Both</button>
+                </div>
+            </div>
+
+            <div id="g2-letter" class="hidden">
+                <h1 style="font-size: 2rem;">Dear Riya... 🌹</h1>
+                <div class="letter-paper">
+                    <div class="letter-text">
+                        <p>I don’t know if there will ever be a perfect moment to say all this, so I’m choosing an honest one.</p>
+                        <br>
+                        <p>I just want you to know how deeply I love you. Not in a loud way that I want to tell the whole world, but in a quiet way—the kind where I want you to stay. The kind where my heart still looks for you, even when I pretend I’m okay.</p>
+                        <br>
+                        <p>Loving you was never a decision I made carefully. It happened naturally, slowly, and then all at once. And once it did, you became someone my heart recognizes—someone it feels safe with, even in silence.</p>
+                        <br>
+                        <p style="color:#ff4757;">Koi itna pyaara kaise ho sakta hai.</p>
+                        <br>
+                        <p>You are important to me in ways I don’t always know how to explain. You live in my peace, my smiles, my memories, my hopes, and even my prayers. Even when things weren’t perfect, even when life pulled us in different directions, that truth never changed.</p>
+                        <br>
+                        <p>I don’t love you to bind you or to hold you back. I love you simply because you are you—your thoughts, your presence, the way you make ordinary moments feel softer and special.</p>
+                        <br>
+                        <div class="highlight-text">
+                            <p>I just wanted you to know this:</p>
+                            <p>You are loved.</p>
+                            <p>You are valued.</p>
+                            <p>And you will always be important to me, Riya—more than words can ever carry.</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn" onclick="finishGift2()">Close Letter ❤️</button>
+            </div>
+
+            <div id="g3-proposal" class="hidden">
+                <img src="GIF/shy.gif" alt="Shy" style="width: 100%; max-width: 250px; border-radius: 20px; margin-bottom: 20px;">
+                <h1>Will you be my Valentine? 🌹</h1>
+                <div class="btn-group">
+                    <button class="btn" id="g3-yes-btn" onclick="handleProposalYes()">Yes</button>
+                    <button class="btn" id="g3-no-btn" onclick="handleProposalNo()">No</button>
+                </div>
+            </div>
+
+            <div id="success-screen" class="hidden">
+                <h1 style="font-size: 3rem;">YAYYY! 🥰❤️</h1>
+                <p style="font-size: 1.5rem;">Can't wait to be with you! 🌹</p>
+                <div style="font-size: 5rem;">💏💑</div>
+            </div>
+
+        </div>
+    </div>
 
     <script>
-        function wrongAnswer(element) {
-            // Turn button red and shake
-            element.style.backgroundColor = "#ffcccc";
-            element.style.borderColor = "#ff0000";
-            element.innerText = "Try Again! 😅";
-            
-            // Shake animation
-            element.animate([
-                { transform: 'translateX(0)' },
-                { transform: 'translateX(-10px)' },
-                { transform: 'translateX(10px)' },
-                { transform: 'translateX(0)' }
-            ], {
-                duration: 300
-            });
+        // --- 3D TILT EFFECT ---
+        const card = document.getElementById('card3d');
+        document.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+        document.addEventListener('mouseleave', () => { card.style.transform = `rotateY(0deg) rotateX(0deg)`; });
+
+        // --- NAVIGATION ---
+        function startJourney() {
+            switchView('intro-section', 'anya-section');
+            setTimeout(() => { switchView('anya-section', 'gift-menu'); }, 3000);
         }
 
-        function correctAnswer() {
-            // Show the big heart
-            const heart = document.getElementById('big-heart');
-            heart.style.transform = "translate(-50%, -50%) scale(1)";
-            
-            // Wait 1 second, then go to next page
+        function openGift(num) {
+            const g1 = document.getElementById('gift1-wrap');
+            const g2 = document.getElementById('gift2-wrap');
+
+            if (num === 1) {
+                if (g1.classList.contains('completed')) return;
+                switchView('gift-menu', 'g1-q1');
+            } else if (num === 2) {
+                if (g1.classList.contains('completed')) {
+                    if (g2.classList.contains('completed')) return;
+                    switchView('gift-menu', 'g2-letter');
+                } else {
+                    alert("Finish Gift 1 first! 🤫");
+                }
+            } else if (num === 3) {
+                 if (g2.classList.contains('completed')) {
+                    switchView('gift-menu', 'g3-proposal');
+                } else {
+                    alert("Read the letter first! 💌");
+                }
+            }
+        }
+
+        function nextQ(current, next) { switchView(current, next); }
+
+        function finishGift1() {
+            triggerReaction('anya heh.gif', 'Yayy! Correct! ❤️');
             setTimeout(() => {
-                // This links to the next page we will make
-                window.location.href = "proposal.html"; 
-            }, 1500);
+                const g1 = document.getElementById('gift1-wrap');
+                g1.classList.add('completed');
+                g1.querySelector('.gift-label').innerText = "Done";
+                const g2 = document.getElementById('gift2-wrap');
+                g2.classList.remove('disabled');
+                g2.querySelector('.gift-label').innerText = "Open Me";
+                switchView('g1-q4', 'gift-menu');
+            }, 2500);
+        }
+
+        function finishGift2() {
+            const g2 = document.getElementById('gift2-wrap');
+            g2.classList.add('completed');
+            g2.querySelector('.gift-label').innerText = "Read";
+            const g3 = document.getElementById('gift3-wrap');
+            g3.classList.remove('disabled');
+            g3.querySelector('.gift-label').innerText = "Open Me";
+            switchView('g2-letter', 'gift-menu');
+        }
+
+        // --- GIFT 3 PROPOSAL LOGIC ---
+        let noClickCount = 0;
+
+        function handleProposalNo() {
+            noClickCount++;
+            
+            if (noClickCount === 1) {
+                triggerReaction('Please.gif', 'Please? 🥺');
+            } else if (noClickCount === 2) {
+                triggerReaction('Please2.gif', 'Pretty Please? 🥺');
+            } else {
+                // Grow Yes Button
+                const yesBtn = document.getElementById('g3-yes-btn');
+                const currentScale = 1 + (noClickCount * 0.5);
+                yesBtn.style.transform = `scale(${currentScale})`;
+                
+                // Hide No Button eventually
+                if(noClickCount > 3) {
+                     document.getElementById('g3-no-btn').style.display = 'none';
+                }
+            }
+        }
+
+        function handleProposalYes() {
+            // Confetti Explosion
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+
+            // Show Success Screen
+            switchView('g3-proposal', 'success-screen');
+            
+            // Continuous confetti
+            let end = Date.now() + 3000;
+            let colors = ['#ff4757', '#ffffff'];
+            (function frame() {
+                confetti({ particleCount: 2, angle: 60, spread: 55, origin: { x: 0 }, colors: colors });
+                confetti({ particleCount: 2, angle: 120, spread: 55, origin: { x: 1 }, colors: colors });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
+        }
+
+        // --- UTILS ---
+        function switchView(hideId, showId) {
+            document.getElementById(hideId).classList.add('hidden');
+            const showEl = document.getElementById(showId);
+            showEl.classList.remove('hidden');
+            showEl.classList.add('fade-in');
+        }
+
+        function triggerNah() { triggerReaction('nah.gif', 'Nah! 😛'); }
+
+        function triggerReaction(gifName, text) {
+            const overlay = document.getElementById('gif-overlay');
+            const img = document.getElementById('overlay-img');
+            const txt = document.getElementById('overlay-text');
+            img.src = 'GIF/' + gifName;
+            txt.innerText = text;
+            overlay.classList.add('active');
+            setTimeout(() => { overlay.classList.remove('active'); }, 2500);
         }
     </script>
 </body>
