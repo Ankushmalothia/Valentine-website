@@ -80,7 +80,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.15);
             font-family: 'Dancing Script', cursive;
             text-align: left;
-            color: #000000; /* Pure Black */
+            color: #000000;
             max-height: 55vh;
             overflow-y: auto;
             margin-bottom: 20px;
@@ -88,7 +88,7 @@
         }
         
         .letter-text {
-            font-size: 1.8rem; /* Big and Clear */
+            font-size: 1.8rem;
             line-height: 1.6;
             font-weight: 700;
         }
@@ -135,12 +135,13 @@
 
         .intro-btns .btn { width: auto; }
 
-        /* --- GIFT BOXES --- */
+        /* --- GIFT BOXES (UPDATED TO 2 COLUMNS) --- */
         .gift-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
+            grid-template-columns: repeat(2, 1fr); /* 2x2 Layout */
+            gap: 20px;
             margin-top: 30px;
+            justify-items: center;
         }
 
         .gift-wrapper {
@@ -168,13 +169,15 @@
             font-size: 0.9rem;
         }
 
+        /* Staggered Floating */
         .gift-wrapper:nth-child(1) .gift-box { animation-delay: 0s; }
         .gift-wrapper:nth-child(2) .gift-box { animation-delay: 1s; }
-        .gift-wrapper:nth-child(3) .gift-box { animation-delay: 2s; }
+        .gift-wrapper:nth-child(3) .gift-box { animation-delay: 0.5s; }
+        .gift-wrapper:nth-child(4) .gift-box { animation-delay: 1.5s; }
 
         @keyframes floatGift {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+            50% { transform: translateY(-10px); }
         }
 
         .gift-wrapper:hover .gift-box { transform: scale(1.2); }
@@ -255,13 +258,20 @@
                         <div class="gift-box">🎁</div>
                         <div class="gift-label">Start</div>
                     </div>
+                    
                     <div class="gift-wrapper disabled" id="gift2-wrap" onclick="openGift(2)">
                         <div class="gift-box">💌</div>
                         <div class="gift-label">Read Me</div>
                     </div>
+                    
                     <div class="gift-wrapper disabled" id="gift3-wrap" onclick="openGift(3)">
-                        <div class="gift-box">💖</div>
+                        <div class="gift-box">💍</div>
                         <div class="gift-label">Ask Me</div>
+                    </div>
+
+                    <div class="gift-wrapper disabled" id="gift4-wrap" onclick="openGift(4)">
+                        <div class="gift-box">📸</div>
+                        <div class="gift-label">Memories</div>
                     </div>
                 </div>
             </div>
@@ -340,12 +350,6 @@
                 </div>
             </div>
 
-            <div id="success-screen" class="hidden">
-                <h1 style="font-size: 3rem;">YAYYY! 🥰❤️</h1>
-                <p style="font-size: 1.5rem;">Can't wait to be with you! 🌹</p>
-                <div style="font-size: 5rem;">💏💑</div>
-            </div>
-
         </div>
     </div>
 
@@ -368,6 +372,7 @@
         function openGift(num) {
             const g1 = document.getElementById('gift1-wrap');
             const g2 = document.getElementById('gift2-wrap');
+            const g3 = document.getElementById('gift3-wrap');
 
             if (num === 1) {
                 if (g1.classList.contains('completed')) return;
@@ -381,9 +386,17 @@
                 }
             } else if (num === 3) {
                  if (g2.classList.contains('completed')) {
+                     if (g3.classList.contains('completed')) return; // If already said yes, don't open again
                     switchView('gift-menu', 'g3-proposal');
                 } else {
                     alert("Read the letter first! 💌");
+                }
+            } else if (num === 4) {
+                if (g3.classList.contains('completed')) {
+                    // GO TO GALLERY
+                    window.location.href = "gallery.html";
+                } else {
+                    alert("You have to answer the question first! 🌹");
                 }
             }
         }
@@ -418,18 +431,14 @@
 
         function handleProposalNo() {
             noClickCount++;
-            
             if (noClickCount === 1) {
                 triggerReaction('Please.gif', 'Please? 🥺');
             } else if (noClickCount === 2) {
                 triggerReaction('Please2.gif', 'Pretty Please? 🥺');
             } else {
-                // Grow Yes Button
                 const yesBtn = document.getElementById('g3-yes-btn');
                 const currentScale = 1 + (noClickCount * 0.5);
                 yesBtn.style.transform = `scale(${currentScale})`;
-                
-                // Hide No Button eventually
                 if(noClickCount > 3) {
                      document.getElementById('g3-no-btn').style.display = 'none';
                 }
@@ -437,17 +446,26 @@
         }
 
         function handleProposalYes() {
-            // Confetti Explosion
-            confetti({
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.6 }
-            });
-
-            // Show Success Screen
-            switchView('g3-proposal', 'success-screen');
+            // 1. Trigger Confetti
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
             
-            // Continuous confetti
+            // 2. Unlock Gift 4 Logic
+            const g3 = document.getElementById('gift3-wrap');
+            g3.classList.add('completed');
+            g3.querySelector('.gift-label').innerText = "Said Yes!";
+            
+            const g4 = document.getElementById('gift4-wrap');
+            g4.classList.remove('disabled');
+            g4.querySelector('.gift-label').innerText = "Open Me";
+
+            // 3. Show a reaction then go back to menu
+            triggerReaction('anya heh.gif', 'YAY! One last gift unlocked! 📸');
+            
+            setTimeout(() => {
+                switchView('g3-proposal', 'gift-menu');
+            }, 3000);
+
+            // Continuous confetti for a few seconds
             let end = Date.now() + 3000;
             let colors = ['#ff4757', '#ffffff'];
             (function frame() {
