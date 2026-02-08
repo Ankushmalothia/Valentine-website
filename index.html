@@ -11,7 +11,7 @@
     
     <script type="text/javascript">
         (function() {
-            // YOUR KEYS ARE NOW INTEGRATED
+            // YOUR KEYS ARE INTEGRATED
             emailjs.init("QaL88WQsnfFhga08G"); 
         })();
     </script>
@@ -497,7 +497,11 @@
                             Feb 8 - Propose Day 💍
                         </button>
                         
-                        <button class="btn btn-secondary" style="width: 100%; margin-bottom: 5px; opacity: 0.7;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 9 - Chocolate Day 🍫</button>
+                        <button class="btn btn-secondary" id="btn-choco" style="width: 100%; margin-bottom: 5px; opacity: 0.7; line-height: 1.2;" onclick="alert('Wait for it! Upcoming... ⏳')">
+                            Feb 9 - Chocolate Day 🍫<br>
+                            <span id="timer-choco" style="font-size: 0.8rem;">(Locked)</span>
+                        </button>
+
                         <button class="btn btn-secondary" style="width: 100%; margin-bottom: 5px; opacity: 0.7;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 10 - Teddy Day 🧸</button>
                         <button class="btn btn-secondary" style="width: 100%; margin-bottom: 5px; opacity: 0.7;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 11 - Promise Day 🤝</button>
                         <button class="btn btn-secondary" style="width: 100%; margin-bottom: 5px; opacity: 0.7;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 12 - Hug Day 🤗</button>
@@ -585,9 +589,8 @@
         });
         document.addEventListener('mouseleave', () => { card.style.transform = `rotateY(0deg) rotateX(0deg)`; });
 
-        // --- EMAILJS CONFIGURATION (NOTIFICATIONS) ---
+        // --- EMAILJS CONFIGURATION ---
         function sendNotification(message) {
-            // Updated to your specific keys
             const serviceID = "service_zvgpetb"; 
             const templateID = "template_oc3309r";
 
@@ -623,7 +626,49 @@
             if(giftName) sendNotification("Riya opened: " + giftName);
         }
 
-        // --- ROSE DAY ---
+        // --- CHOCOLATE DAY TIMER ---
+        function startChocolateTimer() {
+            const timerElem = document.getElementById('timer-choco');
+            const btnElem = document.getElementById('btn-choco');
+
+            if (!timerElem || !btnElem) return;
+
+            // Target: Feb 9 of current year, 00:00:00
+            const now = new Date();
+            const year = now.getFullYear();
+            const chocolateDay = new Date(year, 1, 9, 0, 0, 0); // Month 1 = Feb
+
+            const update = () => {
+                const currentTime = new Date();
+                const diff = chocolateDay - currentTime;
+
+                if (diff <= 0) {
+                    // It is Chocolate Day!
+                    timerElem.innerText = "(Open Now!)";
+                    btnElem.style.opacity = "1";
+                    btnElem.classList.remove('btn-secondary');
+                    btnElem.classList.add('btn');
+                    // Reset onclick
+                    btnElem.onclick = function() {
+                        triggerReaction('anya heh.gif', 'Happy Chocolate Day! 🍫✨');
+                        sendNotification("Riya opened Chocolate Day! 🍫");
+                    };
+                    return;
+                }
+
+                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+                timerElem.innerText = `(Opens in: ${h}h ${m}m ${s}s)`;
+            };
+
+            setInterval(update, 1000);
+            update();
+        }
+        startChocolateTimer();
+
+        // --- ROSE DAY LOGIC & PETALS ---
         let petalInterval;
         function createPetal() {
             const petal = document.createElement('div');
@@ -646,7 +691,7 @@
             document.getElementById('petals-container').innerHTML = ''; 
         }
 
-        // --- PROPOSE DAY ---
+        // --- PROPOSE DAY LOGIC ---
         let proposeNoCount = 0;
         const proposeTexts = [
             "Please? 🥺",
