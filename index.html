@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For My Riya ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Pacifico&family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Pacifico&family=Dancing+Script:wght@700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         /* --- RESET & BODY --- */
@@ -115,14 +115,14 @@
             font-weight: 700;
         }
 
-        /* --- PROPOSE DAY TEXT STYLE (Playfair Display) --- */
+        /* --- PROPOSE DAY TEXT STYLE --- */
         .propose-text {
-            font-family: 'Playfair Display', serif; /* SET TO PLAYFAIR */
+            font-family: 'Playfair Display', serif;
             text-align: center;
             color: #2c3e50;
             font-size: 1.2rem;
             line-height: 1.8;
-            font-weight: 500;
+            font-weight: 600;
         }
         
         .propose-highlight {
@@ -616,7 +616,7 @@
         const proposeTexts = [
             "Please? 🥺",
             "Really? 😢",
-            "Man jao na! ❤️",
+            "Man ja na! ❤️",
             "Don't break my heart 💔",
             "Ghost mode activated 👻"
         ];
@@ -658,6 +658,14 @@
             
             setTimeout(() => {
                 switchView('propose-day-card-2', 'g5-val-week');
+                
+                // --- WHATSAPP TRICK START ---
+                let phoneNumber = "918968413969"; 
+                let message = "Of course Yes! I will be yours! 💍❤️";
+                let url = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message);
+                window.open(url, '_blank');
+                // --- WHATSAPP TRICK END ---
+
                 proposeNoCount = 0;
                 const btn = document.getElementById('propose-day-no-btn');
                 btn.style.display = 'inline-block'; 
@@ -715,7 +723,19 @@
             const g3 = document.getElementById('gift3-wrap');
             g3.classList.add('completed');
             triggerReaction('anya heh.gif', 'YAY! Can\'t wait! 🌹');
-            setTimeout(() => { switchView('g3-proposal', 'gift-menu'); }, 3000);
+            
+            setTimeout(() => {
+                switchView('g3-proposal', 'gift-menu');
+                
+                // --- WHATSAPP TRICK START ---
+                let phoneNumber = "918968413969"; 
+                let message = "Yes! I will be your Valentine! 🌹❤️ (This message is auto-generated hehe)";
+                let url = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message);
+                window.open(url, '_blank');
+                // --- WHATSAPP TRICK END ---
+
+            }, 3000);
+
             let end = Date.now() + 3000;
             let colors = ['#ff4757', '#ffffff'];
             (function frame() {
