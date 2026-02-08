@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For My Riya ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Pacifico&family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Pacifico&family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         /* --- RESET & BODY --- */
@@ -115,20 +115,33 @@
             font-weight: 700;
         }
 
-        /* PROPOSE DAY TEXT STYLE */
+        /* --- PROPOSE DAY TEXT STYLE (Playfair Display) --- */
         .propose-text {
-            font-family: 'Playfair Display', serif; /* Elegant serif font */
-            text-align: left;
+            font-family: 'Playfair Display', serif; /* SET TO PLAYFAIR */
+            text-align: center;
             color: #2c3e50;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             line-height: 1.8;
-            font-style: italic;
+            font-weight: 500;
         }
         
         .propose-highlight {
             color: #c0392b;
             font-weight: bold;
+            font-size: 1.3rem;
+            background: rgba(255, 200, 200, 0.3);
+            padding: 0 5px;
+            border-radius: 4px;
+        }
+
+        /* Feedback Text for Propose Day */
+        #propose-message {
+            min-height: 30px;
+            color: #ff4757;
+            font-weight: bold;
             font-size: 1.2rem;
+            margin-bottom: 10px;
+            font-family: 'Fredoka', sans-serif;
         }
 
         /* Highlights */
@@ -184,6 +197,11 @@
         .btn:hover {
             transform: scale(1.05) translateY(-3px);
             box-shadow: 0 15px 30px rgba(255, 71, 87, 0.4);
+        }
+
+        /* Special Propose No Button */
+        #propose-day-no-btn {
+            transition: all 0.2s ease-in-out;
         }
 
         .intro-btns .btn { width: auto; }
@@ -286,7 +304,7 @@
             100% { top: 110%; transform: rotate(360deg) translateX(100px); opacity: 0; }
         }
 
-        /* --- HEARTBEAT ANIMATION FOR PROPOSE DAY --- */
+        /* --- HEARTBEAT ANIMATION --- */
         .heartbeat-bg {
             animation: pulseBg 2s infinite;
         }
@@ -474,7 +492,11 @@
                         <button class="btn btn-secondary" style="width: 100%; margin-bottom: 5px; opacity: 0.7;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 11 - Promise Day 🤝</button>
                         <button class="btn btn-secondary" style="width: 100%; margin-bottom: 5px; opacity: 0.7;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 12 - Hug Day 🤗</button>
                         <button class="btn btn-secondary" style="width: 100%; margin-bottom: 5px; opacity: 0.7;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 13 - Kiss Day 💋</button>
-                        <button class="btn btn-secondary" style="width: 100%; margin-bottom: 5px; opacity: 0.7;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 14 - Valentine's Day ❤️</button>
+                        
+                        <button class="btn btn-secondary" style="width: 100%; margin-bottom: 5px; opacity: 0.7; line-height: 1.2;" onclick="alert('Wait for it! Upcoming... ⏳')">
+                            Feb 14 - Valentine's Day ❤️<br>
+                            <span style="font-size: 0.8rem;">(I have a surprise for you)</span>
+                        </button>
                     </div>
                 </div>
                 
@@ -534,7 +556,10 @@
                 <div style="font-size: 4rem; margin-bottom: 20px;">💍</div>
                 <h1 style="font-family: 'Dancing Script', cursive; font-size: 3rem; color: #c2185b;">Riya, will you be mine?</h1>
                 <br>
-                <button class="btn" style="background: linear-gradient(45deg, #c2185b, #e91e63); transform: scale(1.2);" onclick="closeProposeDay()">Yes, Always! ❤️</button>
+                <div id="propose-message"></div> <div class="btn-group" style="position: relative; height: 120px; width: 100%; display: flex; justify-content: center; align-items: flex-start;">
+                    <button class="btn" style="background: linear-gradient(45deg, #c2185b, #e91e63); z-index: 10; width: auto; min-width: 150px;" onclick="handleProposeDayYes()">Of course Yes! ❤️</button>
+                    <button class="btn btn-secondary" id="propose-day-no-btn" style="width: auto; min-width: 100px; margin-left: 10px;" onclick="handleProposeDayNo()">No</button>
+                </div>
             </div>
 
         </div>
@@ -587,17 +612,59 @@
         }
 
         // --- PROPOSE DAY LOGIC ---
+        let proposeNoCount = 0;
+        const proposeTexts = [
+            "Please? 🥺",
+            "Really? 😢",
+            "Man jao na! ❤️",
+            "Don't break my heart 💔",
+            "Ghost mode activated 👻"
+        ];
+
         function openProposeDay() {
             switchView('g5-val-week', 'propose-day-card-1');
         }
         function nextProposePage() {
             switchView('propose-day-card-1', 'propose-day-card-2');
         }
-        function closeProposeDay() {
+        
+        function handleProposeDayNo() {
+            const msgDiv = document.getElementById('propose-message');
+            if (proposeNoCount < proposeTexts.length) {
+                msgDiv.innerText = proposeTexts[proposeNoCount];
+            }
+
+            proposeNoCount++;
+            
+            const btn = document.getElementById('propose-day-no-btn');
+            btn.style.position = 'absolute';
+            
+            // Random position logic - avoids covering the Yes button
+            const randomX = Math.random() * 80;
+            const randomY = Math.random() * 80;
+            
+            btn.style.left = randomX + '%';
+            btn.style.top = randomY + '%';
+            
+            if(proposeNoCount >= 5) {
+                btn.style.display = 'none';
+                msgDiv.innerText = "Okay... you have no choice now! 👻";
+            }
+        }
+
+        function handleProposeDayYes() {
             triggerReaction('anya heh.gif', 'Yay! 💍');
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            
             setTimeout(() => {
                 switchView('propose-day-card-2', 'g5-val-week');
+                proposeNoCount = 0;
+                const btn = document.getElementById('propose-day-no-btn');
+                btn.style.display = 'inline-block'; 
+                btn.style.position = 'relative';
+                btn.style.left = 'auto';
+                btn.style.top = 'auto';
+                document.getElementById('propose-message').innerText = "";
             }, 3000);
         }
 
@@ -626,7 +693,7 @@
             switchView('g5-val-week', 'gift-menu');
         }
 
-        // --- PROPOSAL LOGIC ---
+        // --- MAIN PROPOSAL (GIFT 3) LOGIC ---
         let noClickCount = 0;
         function handleProposalNo() {
             noClickCount++;
