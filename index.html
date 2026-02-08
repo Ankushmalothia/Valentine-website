@@ -11,7 +11,7 @@
     
     <script type="text/javascript">
         (function() {
-            // YOUR PUBLIC KEY IS NOW SET HERE
+            // YOUR KEYS ARE NOW INTEGRATED
             emailjs.init("QaL88WQsnfFhga08G"); 
         })();
     </script>
@@ -585,29 +585,16 @@
         });
         document.addEventListener('mouseleave', () => { card.style.transform = `rotateY(0deg) rotateX(0deg)`; });
 
-        // --- EMAILJS CONFIGURATION ---
-        
-        // **********************************************
-        // **********************************************
-        // ⚠️ SEND EMAILS SILENTLY! NO WHATSAPP!
-        // **********************************************
-        // **********************************************
-        
-        // --- YOUR PUBLIC KEY ---
-        function initEmail() {
-            emailjs.init("QaL88WQsnfFhga08G"); // Your Public Key
-        }
-        initEmail();
-
+        // --- EMAILJS CONFIGURATION (NOTIFICATIONS) ---
         function sendNotification(message) {
-            // --- YOUR SERVICE & TEMPLATE IDs ---
+            // Updated to your specific keys
             const serviceID = "service_zvgpetb"; 
             const templateID = "template_oc3309r";
 
             emailjs.send(serviceID, templateID, {
                 message: message
             }).then(() => {
-                console.log("Notification sent successfully!");
+                console.log("Notification sent successfully: " + message);
             }, (err) => {
                 console.log("Failed to send notification", err);
             });
@@ -622,6 +609,7 @@
 
         function handleStartNo() {
             triggerReaction('think.gif', 'Please please 🥺');
+            sendNotification("Riya clicked NO on the Intro Page 🥺");
         }
 
         function openGift(num) {
@@ -630,13 +618,12 @@
             else if (num === 2) { switchView('gift-menu', 'g2-letter'); giftName = "Letter"; }
             else if (num === 3) { switchView('gift-menu', 'g3-proposal'); giftName = "Final Proposal"; }
             else if (num === 4) { window.location.href = "gallery.html"; giftName = "Gallery"; }
-            else if (num === 5) { switchView('gift-menu', 'g5-val-week'); giftName = "Val Week"; }
+            else if (num === 5) { switchView('gift-menu', 'g5-val-week'); giftName = "Val Week Menu"; }
             
-            // Notify only on specific opens to avoid spam
             if(giftName) sendNotification("Riya opened: " + giftName);
         }
 
-        // --- ROSE DAY LOGIC & PETALS ---
+        // --- ROSE DAY ---
         let petalInterval;
         function createPetal() {
             const petal = document.createElement('div');
@@ -659,7 +646,7 @@
             document.getElementById('petals-container').innerHTML = ''; 
         }
 
-        // --- PROPOSE DAY LOGIC ---
+        // --- PROPOSE DAY ---
         let proposeNoCount = 0;
         const proposeTexts = [
             "Please? 🥺",
@@ -675,6 +662,7 @@
         }
         function nextProposePage() {
             switchView('propose-day-card-1', 'propose-day-card-2');
+            sendNotification("Riya moved to Propose Day Question 💍");
         }
         
         function handleProposeDayNo() {
@@ -682,13 +670,11 @@
             if (proposeNoCount < proposeTexts.length) {
                 msgDiv.innerText = proposeTexts[proposeNoCount];
             }
-
             proposeNoCount++;
             
             const btn = document.getElementById('propose-day-no-btn');
             btn.style.position = 'absolute';
             
-            // Random position logic - avoids covering the Yes button
             const randomX = Math.random() * 80;
             const randomY = Math.random() * 80;
             
@@ -700,15 +686,13 @@
                 msgDiv.innerText = "Okay... you have no choice now! 👻";
             }
             
-            // Notify if she keeps clicking NO
-            // sendNotification("Riya clicked NO on Propose Day " + proposeNoCount + " times");
+            sendNotification("Riya clicked NO on Propose Day 💔 (Attempt: " + proposeNoCount + ")");
         }
 
         function handleProposeDayYes() {
             triggerReaction('anya heh.gif', 'Yay! 💍');
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
             
-            // Notify IMMEDIATELY
             sendNotification("Riya said YES to Propose Day! 💍❤️");
 
             setTimeout(() => {
@@ -724,14 +708,17 @@
         }
 
         // --- QUIZ LOGIC ---
-        function nextQ(current, next) { switchView(current, next); }
+        function nextQ(current, next) { 
+            switchView(current, next); 
+            sendNotification("Riya answered a Quiz question correctly ✅");
+        }
         function finishGift1() {
             triggerReaction('anya heh.gif', 'Yayy! Correct! ❤️');
             setTimeout(() => {
                 const g1 = document.getElementById('gift1-wrap');
                 g1.classList.add('completed');
                 switchView('g1-q4', 'gift-menu');
-                sendNotification("Riya finished the Quiz 🧠");
+                sendNotification("Riya FINISHED the Quiz 🧠");
             }, 2500);
         }
 
@@ -743,7 +730,6 @@
             sendNotification("Riya finished reading the Main Letter 💌");
         }
 
-        // --- VAL WEEK LOGIC ---
         function finishGift5() {
             const g5 = document.getElementById('gift5-wrap');
             g5.classList.add('completed');
@@ -766,6 +752,7 @@
                      document.getElementById('g3-no-btn').style.display = 'none';
                 }
             }
+            sendNotification("Riya clicked NO on the Final Valentine Question 💔 (Attempt: " + noClickCount + ")");
         }
         function handleProposalYes() {
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
@@ -773,7 +760,6 @@
             g3.classList.add('completed');
             triggerReaction('anya heh.gif', 'YAY! Can\'t wait! 🌹');
             
-            // Notify IMMEDIATELY
             sendNotification("Riya said YES to be your Valentine! 🌹❤️");
 
             setTimeout(() => { switchView('g3-proposal', 'gift-menu'); }, 3000);
@@ -793,7 +779,10 @@
             showEl.classList.remove('hidden');
             showEl.classList.add('fade-in');
         }
-        function triggerNah() { triggerReaction('nah.gif', 'Nah! 😛'); }
+        function triggerNah() { 
+            triggerReaction('nah.gif', 'Nah! 😛');
+            sendNotification("Riya clicked a WRONG answer in the Quiz ❌");
+        }
         function triggerReaction(gifName, text) {
             const overlay = document.getElementById('gif-overlay');
             const img = document.getElementById('overlay-img');
