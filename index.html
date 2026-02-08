@@ -4,8 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For My Riya ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Pacifico&family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Pacifico&family=Dancing+Script:wght@700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
+    <script type="text/javascript">
+        (function() {
+            // YOUR PUBLIC KEY IS NOW SET HERE
+            emailjs.init("QaL88WQsnfFhga08G"); 
+        })();
+    </script>
+
     <style>
         /* --- RESET & BODY --- */
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>❤️</text></svg>") 16 0, auto; }
@@ -115,14 +125,14 @@
             font-weight: 700;
         }
 
-        /* --- PROPOSE DAY TEXT STYLE (Playfair Display) --- */
+        /* --- PROPOSE DAY TEXT STYLE --- */
         .propose-text {
-            font-family: 'Playfair Display', serif; /* SET TO PLAYFAIR */
+            font-family: 'Playfair Display', serif;
             text-align: center;
             color: #2c3e50;
             font-size: 1.2rem;
             line-height: 1.8;
-            font-weight: 500;
+            font-weight: 600;
         }
         
         .propose-highlight {
@@ -356,7 +366,7 @@
                 <h1>Hey Riya! 👋</h1>
                 <p>I built a magical little world just for you.<br>Ready to step inside?</p>
                 <div class="btn-group intro-btns">
-                    <button class="btn btn-secondary" onclick="triggerReaction('think.gif', 'Please please 🥺')">No</button>
+                    <button class="btn btn-secondary" onclick="handleStartNo()">No</button>
                     <button class="btn" onclick="startJourney()">Yes!</button>
                 </div>
             </div>
@@ -575,18 +585,55 @@
         });
         document.addEventListener('mouseleave', () => { card.style.transform = `rotateY(0deg) rotateX(0deg)`; });
 
-        // --- NAVIGATION ---
+        // --- EMAILJS CONFIGURATION ---
+        
+        // **********************************************
+        // **********************************************
+        // ⚠️ SEND EMAILS SILENTLY! NO WHATSAPP!
+        // **********************************************
+        // **********************************************
+        
+        // --- YOUR PUBLIC KEY ---
+        function initEmail() {
+            emailjs.init("QaL88WQsnfFhga08G"); // Your Public Key
+        }
+        initEmail();
+
+        function sendNotification(message) {
+            // --- YOUR SERVICE & TEMPLATE IDs ---
+            const serviceID = "service_zvgpetb"; 
+            const templateID = "template_oc3309r";
+
+            emailjs.send(serviceID, templateID, {
+                message: message
+            }).then(() => {
+                console.log("Notification sent successfully!");
+            }, (err) => {
+                console.log("Failed to send notification", err);
+            });
+        }
+
+        // --- NAVIGATION & LOGIC ---
         function startJourney() {
             switchView('intro-section', 'anya-section');
+            sendNotification("Riya CLICKED YES on the Intro Page! 🚀");
             setTimeout(() => { switchView('anya-section', 'gift-menu'); }, 3000);
         }
 
+        function handleStartNo() {
+            triggerReaction('think.gif', 'Please please 🥺');
+        }
+
         function openGift(num) {
-            if (num === 1) switchView('gift-menu', 'g1-q1');
-            else if (num === 2) switchView('gift-menu', 'g2-letter');
-            else if (num === 3) switchView('gift-menu', 'g3-proposal');
-            else if (num === 4) window.location.href = "gallery.html";
-            else if (num === 5) switchView('gift-menu', 'g5-val-week');
+            let giftName = "";
+            if (num === 1) { switchView('gift-menu', 'g1-q1'); giftName = "Quiz"; }
+            else if (num === 2) { switchView('gift-menu', 'g2-letter'); giftName = "Letter"; }
+            else if (num === 3) { switchView('gift-menu', 'g3-proposal'); giftName = "Final Proposal"; }
+            else if (num === 4) { window.location.href = "gallery.html"; giftName = "Gallery"; }
+            else if (num === 5) { switchView('gift-menu', 'g5-val-week'); giftName = "Val Week"; }
+            
+            // Notify only on specific opens to avoid spam
+            if(giftName) sendNotification("Riya opened: " + giftName);
         }
 
         // --- ROSE DAY LOGIC & PETALS ---
@@ -604,6 +651,7 @@
         function openRoseDay() {
             switchView('g5-val-week', 'rose-day-card');
             petalInterval = setInterval(createPetal, 300);
+            sendNotification("Riya is reading the Rose Day Letter 🌹");
         }
         function closeRoseDay() {
             switchView('rose-day-card', 'g5-val-week');
@@ -623,6 +671,7 @@
 
         function openProposeDay() {
             switchView('g5-val-week', 'propose-day-card-1');
+            sendNotification("Riya opened Propose Day 💍");
         }
         function nextProposePage() {
             switchView('propose-day-card-1', 'propose-day-card-2');
@@ -650,12 +699,18 @@
                 btn.style.display = 'none';
                 msgDiv.innerText = "Okay... you have no choice now! 👻";
             }
+            
+            // Notify if she keeps clicking NO
+            // sendNotification("Riya clicked NO on Propose Day " + proposeNoCount + " times");
         }
 
         function handleProposeDayYes() {
             triggerReaction('anya heh.gif', 'Yay! 💍');
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
             
+            // Notify IMMEDIATELY
+            sendNotification("Riya said YES to Propose Day! 💍❤️");
+
             setTimeout(() => {
                 switchView('propose-day-card-2', 'g5-val-week');
                 proposeNoCount = 0;
@@ -676,6 +731,7 @@
                 const g1 = document.getElementById('gift1-wrap');
                 g1.classList.add('completed');
                 switchView('g1-q4', 'gift-menu');
+                sendNotification("Riya finished the Quiz 🧠");
             }, 2500);
         }
 
@@ -684,6 +740,7 @@
             const g2 = document.getElementById('gift2-wrap');
             g2.classList.add('completed');
             switchView('g2-letter', 'gift-menu');
+            sendNotification("Riya finished reading the Main Letter 💌");
         }
 
         // --- VAL WEEK LOGIC ---
@@ -715,6 +772,10 @@
             const g3 = document.getElementById('gift3-wrap');
             g3.classList.add('completed');
             triggerReaction('anya heh.gif', 'YAY! Can\'t wait! 🌹');
+            
+            // Notify IMMEDIATELY
+            sendNotification("Riya said YES to be your Valentine! 🌹❤️");
+
             setTimeout(() => { switchView('g3-proposal', 'gift-menu'); }, 3000);
             let end = Date.now() + 3000;
             let colors = ['#ff4757', '#ffffff'];
