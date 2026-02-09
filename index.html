@@ -6,7 +6,6 @@
     <title>For My Riya ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Pacifico&family=Dancing+Script:wght@700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     
     <script type="text/javascript">
@@ -16,7 +15,7 @@
     </script>
 
     <style>
-        /* --- RESET & BODY --- */
+        /* --- CSS STYLES --- */
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>❤️</text></svg>") 16 0, auto; }
 
         body {
@@ -30,23 +29,7 @@
             perspective: 1000px;
         }
 
-        /* --- MAGIC CURSOR TRAIL --- */
-        .trail {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #ff4757;
-            pointer-events: none;
-            z-index: 9999;
-            animation: fadeOut 1s linear forwards;
-        }
-        @keyframes fadeOut {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(0); opacity: 0; }
-        }
-
-        /* Background Particles */
+        /* Particles */
         .bg-element {
             position: absolute;
             color: rgba(255, 255, 255, 0.6);
@@ -55,14 +38,13 @@
             font-size: 2rem;
             text-shadow: 0 0 10px rgba(255,255,255,0.3);
         }
-
         @keyframes floatUp {
             0% { transform: translateY(110vh) rotate(0deg) scale(0.8); opacity: 0; }
             20% { opacity: 1; }
             100% { transform: translateY(-10vh) rotate(360deg) scale(1.2); opacity: 0; }
         }
 
-        /* --- 3D CARD CONTAINER --- */
+        /* Container */
         .container {
             text-align: center;
             background: rgba(255, 255, 255, 0.75); 
@@ -78,7 +60,6 @@
             transition: transform 0.1s ease-out;
             position: relative;
         }
-
         .content-layer { transform: translateZ(60px); }
 
         h1 {
@@ -89,15 +70,9 @@
             text-shadow: 2px 2px 0px rgba(255,255,255,0.8);
         }
 
-        p {
-            color: #555;
-            font-size: 1.1rem;
-            margin-bottom: 25px;
-            line-height: 1.5;
-            font-weight: 600;
-        }
+        p { color: #555; font-size: 1.1rem; margin-bottom: 25px; line-height: 1.5; font-weight: 600; }
 
-        /* --- SCROLLABLE AREAS --- */
+        /* Scroll Area */
         .scroll-area {
             background: #fffdf0;
             padding: 25px;
@@ -108,236 +83,76 @@
             margin-bottom: 20px;
             border: 2px dashed #ffafbd;
         }
-
         .scroll-area::-webkit-scrollbar { width: 6px; }
         .scroll-area::-webkit-scrollbar-thumb { background: #ff4757; border-radius: 10px; }
 
-        .letter-paper {
-            font-family: 'Dancing Script', cursive;
-            text-align: left;
-            color: #000000;
-        }
-        
-        .letter-text {
-            font-size: 1.8rem;
-            line-height: 1.6;
-            font-weight: 700;
-        }
+        /* Letter Styling */
+        .letter-paper { font-family: 'Dancing Script', cursive; text-align: left; color: #000000; }
+        .letter-text { font-size: 1.8rem; line-height: 1.6; font-weight: 700; }
+        .highlight-text { color: #ff4757; background: rgba(255, 255, 255, 0.8); padding: 0 5px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .flower-highlight { color: #d35400; background: #ffeaa7; padding: 2px 8px; border-radius: 15px; border: 2px solid #fdcb6e; display: inline-block; transform: rotate(-2deg); }
 
-        /* --- PROPOSE DAY TEXT STYLE --- */
-        .propose-text {
-            font-family: 'Playfair Display', serif;
-            text-align: center;
-            color: #2c3e50;
-            font-size: 1.2rem;
-            line-height: 1.8;
-            font-weight: 600;
-        }
-        
-        .propose-highlight {
-            color: #c0392b;
-            font-weight: bold;
-            font-size: 1.3rem;
-            background: rgba(255, 200, 200, 0.3);
-            padding: 0 5px;
-            border-radius: 4px;
-        }
+        /* Propose Text */
+        .propose-text { font-family: 'Playfair Display', serif; text-align: center; color: #2c3e50; font-size: 1.2rem; line-height: 1.8; font-weight: 600; }
+        .propose-highlight { color: #c0392b; font-weight: bold; font-size: 1.3rem; background: rgba(255, 200, 200, 0.3); padding: 0 5px; border-radius: 4px; }
+        #propose-message { min-height: 30px; color: #ff4757; font-weight: bold; font-size: 1.2rem; margin-bottom: 10px; font-family: 'Fredoka', sans-serif; }
 
-        /* Feedback Text for Propose Day */
-        #propose-message {
-            min-height: 30px;
-            color: #ff4757;
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            font-family: 'Fredoka', sans-serif;
-        }
-
-        /* Highlights */
-        .highlight-text {
-            color: #ff4757;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 0 5px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-
-        .flower-highlight {
-            color: #d35400;
-            background: #ffeaa7;
-            padding: 2px 8px;
-            border-radius: 15px;
-            border: 2px solid #fdcb6e;
-            display: inline-block;
-            transform: rotate(-2deg);
-        }
-
-        /* --- BOUNCY BUTTONS --- */
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-top: 10px;
-        }
-
+        /* Buttons */
+        .btn-group { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 10px; }
         .btn {
             background: linear-gradient(45deg, #ff6b81, #ff4757);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.1rem;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 10px 20px rgba(255, 71, 87, 0.3);
-            font-weight: 600;
-            min-width: 120px;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            width: 100%;
-            max-width: 250px;
+            color: white; border: none; padding: 15px 30px; font-size: 1.1rem; border-radius: 50px; cursor: pointer;
+            box-shadow: 0 10px 20px rgba(255, 71, 87, 0.3); font-weight: 600; min-width: 120px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); width: 100%; max-width: 250px;
         }
-
-        .btn-secondary {
-            background: white;
-            border: 2px solid #ff6b81;
-            color: #ff6b81;
-        }
-        
-        .btn:hover {
-            transform: scale(1.05) translateY(-3px);
-            box-shadow: 0 15px 30px rgba(255, 71, 87, 0.4);
-        }
-
-        /* Special Propose No Button */
-        #propose-day-no-btn {
-            transition: all 0.2s ease-in-out;
-        }
-
+        .btn-secondary { background: white; border: 2px solid #ff6b81; color: #ff6b81; }
+        .btn:hover { transform: scale(1.05) translateY(-3px); box-shadow: 0 15px 30px rgba(255, 71, 87, 0.4); }
         .intro-btns .btn { width: auto; }
+        #propose-day-no-btn { transition: all 0.2s ease-in-out; }
 
-        /* --- GIFT BOXES --- */
-        .gift-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-top: 20px;
-            justify-items: center;
-        }
-
-        .gift-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
+        /* Gift Grid */
+        .gift-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 20px; justify-items: center; }
+        .gift-wrapper { display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: transform 0.3s; }
         .gift-wrapper:nth-child(5) { grid-column: span 2; }
+        .gift-box { font-size: 3.5rem; position: relative; filter: drop-shadow(0 10px 15px rgba(255, 107, 129, 0.3)); animation: floatGift 3s ease-in-out infinite; transition: transform 0.2s; }
+        .gift-wrapper:hover .gift-box { animation: wiggle 0.5s ease-in-out infinite; }
+        .gift-label { margin-top: 5px; font-weight: bold; color: #ff6b81; background: white; padding: 4px 12px; border-radius: 15px; font-size: 0.9rem; box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
+        .gift-wrapper.completed .gift-box::after { content: '✅'; position: absolute; bottom: -5px; right: -10px; font-size: 1.5rem; }
 
-        .gift-box {
-            font-size: 3.5rem;
-            position: relative;
-            filter: drop-shadow(0 10px 15px rgba(255, 107, 129, 0.3));
-            animation: floatGift 3s ease-in-out infinite;
-            transition: transform 0.2s;
-        }
-        
-        .gift-wrapper:hover .gift-box {
-            animation: wiggle 0.5s ease-in-out infinite;
-        }
+        @keyframes floatGift { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes wiggle { 0% { transform: rotate(0deg); } 25% { transform: rotate(-10deg); } 75% { transform: rotate(10deg); } 100% { transform: rotate(0deg); } }
 
-        @keyframes wiggle {
-            0% { transform: rotate(0deg); }
-            25% { transform: rotate(-10deg); }
-            75% { transform: rotate(10deg); }
-            100% { transform: rotate(0deg); }
-        }
-
-        .gift-label {
-            margin-top: 5px;
-            font-weight: bold;
-            color: #ff6b81;
-            background: white;
-            padding: 4px 12px;
-            border-radius: 15px;
-            font-size: 0.9rem;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-        }
-
-        @keyframes floatGift {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .gift-wrapper.completed .gift-box::after {
-            content: '✅'; position: absolute; bottom: -5px; right: -10px; font-size: 1.5rem;
-        }
-
-        /* --- UTILS --- */
+        /* Utils */
         .hidden { display: none; }
         .fade-in { animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        
-        @keyframes popIn { 
-            0% { opacity: 0; transform: scale(0.5) translateZ(60px); } 
-            100% { opacity: 1; transform: scale(1) translateZ(60px); } 
-        }
+        @keyframes popIn { 0% { opacity: 0; transform: scale(0.5) translateZ(60px); } 100% { opacity: 1; transform: scale(1) translateZ(60px); } }
 
-        /* OVERLAY */
-        .overlay-popup {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.3s;
-        }
+        /* Overlay */
+        .overlay-popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
         .overlay-popup.active { opacity: 1; pointer-events: auto; }
         .overlay-content { background: white; padding: 25px; border-radius: 30px; text-align: center; transform: scale(0.8); transition: transform 0.3s; border: 4px solid #ffc3a0; }
         .overlay-popup.active .overlay-content { transform: scale(1); animation: bounce 0.5s; }
         .overlay-content img { max-width: 250px; border-radius: 20px; border: 3px solid #ffeff1; }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-20px);} 60% {transform: translateY(-10px);} }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-20px);}
-            60% {transform: translateY(-10px);}
-        }
+        /* Chocolate & Teddy Images */
+        .choco-img { width: 100%; max-width: 200px; border-radius: 15px; margin: 15px 0; filter: drop-shadow(0 10px 15px rgba(255, 107, 129, 0.2)); animation: floatChoco 3s ease-in-out infinite; }
+        .teddy-img { width: 100%; max-width: 220px; border-radius: 20px; border: 4px solid #ff9a9e; margin: 20px 0; }
+        @keyframes floatChoco { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-10px) rotate(3deg); } }
+        .choco-card-container { background: white; padding: 30px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border: 2px solid #ffeff1; }
 
-        /* --- FALLING PETALS --- */
-        .petal {
-            position: absolute;
-            background-color: #ff0040;
-            border-radius: 150% 0 150% 0;
-            animation: fall 10s infinite linear;
-            z-index: 50;
-        }
-        @keyframes fall {
-            0% { top: -10%; transform: rotate(0deg) translateX(0); opacity: 1; }
-            100% { top: 110%; transform: rotate(360deg) translateX(100px); opacity: 0; }
-        }
-
-        /* --- HEARTBEAT ANIMATION --- */
-        .heartbeat-bg {
-            animation: pulseBg 2s infinite;
-        }
-        @keyframes pulseBg {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
-        }
-
-        /* --- CHOCOLATE CARD IMAGES --- */
-        .choco-img {
-            width: 100%; 
-            max-width: 220px; 
-            border-radius: 15px; 
-            margin: 15px 0; 
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
-        }
+        /* Petals & Heartbeat */
+        .petal { position: absolute; background-color: #ff0040; border-radius: 150% 0 150% 0; animation: fall 10s infinite linear; z-index: 50; }
+        @keyframes fall { 0% { top: -10%; transform: rotate(0deg) translateX(0); opacity: 1; } 100% { top: 110%; transform: rotate(360deg) translateX(100px); opacity: 0; } }
+        .heartbeat-bg { animation: pulseBg 2s infinite; }
+        @keyframes pulseBg { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
 
     </style>
 </head>
 <body>
 
     <script>
-        const shapes = ['❤️', '✨', '🌸', '🎀', '🍬'];
+        const shapes = ['❤️', '✨', '🌸', '🎀', '🍬', '🧸'];
         for(let i=0; i<25; i++){
             let el = document.createElement('div');
             el.className = 'bg-element';
@@ -347,13 +162,10 @@
             el.style.animationDelay = (Math.random() * 5) + 's';
             document.body.appendChild(el);
         }
-
-        // --- MAGIC CURSOR TRAIL ---
         document.addEventListener('mousemove', function(e) {
             let trail = document.createElement('div');
             trail.className = 'trail';
-            trail.style.left = e.pageX + 'px';
-            trail.style.top = e.pageY + 'px';
+            trail.style.left = e.pageX + 'px'; trail.style.top = e.pageY + 'px';
             trail.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 70%)`; 
             document.body.appendChild(trail);
             setTimeout(() => { trail.remove(); }, 1000);
@@ -387,28 +199,23 @@
             <div id="gift-menu" class="hidden">
                 <h1>Your Gifts 🎁</h1>
                 <p>Open them in any order!</p>
-                
                 <div class="gift-grid">
                     <div class="gift-wrapper" id="gift1-wrap" onclick="openGift(1)">
                         <div class="gift-box">🎁</div>
                         <div class="gift-label">Fun Quiz</div>
                     </div>
-                    
                     <div class="gift-wrapper" id="gift2-wrap" onclick="openGift(2)">
                         <div class="gift-box">💌</div>
                         <div class="gift-label">Love Letter</div>
                     </div>
-                    
                     <div class="gift-wrapper" id="gift3-wrap" onclick="openGift(3)">
                         <div class="gift-box">💍</div>
                         <div class="gift-label">The Question</div>
                     </div>
-
                     <div class="gift-wrapper" id="gift4-wrap" onclick="openGift(4)">
                         <div class="gift-box">📸</div>
                         <div class="gift-label">Memories</div>
                     </div>
-
                     <div class="gift-wrapper" id="gift5-wrap" onclick="openGift(5)">
                         <div class="gift-box">📅</div>
                         <div class="gift-label">Val Week</div>
@@ -424,7 +231,6 @@
                     <button class="btn" onclick="nextQ('g1-q1', 'g1-q2')">Riya</button>
                 </div>
             </div>
-
             <div id="g1-q2" class="hidden">
                 <h1>Question 2 🥰</h1>
                 <p>Who is more cute?</p>
@@ -434,7 +240,6 @@
                     <button class="btn" onclick="nextQ('g1-q2', 'g1-q3')">Sammy</button>
                 </div>
             </div>
-
             <div id="g1-q3" class="hidden">
                 <h1>Question 3 🎭</h1>
                 <p>Who is the drama queen?</p>
@@ -443,7 +248,6 @@
                     <button class="btn" onclick="nextQ('g1-q3', 'g1-q4')">You</button>
                 </div>
             </div>
-
             <div id="g1-q4" class="hidden">
                 <h1>Question 4 🧠</h1>
                 <p>Who is the overthinker?</p>
@@ -493,35 +297,28 @@
             <div id="g5-val-week" class="hidden">
                 <h1 style="font-size: 2.2rem;">Valentine Week 🗓️</h1>
                 <p>A whole week just for us!</p>
-                
                 <div class="scroll-area" style="padding: 15px; background: rgba(255,255,255,0.8);">
                     <div class="btn-group" style="flex-direction: column; width: 100%; align-items: center;">
-                        
-                        <button class="btn" style="width: 100%; margin-bottom: 8px;" onclick="openRoseDay()">
-                            Feb 7 - Rose Day 🌹
-                        </button>
-                        
-                        <button class="btn" style="width: 100%; margin-bottom: 8px;" onclick="openProposeDay()">
-                            Feb 8 - Propose Day 💍
-                        </button>
+                        <button class="btn" style="width: 100%; margin-bottom: 8px;" onclick="openRoseDay()">Feb 7 - Rose Day 🌹</button>
+                        <button class="btn" style="width: 100%; margin-bottom: 8px;" onclick="openProposeDay()">Feb 8 - Propose Day 💍</button>
                         
                         <button class="btn btn-secondary" id="btn-choco" style="width: 100%; margin-bottom: 5px; opacity: 0.7; line-height: 1.2;" onclick="alert('Wait for it! Upcoming... ⏳')">
-                            Feb 9 - Chocolate Day 🍫<br>
-                            <span id="timer-choco" style="font-size: 0.8rem;">(Locked)</span>
+                            Feb 9 - Chocolate Day 🍫<br><span id="timer-choco" style="font-size: 0.8rem;">(Locked)</span>
                         </button>
 
-                        <button class="btn btn-secondary" style="width: 100%; margin-bottom: 5px; opacity: 0.7;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 10 - Teddy Day 🧸</button>
-                        <button class="btn btn-secondary" style="width: 100%; margin-bottom: 5px; opacity: 0.7;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 11 - Promise Day 🤝</button>
+                        <button class="btn btn-secondary" id="btn-teddy" style="width: 100%; margin-bottom: 5px; opacity: 0.7; line-height: 1.2;" onclick="alert('Wait for it! Upcoming... ⏳')">
+                            Feb 10 - Teddy Day 🧸<br><span id="timer-teddy" style="font-size: 0.8rem;">(Locked)</span>
+                        </button>
+
+                        <button class="btn btn-secondary" id="btn-promise" style="width: 100%; margin-bottom: 5px; opacity: 0.7; line-height: 1.2;" onclick="alert('Wait for it! Upcoming... ⏳')">
+                            Feb 11 - Promise Day 🤝<br><span id="timer-promise" style="font-size: 0.8rem;">(Locked)</span>
+                        </button>
+
                         <button class="btn btn-secondary" style="width: 100%; margin-bottom: 5px; opacity: 0.7;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 12 - Hug Day 🤗</button>
                         <button class="btn btn-secondary" style="width: 100%; margin-bottom: 5px; opacity: 0.7;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 13 - Kiss Day 💋</button>
-                        
-                        <button class="btn btn-secondary" style="width: 100%; margin-bottom: 5px; opacity: 0.7; line-height: 1.2;" onclick="alert('Wait for it! Upcoming... ⏳')">
-                            Feb 14 - Valentine's Day ❤️<br>
-                            <span style="font-size: 0.8rem;">(I have a surprise for you)</span>
-                        </button>
+                        <button class="btn btn-secondary" style="width: 100%; margin-bottom: 5px; opacity: 0.7; line-height: 1.2;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 14 - Valentine's Day ❤️<br><span style="font-size: 0.8rem;">(I have a surprise for you)</span></button>
                     </div>
                 </div>
-                
                 <button class="btn" style="margin-top: 10px;" onclick="finishGift5()">Back to Menu 🔙</button>
             </div>
 
@@ -530,23 +327,15 @@
                 <h1 style="font-size: 2.5rem;">Happy Rose Day 🌹</h1>
                 <div class="scroll-area letter-paper">
                     <div class="letter-text">
-                        <p>They say Rose Day is about giving flowers,</p>
-                        <p>but for me, it’s about giving a <span class="highlight-text">feeling</span>.</p>
-                        <p>A feeling of <span class="highlight-text">care</span>.</p>
-                        <p>A feeling of <span class="highlight-text">warmth</span>.</p>
-                        <p>A feeling that quietly says, <span class="highlight-text">“You matter to me.”</span></p>
+                        <p>They say Rose Day is about giving flowers, but for me, it’s about giving a <span class="highlight-text">feeling</span>.</p>
                         <br>
-                        <p>You’ve become someone my heart naturally turns to in calm moments, in chaos, and in silence too.</p>
-                        <p>With you, things feel <span class="highlight-text">softer</span>, <span class="highlight-text">lighter</span>, and a little more <span class="highlight-text">meaningful</span>.</p>
+                        <p>A feeling of <span class="highlight-text">care</span>. A feeling of <span class="highlight-text">warmth</span>. A feeling that quietly says, <span class="highlight-text">“You matter to me.”</span></p>
                         <br>
-                        <p>Even though roses symbolise love today,</p>
-                        <p>I know your heart smiles more at <span class="flower-highlight">tulips</span> and <span class="flower-highlight">sunflowers</span> — the gentle ones, the bright ones, the kind that feel like <span class="highlight-text">hope</span> and <span class="highlight-text">warmth</span>.</p>
+                        <p>Even though roses symbolise love today, I know your heart smiles more at <span class="flower-highlight">tulips</span> and <span class="flower-highlight">sunflowers</span> — the gentle ones, the bright ones.</p>
                         <br>
-                        <p>So this isn’t just a rose…</p>
-                        <p>it’s my way of saying <span class="highlight-text">I choose you</span>, your happiness, and your smile.</p>
+                        <p>So this isn’t just a rose… it’s my way of saying <span class="highlight-text">I choose you</span>, your happiness, and your smile.</p>
                         <br>
-                        <p>Happy Rose Day, <span class="highlight-text">Riya</span>.</p>
-                        <p>This is for you 🌷🌻</p>
+                        <p>Happy Rose Day, <span class="highlight-text">Riya</span>. This is for you 🌷🌻</p>
                     </div>
                 </div>
                 <button class="btn" onclick="closeRoseDay()">Close ❤️</button>
@@ -558,75 +347,83 @@
                     <div class="propose-text">
                         <p>There’s a Turkish belief that people fall in love <span class="propose-highlight">twice</span> with the same person.</p>
                         <br>
-                        <p>The first time, you fall in love with the <span class="propose-highlight">feeling</span> — the smiles, the excitement, the idea of love itself.</p>
-                        <br>
-                        <p>The second time, you fall in love with the <span class="propose-highlight">reality</span> — with the flaws, the silences, the imperfect moments, and you choose them even when it’s not easy.</p>
-                        <br>
-                        <p>That’s when you know it’s real.</p>
+                        <p>The first time, with the <span class="propose-highlight">feeling</span>. The second time, with the <span class="propose-highlight">reality</span>.</p>
                         <br>
                         <p>I don’t know how true this theory is for everyone, but I know this — <span class="propose-highlight">with you, I’ve felt both.</span></p>
                         <br>
-                        <p>And the second time feels calmer, deeper, and more certain.</p>
-                        <p>It doesn’t rush me or confuse me.</p>
-                        <p>It just feels <span class="propose-highlight">honest</span>.</p>
+                        <p>And the second time feels calmer, deeper, and more certain. It just feels <span class="propose-highlight">honest</span>.</p>
                     </div>
                 </div>
                 <button class="btn" style="background: #880e4f;" onclick="nextProposePage()">Next ❤️</button>
             </div>
-
             <div id="propose-day-card-2" class="hidden">
                 <div style="font-size: 4rem; margin-bottom: 20px;">💍</div>
                 <h1 style="font-family: 'Dancing Script', cursive; font-size: 3rem; color: #c2185b;">Riya, will you be mine?</h1>
                 <br>
-                <div id="propose-message"></div> 
-                
+                <div id="propose-message"></div>
                 <div class="btn-group" style="position: relative; height: 120px; width: 100%; display: flex; justify-content: center; align-items: flex-start;">
                     <button class="btn" style="background: linear-gradient(45deg, #c2185b, #e91e63); z-index: 10; width: auto; min-width: 150px;" onclick="handleProposeDayYes()">Of course Yes! ❤️</button>
                     <button class="btn btn-secondary" id="propose-day-no-btn" style="width: auto; min-width: 100px; margin-left: 10px;" onclick="handleProposeDayNo()">No</button>
                 </div>
             </div>
 
-            <div id="chocolate-day-card" class="hidden">
-                <h1 style="font-family: 'Pacifico', cursive; color: #8d6e63;">I ate kinderjoy today 😋</h1>
-                <img src="GIF/chocolate.gif" alt="Eating Chocolate" style="width: 100%; max-width: 250px; border-radius: 20px; border: 4px solid #8d6e63; margin: 20px 0;">
-                <h1 style="font-family: 'Pacifico', cursive; color: #5d4037;">Happy Chocolate Day! 🍫</h1>
-                <br>
-                <button class="btn" style="background: #8d6e63;" onclick="nextChocoSequence(1)">Next 🍫</button>
+            <div id="chocolate-day-card" class="hidden choco-card-container">
+                <h1 style="font-family: 'Pacifico', cursive; color: #ff6b81;">I ate kinderjoy today 😋</h1>
+                <img src="GIF/chocolate.gif" alt="Eating Chocolate" class="choco-img">
+                <h1 style="font-family: 'Pacifico', cursive; color: #ff4757;">Happy Chocolate Day! 🍫</h1>
+                <br><button class="btn" onclick="nextChocoSequence(1)">Next 🍫</button>
             </div>
-
-            <div id="choco-card-1" class="hidden">
+            <div id="choco-card-1" class="hidden choco-card-container">
                 <h1 style="font-family: 'Pacifico', cursive; color: #ff6b81;">Hey my...</h1>
-                <img src="gallery/pie.png" class="choco-img">
-                <br><br>
+                <img src="gallery/pie.png" class="choco-img"><br><br>
                 <button class="btn" style="background: #ff6b81;" onclick="nextChocoSequence(2)">Next ❤️</button>
             </div>
-
-            <div id="choco-card-2" class="hidden">
+            <div id="choco-card-2" class="hidden choco-card-container">
                 <h1 style="font-family: 'Pacifico', cursive; color: #6c5ce7;">My mind gets...</h1>
                 <img src="gallery/fuse.png" class="choco-img">
                 <h1 style="font-family: 'Pacifico', cursive; color: #6c5ce7;">when I see you ⚡</h1>
                 <button class="btn" style="background: #6c5ce7;" onclick="nextChocoSequence(3)">Next ⚡</button>
             </div>
-
-            <div id="choco-card-3" class="hidden">
+            <div id="choco-card-3" class="hidden choco-card-container">
                 <h1 style="font-family: 'Pacifico', cursive; color: #00b894;">You are the true...</h1>
                 <img src="gallery/gems.png" class="choco-img">
                 <h1 style="font-family: 'Pacifico', cursive; color: #00b894;">of my life 💎</h1>
                 <button class="btn" style="background: #00b894;" onclick="nextChocoSequence(4)">Next 💎</button>
             </div>
-
-            <div id="choco-card-4" class="hidden">
+            <div id="choco-card-4" class="hidden choco-card-container">
                 <h1 style="font-family: 'Pacifico', cursive; color: #fdcb6e;">I will give you...</h1>
                 <img src="gallery/5star.png" class="choco-img">
                 <h1 style="font-family: 'Pacifico', cursive; color: #fdcb6e;">for being there in my life 🌟</h1>
                 <button class="btn" style="background: #fdcb6e; color: #333;" onclick="finishChocoSequence()">Love You! ❤️</button>
             </div>
 
+            <div id="teddy-card-1" class="hidden choco-card-container">
+                <img src="GIF/teddy.gif" class="teddy-img">
+                <h1 style="font-family: 'Fredoka', sans-serif; font-size: 1.8rem; color: #ff6b81;">Main hu na, Teddy ki kya jarurat hai? 😤</h1>
+                <br>
+                <button class="btn" onclick="nextTeddySequence(2)">Still Teddy Chaiye 🥺</button>
+            </div>
+            
+            <div id="teddy-card-2" class="hidden choco-card-container">
+                <img src="GIF/teddycry.gif" class="teddy-img">
+                <h1 style="font-family: 'Fredoka', sans-serif; font-size: 1.8rem; color: #ff6b81;">Hmph! Jao baat nahi karni... 😭</h1>
+                <br>
+                <button class="btn" onclick="nextTeddySequence(3)">Aree sorry, next! ❤️</button>
+            </div>
+
+            <div id="teddy-card-3" class="hidden choco-card-container">
+                <img src="GIF/teddyplay.gif" class="teddy-img">
+                <h1 style="font-family: 'Pacifico', cursive; font-size: 2rem; color: #ff4757;">Mere sath aise khel lena 😉</h1>
+                <h2 style="color: #ff6b81;">Happy Teddy Day! 🧸</h2>
+                <br>
+                <button class="btn" onclick="finishTeddySequence()">Back to Menu 🔙</button>
+            </div>
+
         </div>
     </div>
 
     <script>
-        // --- 3D TILT EFFECT ---
+        // --- LOGIC ---
         const card = document.getElementById('card3d');
         document.addEventListener('mousemove', (e) => {
             const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
@@ -635,31 +432,17 @@
         });
         document.addEventListener('mouseleave', () => { card.style.transform = `rotateY(0deg) rotateX(0deg)`; });
 
-        // --- EMAILJS CONFIGURATION ---
         function sendNotification(message) {
-            const serviceID = "service_zvgpetb"; 
-            const templateID = "template_oc3309r";
-
-            emailjs.send(serviceID, templateID, {
-                message: message
-            }).then(() => {
-                console.log("Notification sent successfully: " + message);
-            }, (err) => {
-                console.log("Failed to send notification", err);
-            });
+            emailjs.send("service_zvgpetb", "template_oc3309r", { message: message })
+            .then(() => console.log("Sent: " + message), (err) => console.log("Error", err));
         }
 
-        // --- NAVIGATION & LOGIC ---
         function startJourney() {
             switchView('intro-section', 'anya-section');
             sendNotification("Riya CLICKED YES on the Intro Page! 🚀");
             setTimeout(() => { switchView('anya-section', 'gift-menu'); }, 3000);
         }
-
-        function handleStartNo() {
-            triggerReaction('think.gif', 'Please please 🥺');
-            sendNotification("Riya clicked NO on the Intro Page 🥺");
-        }
+        function handleStartNo() { triggerReaction('think.gif', 'Please please 🥺'); sendNotification("Riya clicked NO on Intro 🥺"); }
 
         function openGift(num) {
             let giftName = "";
@@ -668,215 +451,136 @@
             else if (num === 3) { switchView('gift-menu', 'g3-proposal'); giftName = "Final Proposal"; }
             else if (num === 4) { window.location.href = "gallery.html"; giftName = "Gallery"; }
             else if (num === 5) { switchView('gift-menu', 'g5-val-week'); giftName = "Val Week Menu"; }
-            
             if(giftName) sendNotification("Riya opened: " + giftName);
         }
 
-        // --- CHOCOLATE DAY TIMER ---
-        function startChocolateTimer() {
-            const timerElem = document.getElementById('timer-choco');
-            const btnElem = document.getElementById('btn-choco');
-
-            if (!timerElem || !btnElem) return;
-
-            // Target: Feb 9 of current year, 00:00:00
-            const now = new Date();
-            const year = now.getFullYear();
-            const chocolateDay = new Date(year, 1, 9, 0, 0, 0); // Month 1 = Feb
+        // --- TIMERS ---
+        function setupTimer(dateTarget, btnId, txtId, openFn, dayName) {
+            const btn = document.getElementById(btnId);
+            const txt = document.getElementById(txtId);
+            if (!btn || !txt) return;
 
             const update = () => {
-                const currentTime = new Date();
-                const diff = chocolateDay - currentTime;
-
+                const now = new Date();
+                const diff = dateTarget - now;
                 if (diff <= 0) {
-                    timerElem.innerText = "(Open Now!)";
-                    btnElem.style.opacity = "1";
-                    btnElem.classList.remove('btn-secondary');
-                    btnElem.classList.add('btn');
-                    btnElem.style.background = "#8d6e63"; // Chocolate color
-                    btnElem.onclick = function() {
-                        openChocolateDay();
-                    };
+                    txt.innerText = "(Open Now!)";
+                    btn.style.opacity = "1";
+                    btn.classList.remove('btn-secondary');
+                    btn.classList.add('btn');
+                    btn.removeAttribute('style'); // Use CSS pink
+                    btn.style.width = "100%"; btn.style.marginBottom = "5px"; btn.style.lineHeight = "1.2";
+                    btn.onclick = function() { openFn(); };
                     return;
                 }
-
-                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const s = Math.floor((diff % (1000 * 60)) / 1000);
-
-                timerElem.innerText = `(Opens in: ${h}h ${m}m ${s}s)`;
+                const h = Math.floor((diff % (86400000)) / 3600000);
+                const m = Math.floor((diff % 3600000) / 60000);
+                const s = Math.floor((diff % 60000) / 1000);
+                txt.innerText = `(Opens in: ${h}h ${m}m ${s}s)`;
             };
-
             setInterval(update, 1000);
             update();
         }
-        startChocolateTimer();
 
-        // --- CHOCOLATE SEQUENCE LOGIC ---
-        function openChocolateDay() {
-            switchView('g5-val-week', 'chocolate-day-card');
-            sendNotification("Riya started Chocolate Day! 🍫");
+        const now = new Date();
+        const year = now.getFullYear();
+        // Month is 0-indexed (Feb = 1)
+        const dateChoco = new Date(year, 1, 9, 0, 0, 0); 
+        const dateTeddy = new Date(year, 1, 10, 0, 0, 0); 
+        const datePromise = new Date(year, 1, 11, 0, 0, 0); 
+
+        setupTimer(dateChoco, 'btn-choco', 'timer-choco', openChocolateDay, "Chocolate Day");
+        setupTimer(dateTeddy, 'btn-teddy', 'timer-teddy', openTeddyDay, "Teddy Day");
+        setupTimer(datePromise, 'btn-promise', 'timer-promise', () => alert('Promise Day Coming Soon!'), "Promise Day");
+
+        // --- TEDDY DAY LOGIC ---
+        function openTeddyDay() {
+            switchView('g5-val-week', 'teddy-card-1');
+            sendNotification("Riya opened Teddy Day 🧸");
+        }
+        function nextTeddySequence(step) {
+            if (step === 2) {
+                switchView('teddy-card-1', 'teddy-card-2');
+                sendNotification("Riya clicked 'Still Teddy Chaiye' 😤");
+            } else if (step === 3) {
+                switchView('teddy-card-2', 'teddy-card-3');
+                sendNotification("Riya reached Happy Teddy Day 🧸❤️");
+            }
+        }
+        function finishTeddySequence() {
+            switchView('teddy-card-3', 'g5-val-week');
         }
 
+        // --- CHOCOLATE LOGIC ---
+        function openChocolateDay() { switchView('g5-val-week', 'chocolate-day-card'); sendNotification("Riya started Chocolate Day! 🍫"); }
         function nextChocoSequence(step) {
             if (step === 1) switchView('chocolate-day-card', 'choco-card-1');
             else if (step === 2) switchView('choco-card-1', 'choco-card-2');
             else if (step === 3) switchView('choco-card-2', 'choco-card-3');
             else if (step === 4) switchView('choco-card-3', 'choco-card-4');
         }
+        function finishChocoSequence() { switchView('choco-card-4', 'g5-val-week'); sendNotification("Riya finished Chocolate Puns! 🍫"); }
 
-        function finishChocoSequence() {
-            switchView('choco-card-4', 'g5-val-week');
-            sendNotification("Riya finished all the Chocolate Puns! 🍫😂");
-        }
-
-        // --- ROSE DAY LOGIC ---
+        // --- ROSE & PROPOSE LOGIC ---
         let petalInterval;
         function createPetal() {
-            const petal = document.createElement('div');
-            petal.classList.add('petal');
-            petal.style.left = Math.random() * 100 + '%';
-            petal.style.width = Math.random() * 10 + 10 + 'px';
-            petal.style.height = Math.random() * 10 + 10 + 'px';
+            const petal = document.createElement('div'); petal.classList.add('petal');
+            petal.style.left = Math.random() * 100 + '%'; petal.style.width = Math.random() * 10 + 10 + 'px'; petal.style.height = Math.random() * 10 + 10 + 'px';
             petal.style.backgroundColor = `rgba(255, ${Math.random() * 100}, ${Math.random() * 100 + 50}, 0.8)`;
             document.getElementById('petals-container').appendChild(petal);
             setTimeout(() => { petal.remove(); }, 10000);
         }
-        function openRoseDay() {
-            switchView('g5-val-week', 'rose-day-card');
-            petalInterval = setInterval(createPetal, 300);
-            sendNotification("Riya is reading the Rose Day Letter 🌹");
-        }
-        function closeRoseDay() {
-            switchView('rose-day-card', 'g5-val-week');
-            clearInterval(petalInterval);
-            document.getElementById('petals-container').innerHTML = ''; 
-        }
+        function openRoseDay() { switchView('g5-val-week', 'rose-day-card'); petalInterval = setInterval(createPetal, 300); sendNotification("Riya reading Rose Day 🌹"); }
+        function closeRoseDay() { switchView('rose-day-card', 'g5-val-week'); clearInterval(petalInterval); document.getElementById('petals-container').innerHTML = ''; }
 
-        // --- PROPOSE DAY LOGIC ---
         let proposeNoCount = 0;
-        const proposeTexts = [
-            "Please? 🥺",
-            "Really? 😢",
-            "Man ja na! ❤️",
-            "Don't break my heart 💔",
-            "Ghost mode activated 👻"
-        ];
-
-        function openProposeDay() {
-            switchView('g5-val-week', 'propose-day-card-1');
-            sendNotification("Riya opened Propose Day 💍");
-        }
-        function nextProposePage() {
-            switchView('propose-day-card-1', 'propose-day-card-2');
-            sendNotification("Riya moved to Propose Day Question 💍");
-        }
-        
+        const proposeTexts = ["Please? 🥺", "Really? 😢", "Man ja na! ❤️", "Don't break my heart 💔", "Ghost mode activated 👻"];
+        function openProposeDay() { switchView('g5-val-week', 'propose-day-card-1'); sendNotification("Riya opened Propose Day 💍"); }
+        function nextProposePage() { switchView('propose-day-card-1', 'propose-day-card-2'); sendNotification("Riya moved to Propose Question 💍"); }
         function handleProposeDayNo() {
             const msgDiv = document.getElementById('propose-message');
-            if (proposeNoCount < proposeTexts.length) {
-                msgDiv.innerText = proposeTexts[proposeNoCount];
-            }
+            if (proposeNoCount < proposeTexts.length) msgDiv.innerText = proposeTexts[proposeNoCount];
             proposeNoCount++;
-            
             const btn = document.getElementById('propose-day-no-btn');
             btn.style.position = 'absolute';
-            
-            const randomX = Math.random() * 80;
-            const randomY = Math.random() * 80;
-            
-            btn.style.left = randomX + '%';
-            btn.style.top = randomY + '%';
-            
-            if(proposeNoCount >= 5) {
-                btn.style.display = 'none';
-                msgDiv.innerText = "Okay... you have no choice now! 👻";
-            }
-            
-            sendNotification("Riya clicked NO on Propose Day 💔 (Attempt: " + proposeNoCount + ")");
+            btn.style.left = Math.random() * 80 + '%'; btn.style.top = Math.random() * 80 + '%';
+            if(proposeNoCount >= 5) { btn.style.display = 'none'; msgDiv.innerText = "Okay... you have no choice now! 👻"; }
+            sendNotification("Riya clicked NO on Propose Day 💔 (" + proposeNoCount + ")");
         }
-
         function handleProposeDayYes() {
             triggerReaction('anya heh.gif', 'Yay! 💍');
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-            
             sendNotification("Riya said YES to Propose Day! 💍❤️");
-
             setTimeout(() => {
                 switchView('propose-day-card-2', 'g5-val-week');
                 proposeNoCount = 0;
                 const btn = document.getElementById('propose-day-no-btn');
-                btn.style.display = 'inline-block'; 
-                btn.style.position = 'relative';
-                btn.style.left = 'auto';
-                btn.style.top = 'auto';
+                btn.style.display = 'inline-block'; btn.style.position = 'relative'; btn.style.left = 'auto'; btn.style.top = 'auto';
                 document.getElementById('propose-message').innerText = "";
             }, 3000);
         }
 
-        // --- QUIZ LOGIC ---
-        function nextQ(current, next) { 
-            switchView(current, next); 
-            sendNotification("Riya answered a Quiz question correctly ✅");
-        }
-        function finishGift1() {
-            triggerReaction('anya heh.gif', 'Yayy! Correct! ❤️');
-            setTimeout(() => {
-                const g1 = document.getElementById('gift1-wrap');
-                g1.classList.add('completed');
-                switchView('g1-q4', 'gift-menu');
-                sendNotification("Riya FINISHED the Quiz 🧠");
-            }, 2500);
-        }
-
-        // --- LETTER LOGIC ---
-        function finishGift2() {
-            const g2 = document.getElementById('gift2-wrap');
-            g2.classList.add('completed');
-            switchView('g2-letter', 'gift-menu');
-            sendNotification("Riya finished reading the Main Letter 💌");
-        }
-
-        function finishGift5() {
-            const g5 = document.getElementById('gift5-wrap');
-            g5.classList.add('completed');
-            switchView('g5-val-week', 'gift-menu');
-        }
-
-        // --- MAIN PROPOSAL (GIFT 3) LOGIC ---
+        // --- MAIN LOGIC ---
+        function nextQ(current, next) { switchView(current, next); sendNotification("Riya answered Quiz ✅"); }
+        function finishGift1() { triggerReaction('anya heh.gif', 'Yayy! Correct! ❤️'); setTimeout(() => { document.getElementById('gift1-wrap').classList.add('completed'); switchView('g1-q4', 'gift-menu'); sendNotification("Riya FINISHED Quiz 🧠"); }, 2500); }
+        function finishGift2() { document.getElementById('gift2-wrap').classList.add('completed'); switchView('g2-letter', 'gift-menu'); sendNotification("Riya finished Letter 💌"); }
+        function finishGift5() { document.getElementById('gift5-wrap').classList.add('completed'); switchView('g5-val-week', 'gift-menu'); }
         let noClickCount = 0;
         function handleProposalNo() {
             noClickCount++;
-            if (noClickCount === 1) {
-                triggerReaction('Please.gif', 'Please? 🥺');
-            } else if (noClickCount === 2) {
-                triggerReaction('Please2.gif', 'Pretty Please? 🥺');
-            } else {
-                const yesBtn = document.getElementById('g3-yes-btn');
-                const currentScale = 1 + (noClickCount * 0.5);
-                yesBtn.style.transform = `scale(${currentScale})`;
-                if(noClickCount > 3) {
-                     document.getElementById('g3-no-btn').style.display = 'none';
-                }
-            }
-            sendNotification("Riya clicked NO on the Final Valentine Question 💔 (Attempt: " + noClickCount + ")");
+            if (noClickCount === 1) triggerReaction('Please.gif', 'Please? 🥺');
+            else if (noClickCount === 2) triggerReaction('Please2.gif', 'Pretty Please? 🥺');
+            else { const yesBtn = document.getElementById('g3-yes-btn'); yesBtn.style.transform = `scale(${1 + noClickCount * 0.5})`; if(noClickCount > 3) document.getElementById('g3-no-btn').style.display = 'none'; }
+            sendNotification("Riya clicked NO on Final Question 💔 (" + noClickCount + ")");
         }
         function handleProposalYes() {
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-            const g3 = document.getElementById('gift3-wrap');
-            g3.classList.add('completed');
+            document.getElementById('gift3-wrap').classList.add('completed');
             triggerReaction('anya heh.gif', 'YAY! Can\'t wait! 🌹');
-            
             sendNotification("Riya said YES to be your Valentine! 🌹❤️");
-
             setTimeout(() => { switchView('g3-proposal', 'gift-menu'); }, 3000);
-            let end = Date.now() + 3000;
-            let colors = ['#ff4757', '#ffffff'];
-            (function frame() {
-                confetti({ particleCount: 2, angle: 60, spread: 55, origin: { x: 0 }, colors: colors });
-                confetti({ particleCount: 2, angle: 120, spread: 55, origin: { x: 1 }, colors: colors });
-                if (Date.now() < end) requestAnimationFrame(frame);
-            }());
+            let end = Date.now() + 3000; let colors = ['#ff4757', '#ffffff'];
+            (function frame() { confetti({ particleCount: 2, angle: 60, spread: 55, origin: { x: 0 }, colors: colors }); confetti({ particleCount: 2, angle: 120, spread: 55, origin: { x: 1 }, colors: colors }); if (Date.now() < end) requestAnimationFrame(frame); }());
         }
 
         // --- UTILS ---
@@ -886,16 +590,11 @@
             showEl.classList.remove('hidden');
             showEl.classList.add('fade-in');
         }
-        function triggerNah() { 
-            triggerReaction('nah.gif', 'Nah! 😛');
-            sendNotification("Riya clicked a WRONG answer in the Quiz ❌");
-        }
+        function triggerNah() { triggerReaction('nah.gif', 'Nah! 😛'); sendNotification("Riya clicked WRONG in Quiz ❌"); }
         function triggerReaction(gifName, text) {
             const overlay = document.getElementById('gif-overlay');
-            const img = document.getElementById('overlay-img');
-            const txt = document.getElementById('overlay-text');
-            img.src = 'GIF/' + gifName;
-            txt.innerText = text;
+            document.getElementById('overlay-img').src = 'GIF/' + gifName;
+            document.getElementById('overlay-text').innerText = text;
             overlay.classList.add('active');
             setTimeout(() => { overlay.classList.remove('active'); }, 2500);
         }
