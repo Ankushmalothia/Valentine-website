@@ -10,6 +10,7 @@
     
     <script type="text/javascript">
         (function() {
+            // Replace with your actual EmailJS keys if needed
             emailjs.init("QaL88WQsnfFhga08G"); 
         })();
     </script>
@@ -784,7 +785,7 @@
                         <button class="btn btn-secondary" id="btn-promise" style="width: 100%; margin-bottom: 8px; opacity: 0.7; line-height: 1.3;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 11 - Promise Day 🤝<br><span id="timer-promise" style="font-size: 0.85rem;">(Locked)</span></button>
                         <button class="btn btn-secondary" id="btn-hug" style="width: 100%; margin-bottom: 8px; opacity: 0.7; line-height: 1.3;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 12 - Hug Day 🤗<br><span id="timer-hug" style="font-size: 0.85rem;">(Locked)</span></button>
                         <button class="btn btn-secondary" id="btn-kiss" style="width: 100%; margin-bottom: 8px; opacity: 0.7; line-height: 1.3;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 13 - Kiss Day 💋<br><span id="timer-kiss" style="font-size: 0.85rem;">(Locked)</span></button>
-                        <button class="btn btn-secondary" id="btn-val" style="width: 100%; margin-bottom: 8px; opacity: 0.7; line-height: 1.3;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 14 - Valentine's Day ❤️<br><span id="timer-val" style="font-size: 0.85rem;">(Locked)</span></button>
+                        <button class="btn btn-secondary" id="btn-val" style="width: 100%; margin-bottom: 8px; opacity: 0.7; line-height: 1.3;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 14 - Valentine's Day ❤️<br><span style="font-size:0.9rem">(I have a surprise for you 🎁)</span><br><span id="timer-val" style="font-size: 0.85rem;">(Locked)</span></button>
                     </div>
                 </div>
                 <button class="btn" style="margin-top: 15px;" onclick="finishGift5()">Back to Menu 🔙</button>
@@ -935,7 +936,7 @@
             <div id="val-intro" class="hidden choco-card-container">
                 <img src="GIF/valentine1.gif" class="choco-img" style="max-width: 260px;">
                 <h1 style="font-family: 'Dancing Script', cursive; font-size: 3rem; color: #d63031;">Happy Valentine's Day ❤️</h1>
-                <p style="font-size: 1.15rem; margin: 15px 0; color: #555;">The most special day for us!</p>
+                <p style="font-size: 1.15rem; margin: 15px 0; color: #555;">The special day for us!</p>
                 <div class="btn-group">
                     <button class="btn" style="background: #e84393;" onclick="startMarioGame()">Play Game 🎮</button>
                     <button class="btn btn-secondary" onclick="openSurprise()">See Surprise 🎁</button>
@@ -1073,18 +1074,24 @@
             update();
         }
         
-        // TESTING MODE: All days unlocked (dates set to past)
-        setupTimer(new Date(2020, 1, 9), 'btn-choco', 'timer-choco', openChocolateDay, 'Chocolate Day');
-        setupTimer(new Date(2020, 1, 10), 'btn-teddy', 'timer-teddy', openTeddyDay, 'Teddy Day');
-        setupTimer(new Date(2020, 1, 11), 'btn-promise', 'timer-promise', openPromiseDay, 'Promise Day');
-        setupTimer(new Date(2020, 1, 12), 'btn-hug', 'timer-hug', openHugDay, 'Hug Day');
-        setupTimer(new Date(2020, 1, 13), 'btn-kiss', 'timer-kiss', openKissDay, 'Kiss Day'); 
-        setupTimer(new Date(2020, 1, 14), 'btn-val', 'timer-val', openValentineDay, 'Valentine Day');
+        // ==================== DATES CONFIGURATION ====================
+        // Current Year: 2026
+        // Days 7-13 are PAST (Open)
+        // Day 14 is FUTURE (Locked until tomorrow)
+        
+        setupTimer(new Date(2026, 1, 7), 'btn-choco', 'timer-choco', openChocolateDay, 'Chocolate Day');
+        setupTimer(new Date(2026, 1, 8), 'btn-teddy', 'timer-teddy', openTeddyDay, 'Teddy Day');
+        setupTimer(new Date(2026, 1, 9), 'btn-promise', 'timer-promise', openPromiseDay, 'Promise Day');
+        setupTimer(new Date(2026, 1, 10), 'btn-hug', 'timer-hug', openHugDay, 'Hug Day');
+        setupTimer(new Date(2026, 1, 11), 'btn-kiss', 'timer-kiss', openKissDay, 'Kiss Day'); 
+        
+        // VALENTINE'S DAY LOCKED UNTIL FEB 14, 2026
+        setupTimer(new Date(2026, 1, 14), 'btn-val', 'timer-val', openValentineDay, 'Valentine Day');
 
         // ==================== KISS DAY GAME LOGIC ====================
         
         let gameInterval, spawnInterval, animationFrameId;
-        // CHANGED: Removed localStorage get. Score starts at 0 every time.
+        // CHANGED: Score starts at 0 every time.
         let score = 0; 
         let playerX = 50; 
         let targetPlayerX = 50;
@@ -1260,7 +1267,7 @@
             running: false,
             paused: false,
             distance: 0,
-            speed: 5,
+            speed: 5, // RESET TO 5 as requested
             groundY: 0,
             framesSinceLastObstacle: 0 
         };
@@ -1293,7 +1300,7 @@
             mPlayer.invincible = false;
             
             mGameState.distance = 0;
-            mGameState.speed = 8;
+            mGameState.speed = 5; // RESET TO 5
             mGameState.running = true;
             mGameState.paused = false;
             mGameState.framesSinceLastObstacle = 0;
@@ -1409,12 +1416,12 @@
             mGameState.distance++;
             mGameState.framesSinceLastObstacle++;
             
-            // GRADUAL SPEED INCREASE
+            // GRADUAL SPEED INCREASE: Slower ramp up (every 1000 distance)
             if(mGameState.distance % 1000 === 0) {
                 mGameState.speed += 0.2;
             }
             
-            // RESPONSIVE PHYSICS
+            // RESPONSIVE PHYSICS: Gravity tweaks
             mPlayer.velocityY += 0.7; 
             mPlayer.y += mPlayer.velocityY;
             
@@ -1424,7 +1431,7 @@
                 mPlayer.grounded = true;
             }
             
-            // NO IMPOSSIBLE JUMPS LOGIC
+            // NO IMPOSSIBLE JUMPS LOGIC: 
             let minGapDistance = 400 + (Math.random() * 200); 
             let currentGapDistance = mGameState.framesSinceLastObstacle * mGameState.speed;
 
