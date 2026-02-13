@@ -15,76 +15,628 @@
     </script>
 
     <style>
-        /* --- CSS STYLES --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>❤️</text></svg>") 16 0, auto; }
-        body { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%); font-family: 'Fredoka', sans-serif; overflow: hidden; perspective: 1000px; }
-        .bg-element { position: absolute; color: rgba(255, 255, 255, 0.6); animation: floatUp 15s infinite linear; z-index: 0; font-size: 2rem; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
-        @keyframes floatUp { 0% { transform: translateY(110vh) rotate(0deg) scale(0.8); opacity: 0; } 100% { transform: translateY(-10vh) rotate(360deg) scale(1.2); opacity: 0; } }
+        /* --- RESET & BASE STYLES --- */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>❤️</text></svg>") 16 0, auto; 
+        }
         
-        .container { text-align: center; background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 40px 30px; border-radius: 40px; box-shadow: 0 30px 70px rgba(0,0,0,0.15), inset 0 0 0 2px rgba(255,255,255,0.8); width: 90%; max-width: 480px; z-index: 10; transform-style: preserve-3d; transition: transform 0.1s ease-out; position: relative; }
+        body { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #ffc3a0 100%); 
+            font-family: 'Fredoka', sans-serif; 
+            overflow-x: hidden;
+            perspective: 1000px; 
+            user-select: none;
+            position: relative;
+        }
+        
+        /* --- ANIMATED BACKGROUND ELEMENTS --- */
+        .bg-element { 
+            position: absolute; 
+            color: rgba(255, 255, 255, 0.6); 
+            animation: floatUp 15s infinite linear; 
+            z-index: 0; 
+            font-size: 2rem; 
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+            pointer-events: none;
+        }
+        
+        @keyframes floatUp { 
+            0% { transform: translateY(110vh) rotate(0deg) scale(0.8); opacity: 0; } 
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg) scale(1.2); opacity: 0; } 
+        }
+        
+        /* --- MAIN CONTAINER --- */
+        .container { 
+            text-align: center; 
+            background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(25px); 
+            -webkit-backdrop-filter: blur(25px); 
+            padding: 45px 35px; 
+            border-radius: 40px; 
+            box-shadow: 0 30px 80px rgba(0,0,0,0.2), 
+                        inset 0 0 0 2px rgba(255,255,255,0.9),
+                        0 0 100px rgba(255,154,158,0.3); 
+            width: 90%; 
+            max-width: 500px; 
+            z-index: 10; 
+            transform-style: preserve-3d; 
+            transition: transform 0.1s ease-out, box-shadow 0.3s ease; 
+            position: relative;
+        }
+        
+        .container:hover {
+            box-shadow: 0 35px 90px rgba(0,0,0,0.25), 
+                        inset 0 0 0 2px rgba(255,255,255,1),
+                        0 0 120px rgba(255,154,158,0.4);
+        }
+        
         .content-layer { transform: translateZ(60px); }
-        h1 { color: #ff4757; font-family: 'Pacifico', cursive; font-size: 2.2rem; margin-bottom: 15px; text-shadow: 2px 2px 0px rgba(255,255,255,0.8); }
-        p { color: #555; font-size: 1.1rem; margin-bottom: 25px; line-height: 1.5; font-weight: 600; }
         
-        .scroll-area { background: #fffdf0; padding: 25px; border-radius: 15px; box-shadow: inset 0 0 20px rgba(0,0,0,0.05); max-height: 50vh; overflow-y: auto; margin-bottom: 20px; border: 2px dashed #ffafbd; }
-        .scroll-area::-webkit-scrollbar { width: 6px; } .scroll-area::-webkit-scrollbar-thumb { background: #ff4757; border-radius: 10px; }
+        /* --- TYPOGRAPHY --- */
+        h1 { 
+            color: #ff4757; 
+            font-family: 'Pacifico', cursive; 
+            font-size: 2.4rem; 
+            margin-bottom: 18px; 
+            text-shadow: 2px 2px 0px rgba(255,255,255,0.8),
+                         4px 4px 10px rgba(255,71,87,0.3);
+            animation: titlePulse 3s ease-in-out infinite;
+        }
         
-        .btn { background: linear-gradient(45deg, #ff6b81, #ff4757); color: white; border: none; padding: 15px 30px; font-size: 1.1rem; border-radius: 50px; cursor: pointer; box-shadow: 0 10px 20px rgba(255, 71, 87, 0.3); font-weight: 600; min-width: 120px; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); width: 100%; max-width: 250px; margin-bottom: 10px; }
-        .btn-secondary { background: white; border: 2px solid #ff6b81; color: #ff6b81; }
-        .btn:hover { transform: scale(1.05) translateY(-3px); box-shadow: 0 15px 30px rgba(255, 71, 87, 0.4); }
-        .btn-group { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 10px; }
+        @keyframes titlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        
+        p { 
+            color: #555; 
+            font-size: 1.15rem; 
+            margin-bottom: 25px; 
+            line-height: 1.6; 
+            font-weight: 600;
+        }
+        
+        /* --- SCROLL AREA --- */
+        .scroll-area { 
+            background: linear-gradient(135deg, #fffdf0 0%, #fff9e6 100%);
+            padding: 28px; 
+            border-radius: 18px; 
+            box-shadow: inset 0 0 25px rgba(0,0,0,0.06),
+                        0 4px 15px rgba(0,0,0,0.05); 
+            max-height: 52vh; 
+            overflow-y: auto; 
+            margin-bottom: 22px; 
+            border: 2px dashed #ffafbd;
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .scroll-area:hover {
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.08),
+                        0 6px 20px rgba(0,0,0,0.08);
+        }
+        
+        .scroll-area::-webkit-scrollbar { width: 8px; } 
+        .scroll-area::-webkit-scrollbar-track { background: rgba(255,255,255,0.5); border-radius: 10px; }
+        .scroll-area::-webkit-scrollbar-thumb { 
+            background: linear-gradient(180deg, #ff6b81, #ff4757); 
+            border-radius: 10px;
+            transition: background 0.3s;
+        }
+        .scroll-area::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #ff5571, #ff3747); }
+        
+        /* --- BUTTONS --- */
+        .btn { 
+            background: linear-gradient(135deg, #ff6b81, #ff4757); 
+            color: white; 
+            border: none; 
+            padding: 16px 32px; 
+            font-size: 1.1rem; 
+            border-radius: 50px; 
+            cursor: pointer; 
+            box-shadow: 0 10px 25px rgba(255, 71, 87, 0.35),
+                        0 0 20px rgba(255, 71, 87, 0.1); 
+            font-weight: 600; 
+            min-width: 130px; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            width: 100%; 
+            max-width: 260px; 
+            margin-bottom: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn:hover::before { width: 300px; height: 300px; }
+        .btn-secondary { 
+            background: white; 
+            border: 3px solid #ff6b81; 
+            color: #ff6b81;
+            box-shadow: 0 8px 20px rgba(255, 107, 129, 0.25);
+        }
+        .btn:hover { 
+            transform: scale(1.08) translateY(-4px); 
+            box-shadow: 0 18px 35px rgba(255, 71, 87, 0.45),
+                        0 0 30px rgba(255, 71, 87, 0.2); 
+        }
+        .btn:active { transform: scale(0.98) translateY(-2px); }
+        .btn-group { 
+            display: flex; 
+            justify-content: center; 
+            gap: 18px; 
+            flex-wrap: wrap; 
+            margin-top: 12px; 
+        }
 
-        /* PROMISE DAY STYLES */
-        .promise-text { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: #d63031; line-height: 1.6; font-style: italic; min-height: 120px; display: flex; align-items: center; justify-content: center; }
-        .pookie-img { width: 150px; border-radius: 15px; border: 3px solid #ff7675; margin-bottom: 15px; transition: 0.3s; }
-        #punishment-box { width: 100%; padding: 10px; border: 2px solid #ff7675; border-radius: 10px; font-family: 'Fredoka'; margin-bottom: 10px; min-height: 60px; }
+        /* --- PROMISE & APOLOGY STYLES --- */
+        .promise-text { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 1.45rem; 
+            color: #d63031; 
+            line-height: 1.7; 
+            font-style: italic; 
+            min-height: 130px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            transition: opacity 0.3s ease;
+        }
         
-        /* Utils */
-        .hidden { display: none; }
+        .pookie-img { 
+            width: 160px; 
+            border-radius: 18px; 
+            border: 4px solid #ff7675; 
+            margin-bottom: 18px; 
+            transition: transform 0.3s ease, border-color 0.3s; 
+            box-shadow: 0 8px 20px rgba(255,118,117,0.3);
+        }
+        
+        .pookie-img:hover { transform: scale(1.05) rotate(2deg); border-color: #ff5555; }
+        
+        #punishment-box { 
+            width: 100%; 
+            padding: 12px; 
+            border: 2px solid #ff7675; 
+            border-radius: 12px; 
+            font-family: 'Fredoka'; 
+            margin-bottom: 12px; 
+            min-height: 70px;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            resize: vertical;
+        }
+        
+        #punishment-box:focus { outline: none; border-color: #ff4757; box-shadow: 0 0 15px rgba(255,71,87,0.3); }
+        
+        /* --- KISS DAY GAME STYLES --- */
+        #game-area, #mario-area {
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #ffc3a0 100%);
+            z-index: 999; 
+            display: none; 
+            overflow: hidden; 
+            touch-action: none;
+        }
+        
+        #game-score {
+            position: absolute; 
+            top: 25px; 
+            right: 25px; 
+            font-size: 2.2rem; 
+            color: #ff4757; 
+            font-weight: bold; 
+            font-family: 'Fredoka'; 
+            z-index: 1001;
+            background: rgba(255,255,255,0.9); 
+            padding: 8px 20px; 
+            border-radius: 25px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            animation: scoreFloat 2s ease-in-out infinite;
+        }
+        
+        /* --- EXIT BUTTON STYLE --- */
+        .game-exit-btn {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            z-index: 1002;
+            background: rgba(255,255,255,0.9);
+            border: 3px solid #ff6b81;
+            color: #ff6b81;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-family: 'Fredoka';
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .game-exit-btn:hover {
+            background: #ff6b81;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        @keyframes scoreFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        #player {
+            position: absolute; 
+            bottom: 25px; 
+            width: 100px; 
+            height: 100px;
+            background-image: url('GIF/kiss1.gif'); 
+            background-size: contain; 
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: none; 
+            z-index: 1000;
+            filter: drop-shadow(0 8px 15px rgba(0,0,0,0.4));
+            transform: translateZ(0);
+            will-change: left;
+        }
+        
+        .falling-kiss { 
+            position: absolute; 
+            font-size: 2.2rem; 
+            animation: fallLinear linear forwards; 
+            z-index: 999;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2));
+        }
+        
+        @keyframes fallLinear { 
+            to { transform: translateY(110vh); } 
+        }
+        
+        /* --- MARIO GAME STYLES --- */
+        #mario-canvas { 
+            display: block; 
+            width: 100%; 
+            height: 100%; 
+            background: linear-gradient(180deg, #ffc3dd 0%, #ffe6f2 50%, #fff0f7 100%);
+            image-rendering: crisp-edges;
+        }
+        
+        #mario-msg { 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            text-align: center; 
+            display: none; 
+            z-index: 2000; 
+            background: rgba(255,255,255,0.95); 
+            padding: 45px; 
+            border-radius: 30px;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.35);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 4px solid #ff6b81;
+        }
+        
+        #mario-controls {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            z-index: 2001;
+            display: flex;
+            gap: 15px;
+        }
+        
+        #mario-controls button {
+            background: rgba(255,255,255,0.9);
+            border: 3px solid #ff6b81;
+            color: #ff6b81;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 15px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Fredoka';
+            box-shadow: 0 8px 20px rgba(255,107,129,0.3);
+            transition: all 0.3s ease;
+        }
+        
+        #mario-controls button:hover {
+            background: #ff6b81;
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        #mario-score-display {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            z-index: 2001;
+            background: rgba(255,255,255,0.9);
+            padding: 15px 25px;
+            border-radius: 25px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            font-family: 'Fredoka';
+        }
+        
+        #mario-score-display h3 {
+            color: #ff4757;
+            font-size: 1.8rem;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        #mario-score-display p {
+            color: #ff6b81;
+            font-size: 1.1rem;
+            margin: 5px 0 0 0;
+            font-weight: bold;
+        }
+
+        /* --- UTILITIES --- */
+        .hidden { display: none !important; }
         .fade-in { animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        @keyframes popIn { 0% { opacity: 0; transform: scale(0.5) translateZ(60px); } 100% { opacity: 1; transform: scale(1) translateZ(60px); } }
+        @keyframes popIn { 
+            0% { opacity: 0; transform: scale(0.5) translateZ(60px); } 
+            100% { opacity: 1; transform: scale(1) translateZ(60px); } 
+        }
         
-        /* Overlay */
-        .overlay-popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        /* --- OVERLAY POPUP --- */
+        .overlay-popup { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.65); 
+            backdrop-filter: blur(10px); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            z-index: 9999; 
+            opacity: 0; 
+            pointer-events: none; 
+            transition: opacity 0.4s ease; 
+        }
+        
         .overlay-popup.active { opacity: 1; pointer-events: auto; }
-        .overlay-content { background: white; padding: 25px; border-radius: 30px; text-align: center; transform: scale(0.8); transition: transform 0.3s; border: 4px solid #ffc3a0; }
-        .overlay-popup.active .overlay-content { transform: scale(1); animation: bounce 0.5s; }
-        .overlay-content img { max-width: 250px; border-radius: 20px; border: 3px solid #ffeff1; }
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-20px);} 60% {transform: translateY(-10px);} }
+        .overlay-content { 
+            background: white; 
+            padding: 35px; 
+            border-radius: 35px; 
+            text-align: center; 
+            transform: scale(0.8); 
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            border: 5px solid #ffc3a0;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.3);
+            max-width: 90%;
+        }
+        .overlay-popup.active .overlay-content { transform: scale(1); animation: bounce 0.6s; }
+        .overlay-content img { 
+            max-width: 280px; 
+            border-radius: 22px; 
+            border: 4px solid #ffeff1;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        @keyframes bounce { 
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 
+            40% {transform: translateY(-25px);} 
+            60% {transform: translateY(-12px);} 
+        }
 
-        /* Images */
-        .choco-img { width: 100%; max-width: 200px; border-radius: 15px; margin: 15px 0; }
-        .teddy-img { width: 100%; max-width: 220px; border-radius: 20px; border: 4px solid #ff9a9e; margin: 20px 0; }
-        .hug-img { width: 100%; max-width: 220px; border-radius: 20px; border: 4px solid #ff9a9e; margin: 20px 0; transition: all 0.5s; }
-        .heartbeat-bg { animation: pulseBg 2s infinite; }
-        @keyframes pulseBg { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        /* --- IMAGES --- */
+        .choco-img { 
+            width: 100%; 
+            max-width: 220px; 
+            border-radius: 18px; 
+            margin: 18px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+        }
+        .choco-img:hover { transform: scale(1.05); }
+        .teddy-img { 
+            width: 100%; 
+            max-width: 240px; 
+            border-radius: 22px; 
+            border: 5px solid #ff9a9e; 
+            margin: 22px 0;
+            box-shadow: 0 12px 35px rgba(255,154,158,0.4);
+            transition: all 0.4s ease;
+        }
+        .teddy-img:hover { transform: scale(1.05) rotate(2deg); border-color: #ff6b81; }
+        .hug-img { 
+            width: 100%; 
+            max-width: 240px; 
+            border-radius: 22px; 
+            border: 5px solid #ff9a9e; 
+            margin: 22px 0; 
+            transition: all 0.5s ease;
+            box-shadow: 0 12px 35px rgba(255,154,158,0.4);
+        }
+        .hug-img:hover { transform: scale(1.08); }
+        .heartbeat-bg { animation: pulseBg 2s ease-in-out infinite; }
+        @keyframes pulseBg { 
+            0%, 100% { transform: scale(1); } 
+            50% { transform: scale(1.03); } 
+        }
         
-        /* Gift Styles */
-        .gift-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 20px; justify-items: center; }
-        .gift-wrapper { display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: transform 0.3s; }
+        /* --- GIFT STYLES --- */
+        .gift-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 25px; 
+            margin-top: 25px; 
+            justify-items: center; 
+        }
+        
+        .gift-wrapper { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            cursor: pointer; 
+            transition: transform 0.4s ease, filter 0.3s;
+            padding: 10px;
+            border-radius: 15px;
+        }
+        .gift-wrapper:hover { background: rgba(255,255,255,0.4); }
         .gift-wrapper:nth-child(5) { grid-column: span 2; }
-        .gift-box { font-size: 3.5rem; position: relative; animation: floatGift 3s ease-in-out infinite; }
-        .gift-label { margin-top: 5px; font-weight: bold; color: #ff6b81; background: white; padding: 4px 12px; border-radius: 15px; font-size: 0.9rem; }
-        @keyframes floatGift { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        .gift-wrapper.completed .gift-box::after { content: '✅'; position: absolute; bottom: -5px; right: -10px; font-size: 1.5rem; }
+        .gift-box { 
+            font-size: 4rem; 
+            position: relative; 
+            animation: floatGift 3s ease-in-out infinite;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2));
+            transition: transform 0.3s ease;
+        }
+        .gift-wrapper:hover .gift-box { transform: scale(1.15) rotate(10deg); }
+        .gift-label { 
+            margin-top: 8px; 
+            font-weight: bold; 
+            color: #ff6b81; 
+            background: white; 
+            padding: 6px 16px; 
+            border-radius: 18px; 
+            font-size: 0.95rem;
+            box-shadow: 0 4px 12px rgba(255,107,129,0.25);
+            transition: all 0.3s ease;
+        }
+        .gift-wrapper:hover .gift-label { background: #ff6b81; color: white; transform: translateY(-3px); }
+        @keyframes floatGift { 
+            0%, 100% { transform: translateY(0); } 
+            50% { transform: translateY(-12px); } 
+        }
+        .gift-wrapper.completed .gift-box::after { 
+            content: '✅'; 
+            position: absolute; 
+            bottom: -8px; 
+            right: -12px; 
+            font-size: 1.8rem;
+            animation: checkmarkPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes checkmarkPop { 0% { transform: scale(0); } 100% { transform: scale(1); } }
         
-        .letter-text { font-size: 1.8rem; line-height: 1.6; font-weight: 700; font-family: 'Dancing Script'; text-align: left;}
-        .highlight-text { color: #ff4757; background: rgba(255, 255, 255, 0.8); padding: 0 5px; border-radius: 5px; }
-        .flower-highlight { color: #d35400; background: #ffeaa7; padding: 2px 8px; border-radius: 15px; border: 2px solid #fdcb6e; display: inline-block; transform: rotate(-2deg); }
-        .propose-text { font-family: 'Playfair Display', serif; text-align: center; color: #2c3e50; font-size: 1.2rem; line-height: 1.8; font-weight: 600; }
-        .propose-highlight { color: #c0392b; font-weight: bold; font-size: 1.3rem; background: rgba(255, 200, 200, 0.3); padding: 0 5px; border-radius: 4px; }
+        /* --- LETTER STYLES --- */
+        .letter-text { 
+            font-size: 1.85rem; 
+            line-height: 1.7; 
+            font-weight: 700; 
+            font-family: 'Dancing Script'; 
+            text-align: left;
+        }
+        .highlight-text { 
+            color: #ff4757; 
+            background: rgba(255, 255, 255, 0.9); 
+            padding: 2px 8px; 
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(255,71,87,0.2);
+        }
+        .flower-highlight { 
+            color: #d35400; 
+            background: #ffeaa7; 
+            padding: 3px 10px; 
+            border-radius: 18px; 
+            border: 2px solid #fdcb6e; 
+            display: inline-block; 
+            transform: rotate(-2deg);
+            box-shadow: 0 3px 10px rgba(253,203,110,0.4);
+        }
+        .propose-text { 
+            font-family: 'Playfair Display', serif; 
+            text-align: center; 
+            color: #2c3e50; 
+            font-size: 1.25rem; 
+            line-height: 1.9; 
+            font-weight: 600; 
+        }
+        .propose-highlight { 
+            color: #c0392b; 
+            font-weight: bold; 
+            font-size: 1.35rem; 
+            background: rgba(255, 200, 200, 0.4); 
+            padding: 2px 8px; 
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(192,57,43,0.2);
+        }
+        
+        /* --- MOBILE TOUCH ZONES --- */
+        .touch-zone { 
+            position: absolute; 
+            top: 0; 
+            height: 100%; 
+            width: 50%; 
+            z-index: 2000;
+            opacity: 0.05;
+            transition: opacity 0.3s;
+        }
+        .touch-zone:active { opacity: 0.15; }
+        #left-zone { left: 0; background: linear-gradient(to right, rgba(255,255,255,0.3), transparent); } 
+        #right-zone { right: 0; background: linear-gradient(to left, rgba(255,255,255,0.3), transparent); }
+        
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 480px) {
+            h1 { font-size: 2rem; }
+            p { font-size: 1rem; }
+            .btn { font-size: 1rem; padding: 14px 28px; }
+            .gift-box { font-size: 3.5rem; }
+            .container { padding: 35px 25px; }
+            #game-score { font-size: 1.8rem; top: 15px; right: 15px; }
+            .game-exit-btn { font-size: 1rem; padding: 6px 15px; }
+        }
+        
+        .container, .btn, .gift-wrapper, img { will-change: transform; }
+        .btn:focus { outline: 3px solid #ff4757; outline-offset: 3px; }
+        
+        /* --- ENHANCED ROSE DAY --- */
+        #petals-container {
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            pointer-events: none; 
+            z-index: -1;
+        }
+        .petal {
+            position: absolute;
+            font-size: 2rem;
+            animation: petalFall linear forwards;
+            opacity: 0.8;
+        }
+        @keyframes petalFall { to { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
     </style>
 </head>
 <body>
 
     <script>
-        const shapes = ['❤️', '✨', '🌸', '🎀', '🍬', '🧸', '🤞', '🫂'];
-        for(let i=0; i<25; i++){
+        const shapes = ['❤️', '✨', '🌸', '🎀', '🍬', '🧸', '🤞', '🫂', '💋', '💝'];
+        for(let i=0; i<30; i++){
             let el = document.createElement('div');
             el.className = 'bg-element';
             el.innerHTML = shapes[Math.floor(Math.random() * shapes.length)];
             el.style.left = Math.random() * 100 + 'vw';
-            el.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            el.style.animationDuration = (Math.random() * 10 + 12) + 's';
             el.style.animationDelay = (Math.random() * 5) + 's';
             document.body.appendChild(el);
         }
@@ -93,7 +645,7 @@
     <div id="gif-overlay" class="overlay-popup">
         <div class="overlay-content">
             <img id="overlay-img" src="" alt="Reaction">
-            <h2 id="overlay-text" style="color: #ff4757; margin-top: 15px; font-family: 'Fredoka';"></h2>
+            <h2 id="overlay-text" style="color: #ff4757; margin-top: 18px; font-family: 'Fredoka';"></h2>
         </div>
     </div>
 
@@ -110,35 +662,83 @@
             </div>
 
             <div id="anya-section" class="hidden">
-                <h1 style="font-size: 3rem; margin-bottom: 10px;">😁❤️</h1>
-                <img src="GIF/Anya heh.gif" alt="Anya" style="width: 100%; max-width: 250px; border-radius: 20px;">
+                <h1 style="font-size: 3rem; margin-bottom: 12px;">😁❤️</h1>
+                <img src="GIF/Anya heh.gif" alt="Anya" style="width: 100%; max-width: 280px; border-radius: 22px; box-shadow: 0 12px 35px rgba(0,0,0,0.2);">
             </div>
 
             <div id="gift-menu" class="hidden">
                 <h1>Your Gifts 🎁</h1>
-                <p>Open them in any order!</p>
+                <p style="color: #ff6b81;">Open them in any order you like!</p>
                 <div class="gift-grid">
-                    <div class="gift-wrapper" id="gift1-wrap" onclick="openGift(1)"><div class="gift-box">🎁</div><div class="gift-label">Fun Quiz</div></div>
-                    <div class="gift-wrapper" id="gift2-wrap" onclick="openGift(2)"><div class="gift-box">💌</div><div class="gift-label">Love Letter</div></div>
-                    <div class="gift-wrapper" id="gift3-wrap" onclick="openGift(3)"><div class="gift-box">💍</div><div class="gift-label">The Question</div></div>
-                    <div class="gift-wrapper" id="gift4-wrap" onclick="openGift(4)"><div class="gift-box">📸</div><div class="gift-label">Memories</div></div>
-                    <div class="gift-wrapper" id="gift5-wrap" onclick="openGift(5)"><div class="gift-box">📅</div><div class="gift-label">Val Week</div></div>
+                    <div class="gift-wrapper" id="gift1-wrap" onclick="openGift(1)">
+                        <div class="gift-box">🎁</div>
+                        <div class="gift-label">Fun Quiz</div>
+                    </div>
+                    <div class="gift-wrapper" id="gift2-wrap" onclick="openGift(2)">
+                        <div class="gift-box">💌</div>
+                        <div class="gift-label">Love Letter</div>
+                    </div>
+                    <div class="gift-wrapper" id="gift3-wrap" onclick="openGift(3)">
+                        <div class="gift-box">💍</div>
+                        <div class="gift-label">The Question</div>
+                    </div>
+                    <div class="gift-wrapper" id="gift4-wrap" onclick="openGift(4)">
+                        <div class="gift-box">📸</div>
+                        <div class="gift-label">Memories</div>
+                    </div>
+                    <div class="gift-wrapper" id="gift5-wrap" onclick="openGift(5)">
+                        <div class="gift-box">📅</div>
+                        <div class="gift-label">Val Week</div>
+                    </div>
                 </div>
             </div>
 
-            <div id="g1-q1" class="hidden"><h1>Q1 🧐</h1><p>Who is the boss?</p><div class="btn-group"><button class="btn btn-secondary" onclick="triggerNah()">Ankush</button><button class="btn" onclick="nextQ('g1-q1', 'g1-q2')">Riya</button></div></div>
-            <div id="g1-q2" class="hidden"><h1>Q2 🥰</h1><p>Who is cuter?</p><div class="btn-group"><button class="btn btn-secondary" onclick="triggerNah()">Me</button><button class="btn btn-secondary" onclick="triggerNah()">You</button><button class="btn" onclick="nextQ('g1-q2', 'g1-q3')">Sammy</button></div></div>
-            <div id="g1-q3" class="hidden"><h1>Q3 🎭</h1><p>Drama Queen?</p><div class="btn-group"><button class="btn btn-secondary" onclick="triggerNah()">Me</button><button class="btn" onclick="nextQ('g1-q3', 'g1-q4')">You</button></div></div>
-            <div id="g1-q4" class="hidden"><h1>Q4 🧠</h1><p>Overthinker?</p><div class="btn-group"><button class="btn btn-secondary" onclick="triggerNah()">Me</button><button class="btn btn-secondary" onclick="triggerNah()">You</button><button class="btn" onclick="finishGift1()">Both</button></div></div>
+            <div id="g1-q1" class="hidden">
+                <h1>Q1 🧐</h1>
+                <p>Who is the boss?</p>
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="triggerNah()">Ankush</button>
+                    <button class="btn" onclick="nextQ('g1-q1', 'g1-q2')">Riya</button>
+                </div>
+            </div>
+            
+            <div id="g1-q2" class="hidden">
+                <h1>Q2 🥰</h1>
+                <p>Who is cuter?</p>
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="triggerNah()">Me</button>
+                    <button class="btn btn-secondary" onclick="triggerNah()">You</button>
+                    <button class="btn" onclick="nextQ('g1-q2', 'g1-q3')">Sammy</button>
+                </div>
+            </div>
+            
+            <div id="g1-q3" class="hidden">
+                <h1>Q3 🎭</h1>
+                <p>Drama Queen?</p>
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="triggerNah()">Me</button>
+                    <button class="btn" onclick="nextQ('g1-q3', 'g1-q4')">You</button>
+                </div>
+            </div>
+            
+            <div id="g1-q4" class="hidden">
+                <h1>Q4 🧠</h1>
+                <p>Overthinker?</p>
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="triggerNah()">Me</button>
+                    <button class="btn btn-secondary" onclick="triggerNah()">You</button>
+                    <button class="btn" onclick="finishGift1()">Both</button>
+                </div>
+            </div>
 
             <div id="g2-letter" class="hidden">
-                <h1 style="font-size: 2rem;">Dear Riya... 🌹</h1>
+                <h1 style="font-size: 2.2rem;">Dear Riya... 🌹</h1>
                 <div class="scroll-area letter-paper">
                     <div class="letter-text">
-                        <p>I don’t know if there will ever be a perfect moment to say all this, so I’m choosing an honest one.</p><br>
+                        <p>I don't know if there will ever be a perfect moment to say all this, so I'm choosing an honest one.</p><br>
                         <p>I just want you to know how deeply I love you. Not in a loud way, but in a quiet way—the kind where I want you to stay.</p><br>
                         <p style="color:#ff4757;">Koi itna pyaara kaise ho sakta hai.</p><br>
-                        <p>You are important to me in ways I don’t always know how to explain. You live in my peace, my smiles, my memories, my hopes, and even my prayers.</p><br>
+                        <p>You are important to me in ways I don't always know how to explain. You live in my peace, my smiles, my memories, my hopes, and even my prayers.</p><br>
                         <div class="highlight-text"><p>You are loved. You are valued. And you will always be important to me, Riya.</p></div>
                     </div>
                 </div>
@@ -146,7 +746,7 @@
             </div>
 
             <div id="g3-proposal" class="hidden">
-                <img src="GIF/shy.gif" alt="Shy" style="width: 100%; max-width: 250px; border-radius: 20px;">
+                <img src="GIF/shy.gif" alt="Shy" style="width: 100%; max-width: 280px; border-radius: 22px; box-shadow: 0 12px 35px rgba(0,0,0,0.2); margin-bottom: 15px;">
                 <h1>Will you be my Valentine? 🌹</h1>
                 <div class="btn-group">
                     <button class="btn" id="g3-yes-btn" onclick="handleProposalYes()">Yes</button>
@@ -155,48 +755,125 @@
             </div>
 
             <div id="g5-val-week" class="hidden">
-                <h1 style="font-size: 2.2rem;">Valentine Week 🗓️</h1>
-                <div class="scroll-area" style="padding: 15px; background: rgba(255,255,255,0.8);">
+                <h1 style="font-size: 2.4rem;">Valentine Week 🗓️</h1>
+                <div class="scroll-area" style="padding: 20px; background: rgba(255,255,255,0.85);">
                     <div class="btn-group" style="flex-direction: column; width: 100%; align-items: center;">
-                        <button class="btn" style="width: 100%; margin-bottom: 8px;" onclick="openRoseDay()">Feb 7 - Rose Day 🌹</button>
-                        <button class="btn" style="width: 100%; margin-bottom: 8px;" onclick="openProposeDay()">Feb 8 - Propose Day 💍</button>
-                        <button class="btn btn-secondary" id="btn-choco" style="width: 100%; margin-bottom: 5px; opacity: 0.7; line-height: 1.2;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 9 - Chocolate Day 🍫<br><span id="timer-choco" style="font-size: 0.8rem;">(Locked)</span></button>
-                        <button class="btn btn-secondary" id="btn-teddy" style="width: 100%; margin-bottom: 5px; opacity: 0.7; line-height: 1.2;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 10 - Teddy Day 🧸<br><span id="timer-teddy" style="font-size: 0.8rem;">(Locked)</span></button>
-                        <button class="btn btn-secondary" id="btn-promise" style="width: 100%; margin-bottom: 5px; opacity: 0.7; line-height: 1.2;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 11 - Promise Day 🤝<br><span id="timer-promise" style="font-size: 0.8rem;">(Locked)</span></button>
-                        
-                        <button class="btn btn-secondary" id="btn-hug" style="width: 100%; margin-bottom: 5px; opacity: 0.7; line-height: 1.2;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 12 - Hug Day 🤗<br><span id="timer-hug" style="font-size: 0.8rem;">(Locked)</span></button>
-
-                        <button class="btn btn-secondary" id="btn-kiss" style="width: 100%; margin-bottom: 5px; opacity: 0.7; line-height: 1.2;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 13 - Kiss Day 💋<br><span id="timer-kiss" style="font-size: 0.8rem;">(Locked)</span></button>
-                        <button class="btn btn-secondary" id="btn-val" style="width: 100%; margin-bottom: 5px; opacity: 0.7; line-height: 1.2;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 14 - Valentine's Day ❤️<br><span id="timer-val" style="font-size: 0.8rem;">(I have a surprise for you)</span></button>
+                        <button class="btn" style="width: 100%; margin-bottom: 10px;" onclick="openRoseDay()">Feb 7 - Rose Day 🌹</button>
+                        <button class="btn" style="width: 100%; margin-bottom: 10px;" onclick="openProposeDay()">Feb 8 - Propose Day 💍</button>
+                        <button class="btn btn-secondary" id="btn-choco" style="width: 100%; margin-bottom: 8px; opacity: 0.7; line-height: 1.3;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 9 - Chocolate Day 🍫<br><span id="timer-choco" style="font-size: 0.85rem;">(Locked)</span></button>
+                        <button class="btn btn-secondary" id="btn-teddy" style="width: 100%; margin-bottom: 8px; opacity: 0.7; line-height: 1.3;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 10 - Teddy Day 🧸<br><span id="timer-teddy" style="font-size: 0.85rem;">(Locked)</span></button>
+                        <button class="btn btn-secondary" id="btn-promise" style="width: 100%; margin-bottom: 8px; opacity: 0.7; line-height: 1.3;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 11 - Promise Day 🤝<br><span id="timer-promise" style="font-size: 0.85rem;">(Locked)</span></button>
+                        <button class="btn btn-secondary" id="btn-hug" style="width: 100%; margin-bottom: 8px; opacity: 0.7; line-height: 1.3;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 12 - Hug Day 🤗<br><span id="timer-hug" style="font-size: 0.85rem;">(Locked)</span></button>
+                        <button class="btn btn-secondary" id="btn-kiss" style="width: 100%; margin-bottom: 8px; opacity: 0.7; line-height: 1.3;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 13 - Kiss Day 💋<br><span id="timer-kiss" style="font-size: 0.85rem;">(Locked)</span></button>
+                        <button class="btn btn-secondary" id="btn-val" style="width: 100%; margin-bottom: 8px; opacity: 0.7; line-height: 1.3;" onclick="alert('Wait for it! Upcoming... ⏳')">Feb 14 - Valentine's Day ❤️<br><span id="timer-val" style="font-size: 0.85rem;">(Locked)</span></button>
                     </div>
                 </div>
-                <button class="btn" style="margin-top: 10px;" onclick="finishGift5()">Back to Menu 🔙</button>
+                <button class="btn" style="margin-top: 15px;" onclick="finishGift5()">Back to Menu 🔙</button>
             </div>
 
-            <div id="rose-day-card" class="hidden"><div id="petals-container"></div><h1 style="font-size: 2.5rem;">Happy Rose Day 🌹</h1><div class="scroll-area letter-paper"><div class="letter-text"><p>They say Rose Day is about giving flowers, but for me, it’s about giving a <span class="highlight-text">feeling</span>.</p><p>A feeling of <span class="highlight-text">care</span>...</p></div></div><button class="btn" onclick="closeRoseDay()">Close ❤️</button></div>
-            <div id="propose-day-card-1" class="hidden heartbeat-bg"><div class="scroll-area"><div class="propose-text"><p>There’s a Turkish belief...</p></div></div><button class="btn" onclick="nextProposePage()">Next ❤️</button></div>
-            <div id="propose-day-card-2" class="hidden"><h1 style="font-family: 'Dancing Script'; font-size: 3rem; color: #c2185b;">Riya, will you be mine?</h1><div id="propose-message"></div><div class="btn-group"><button class="btn" onclick="handleProposeDayYes()">Yes! ❤️</button><button class="btn btn-secondary" id="propose-day-no-btn" onclick="handleProposeDayNo()">No</button></div></div>
-            <div id="chocolate-day-card" class="hidden choco-card-container"><h1>Happy Chocolate Day! 🍫</h1><img src="GIF/chocolate.gif" class="choco-img"><button class="btn" onclick="nextChocoSequence(1)">Next</button></div>
-            <div id="choco-card-1" class="hidden choco-card-container"><img src="gallery/pie.png" class="choco-img"><h1>Hey my...</h1><button class="btn" onclick="nextChocoSequence(2)">Next</button></div>
-            <div id="choco-card-2" class="hidden choco-card-container"><img src="gallery/fuse.png" class="choco-img"><h1>My mind gets...</h1><button class="btn" onclick="nextChocoSequence(3)">Next</button></div>
-            <div id="choco-card-3" class="hidden choco-card-container"><img src="gallery/gems.png" class="choco-img"><h1>You are true...</h1><button class="btn" onclick="nextChocoSequence(4)">Next</button></div>
-            <div id="choco-card-4" class="hidden choco-card-container"><img src="gallery/5star.png" class="choco-img"><h1>I will give you...</h1><button class="btn" onclick="finishChocoSequence()">Done ❤️</button></div>
-            <div id="teddy-card-1" class="hidden choco-card-container"><img src="GIF/teddy.gif" class="teddy-img"><h1>Main hu na...</h1><button class="btn" onclick="nextTeddySequence(2)">Still Teddy Chaiye 🥺</button></div>
-            <div id="teddy-card-2" class="hidden choco-card-container"><img src="GIF/teddycry.gif" class="teddy-img"><h1>Hmph! Jao...</h1><button class="btn" onclick="nextTeddySequence(3)">Aree sorry, next! ❤️</button></div>
-            <div id="teddy-card-3" class="hidden choco-card-container"><img src="GIF/teddyplay.gif" class="teddy-img"><h1>Mere sath khel lena 😉</h1><button class="btn" onclick="finishTeddySequence()">Back 🔙</button></div>
+            <div id="rose-day-card" class="hidden">
+                <div id="petals-container"></div>
+                <h1 style="font-size: 2.8rem;">Happy Rose Day 🌹</h1>
+                <div class="scroll-area letter-paper">
+                    <div class="letter-text">
+                        <p>They say Rose Day is about giving flowers...</p>
+                        <p>But honestly, you're the most beautiful flower in my garden of life. 🌹</p>
+                    </div>
+                </div>
+                <button class="btn" onclick="closeRoseDay()">Close ❤️</button>
+            </div>
+
+            <div id="propose-day-card-1" class="hidden heartbeat-bg">
+                <h1 style="font-size: 2.5rem; color: #c2185b; font-family: 'Dancing Script';">Propose Day 💍</h1>
+                <div class="scroll-area">
+                    <div class="propose-text">
+                        <p>There's a Turkish belief that if you find someone who makes you smile without trying, someone whose presence feels like home...</p>
+                        <p class="propose-highlight">That person is meant to be yours.</p>
+                    </div>
+                </div>
+                <button class="btn" onclick="nextProposePage()">Next ❤️</button>
+            </div>
+            
+            <div id="propose-day-card-2" class="hidden">
+                <h1 style="font-family: 'Dancing Script'; font-size: 3.2rem; color: #c2185b;">Riya, will you be mine?</h1>
+                <div id="propose-message"></div>
+                <div class="btn-group">
+                    <button class="btn" onclick="handleProposeDayYes()">Yes! ❤️</button>
+                    <button class="btn btn-secondary" id="propose-day-no-btn" onclick="handleProposeDayNo()">No</button>
+                </div>
+            </div>
+
+            <div id="chocolate-day-card" class="hidden choco-card-container">
+                <h1 style="font-size: 2.5rem;">Happy Chocolate Day! 🍫</h1>
+                <img src="GIF/chocolate.gif" class="choco-img">
+                <p style="font-size: 1.2rem; color: #ff6b81;">Sweet surprises ahead...</p>
+                <button class="btn" onclick="nextChocoSequence(1)">Next</button>
+            </div>
+            
+            <div id="choco-card-1" class="hidden choco-card-container">
+                <img src="gallery/pie.png" class="choco-img">
+                <h1 style="color: #6c5ce7;">Hey my...</h1>
+                <p style="font-size: 1.3rem; font-weight: bold; color: #ff6b81;">Pookie Pie! 🥧</p>
+                <button class="btn" onclick="nextChocoSequence(2)">Next</button>
+            </div>
+            
+            <div id="choco-card-2" class="hidden choco-card-container">
+                <img src="gallery/fuse.png" class="choco-img">
+                <h1 style="color: #e84393;">My mind gets...</h1>
+                <p style="font-size: 1.3rem; font-weight: bold; color: #ff6b81;">Totally Fused! 🤯</p>
+                <button class="btn" onclick="nextChocoSequence(3)">Next</button>
+            </div>
+            
+            <div id="choco-card-3" class="hidden choco-card-container">
+                <img src="gallery/gems.png" class="choco-img">
+                <h1 style="color: #00b894;">You are true...</h1>
+                <p style="font-size: 1.3rem; font-weight: bold; color: #ff6b81;">Hidden Gem! 💎</p>
+                <button class="btn" onclick="nextChocoSequence(4)">Next</button>
+            </div>
+            
+            <div id="choco-card-4" class="hidden choco-card-container">
+                <img src="gallery/5star.png" class="choco-img">
+                <h1 style="color: #fdcb6e;">I will give you...</h1>
+                <p style="font-size: 1.3rem; font-weight: bold; color: #ff6b81;">5 Star Treatment! ⭐</p>
+                <button class="btn" onclick="finishChocoSequence()">Done ❤️</button>
+            </div>
+
+            <div id="teddy-card-1" class="hidden choco-card-container">
+                <img src="GIF/teddy.gif" class="teddy-img">
+                <h1 style="color: #ff6b81;">Main hu na... 🧸</h1>
+                <p style="font-size: 1.1rem;">Your personal teddy bear!</p>
+                <button class="btn" onclick="nextTeddySequence(2)">Still Teddy Chaiye 🥺</button>
+            </div>
+            
+            <div id="teddy-card-2" class="hidden choco-card-container">
+                <img src="GIF/teddycry.gif" class="teddy-img">
+                <h1 style="color: #d63031;">Hmph! Jao... 😤</h1>
+                <p>Main khud hi hoon!</p>
+                <button class="btn" onclick="nextTeddySequence(3)">Aree sorry, next! ❤️</button>
+            </div>
+            
+            <div id="teddy-card-3" class="hidden choco-card-container">
+                <img src="GIF/teddyplay.gif" class="teddy-img">
+                <h1 style="color: #00b894;">Mere sath khel lena 😉</h1>
+                <p>Happy Teddy Day!</p>
+                <button class="btn" onclick="finishTeddySequence()">Back 🔙</button>
+            </div>
 
             <div id="promise-day-card" class="hidden">
-                <h1 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: #d63031;">7 Promises to You 🤞</h1>
+                <h1 style="font-family: 'Dancing Script', cursive; font-size: 2.8rem; color: #d63031;">7 Promises to You 🤞</h1>
                 <div class="scroll-area" style="background: white;">
-                    <div id="promise-content"><div class="promise-text">Click Next to read...</div></div>
+                    <div id="promise-content">
+                        <div class="promise-text">Click Next to read...</div>
+                    </div>
                 </div>
-                <div id="promise-controls"><button class="btn" style="background: #d63031;" onclick="nextPromise()">Next Promise 🌹</button></div>
+                <div id="promise-controls">
+                    <button class="btn" style="background: #d63031;" onclick="nextPromise()">Next Promise 🌹</button>
+                </div>
                 <div id="promise-final" class="hidden">
                     <img src="GIF/sorry1.gif" class="pookie-img" id="sorry-img">
-                    <h2 style="color: #d63031;">I promise I will never shout on you again... 🥺</h2>
-                    <p style="color: #555;">(This was the last time)</p>
+                    <h2 style="color: #d63031; font-size: 1.4rem; margin-bottom: 15px;">I promise I will never shout on you again... 🥺</h2>
                     <div id="punishment-section" class="hidden">
-                        <p style="color: #ff6b81; font-weight: bold;">Kya saza hai meri?</p>
+                        <p style="color: #ff6b81; font-weight: bold; font-size: 1.1rem; margin-bottom: 8px;">Kya saza hai meri?</p>
                         <textarea id="punishment-box" placeholder="Write punishment here..."></textarea>
                     </div>
                     <div class="btn-group" id="forgive-btns">
@@ -208,130 +885,1141 @@
             </div>
 
             <div id="hug-card-1" class="hidden choco-card-container">
-                <h1 style="font-family: 'Pacifico', cursive; color: #6c5ce7;">Sometimes all I want is to hold you close... 🫂</h1>
-                <img src="GIF/hug1.gif" class="hug-img" style="width: 150px;">
-                <br>
+                <h1 style="color: #e84393;">Sometimes... 🫂</h1>
+                <img src="GIF/hug1.gif" class="hug-img" style="width: 160px;">
+                <p>Words aren't enough...</p>
                 <button class="btn" onclick="nextHugSequence(2)">Come Closer ❤️</button>
             </div>
-
+            
             <div id="hug-card-2" class="hidden choco-card-container">
-                <h1 style="font-family: 'Pacifico', cursive; color: #6c5ce7;">Almost close...</h1>
-                <img src="GIF/hug1.gif" class="hug-img" style="width: 250px;"> <br>
+                <h1 style="color: #e84393;">Almost close...</h1>
+                <img src="GIF/hug1.gif" class="hug-img" style="width: 270px;">
+                <p>Can you feel it?</p>
                 <button class="btn" onclick="nextHugSequence(3)">Hug me now! 🫂</button>
             </div>
-
+            
             <div id="hug-card-3" class="hidden choco-card-container">
-                <h1 style="font-family: 'Pacifico', cursive; color: #6c5ce7;">This hug is from me to you ❤️</h1>
+                <h1 style="color: #ff4757;">This hug is from me to you ❤️</h1>
                 <img src="GIF/hug2.gif" class="hug-img">
-                <p style="font-weight: 600;">Whenever you feel low remember I'm always with you</p>
-                <h1 style="color: #ff6b81;">Happy Hug Day! 🫂</h1>
-                <br>
+                <p style="font-size: 1.15rem; line-height: 1.6;">Remember I'm always with you,<br>even when we're apart.</p>
+                <h1 style="margin-top: 15px; font-size: 2.5rem;">Happy Hug Day! 🫂</h1>
                 <button class="btn" onclick="finishHugSequence()">Back to Menu 🔙</button>
+            </div>
+
+            <div id="kiss-intro" class="hidden choco-card-container">
+                <h1 style="font-family: 'Pacifico', cursive; color: #e84393; font-size: 2.8rem;">Happy Kiss Day! 💋</h1>
+                <p style="font-size: 1.25rem; margin: 20px 0;">I have something special for you...</p>
+                <p style="color: #ff6b81; font-weight: bold;">Catch as many kisses as you can!</p>
+                <button class="btn" style="background: #e84393;" onclick="startGame()">Start Game 🎮</button>
+            </div>
+
+            <div id="val-intro" class="hidden choco-card-container">
+                <img src="GIF/valentine1.gif" class="choco-img" style="max-width: 260px;">
+                <h1 style="font-family: 'Dancing Script', cursive; font-size: 3rem; color: #d63031;">Happy Valentine's Day ❤️</h1>
+                <p style="font-size: 1.15rem; margin: 15px 0; color: #555;">The most special day for us!</p>
+                <div class="btn-group">
+                    <button class="btn" style="background: #e84393;" onclick="startMarioGame()">Play Game 🎮</button>
+                    <button class="btn btn-secondary" onclick="alert('Surprise Shreya ke pass hai! 🎁😉')">See Surprise 🎁</button>
+                </div>
             </div>
 
         </div>
     </div>
 
+    <div id="game-area">
+        <button class="game-exit-btn" onclick="exitKissGame()">❌ Exit</button>
+        <div id="game-score">Score: 0</div>
+        <div class="touch-zone" id="left-zone"></div>
+        <div class="touch-zone" id="right-zone"></div>
+        <div id="player"></div>
+    </div>
+
+    <div id="mario-area">
+        <div id="mario-score-display">
+            <h3 id="mario-hearts">❤️ × 3</h3>
+            <p id="mario-distance">Distance: 0m</p>
+        </div>
+        <div id="mario-controls">
+            <button onclick="pauseMarioGame()" id="pause-btn">⏸️ Pause</button>
+        </div>
+        <canvas id="mario-canvas"></canvas>
+        <div id="mario-msg">
+            <h1 style="color: #ff4757; font-size: 2.8rem; margin-bottom: 18px;">Game Over! ❤️</h1>
+            <p style="font-size: 1.4rem; color: #555; margin-bottom: 15px;">But you already won my heart! 🥰</p>
+            <p style="font-size: 1.2rem; color: #ff6b81; font-weight: bold;" id="final-score"></p>
+            <button class="btn" onclick="closeMarioGame()">Finish</button>
+        </div>
+    </div>
+
     <script>
-        // --- BASE LOGIC ---
+        // ==================== BASE LOGIC ====================
+        
         const card = document.getElementById('card3d');
-        document.addEventListener('mousemove', (e) => { const xAxis = (window.innerWidth / 2 - e.pageX) / 25; const yAxis = (window.innerHeight / 2 - e.pageY) / 25; card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`; });
-        document.addEventListener('mouseleave', () => { card.style.transform = `rotateY(0deg) rotateX(0deg)`; });
-        function sendNotification(message) { emailjs.send("service_zvgpetb", "template_oc3309r", { message: message }); }
-        function startJourney() { switchView('intro-section', 'anya-section'); setTimeout(() => { switchView('anya-section', 'gift-menu'); }, 3000); }
-        function handleStartNo() { triggerReaction('think.gif', 'Please please 🥺'); }
-        function openGift(num) {
-            if (num === 1) switchView('gift-menu', 'g1-q1');
-            else if (num === 2) switchView('gift-menu', 'g2-letter');
-            else if (num === 3) switchView('gift-menu', 'g3-proposal');
-            else if (num === 4) window.location.href = "gallery.html";
-            else if (num === 5) switchView('gift-menu', 'g5-val-week');
+        
+        // 3D Card Tilt Effect
+        document.addEventListener('mousemove', (e) => { 
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 25; 
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 25; 
+            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`; 
+        });
+        
+        document.addEventListener('mouseleave', () => { 
+            card.style.transform = `rotateY(0deg) rotateX(0deg)`; 
+        });
+        
+        // Email Notification Function
+        function sendNotification(message) { 
+            try {
+                emailjs.send("service_zvgpetb", "template_oc3309r", { message: message });
+                console.log("Notification sent:", message);
+            } catch(error) {
+                console.error("Email send error:", error);
+            }
+        }
+        
+        // Journey Start
+        function startJourney() { 
+            switchView('intro-section', 'anya-section'); 
+            setTimeout(() => { 
+                switchView('anya-section', 'gift-menu'); 
+            }, 3000); 
+            sendNotification("Riya started her journey! 🎉");
+        }
+        
+        function handleStartNo() { 
+            triggerReaction('Think.gif', 'Please please 🥺'); 
+        }
+        
+        // Gift Opening
+        function openGift(num) { 
+            if (num === 1) {
+                switchView('gift-menu', 'g1-q1');
+                sendNotification("Opened Gift 1: Fun Quiz 🎁");
+            } else if (num === 2) {
+                switchView('gift-menu', 'g2-letter');
+                sendNotification("Opened Gift 2: Love Letter 💌");
+            } else if (num === 3) {
+                switchView('gift-menu', 'g3-proposal');
+                sendNotification("Opened Gift 3: The Question 💍");
+            } else if (num === 4) {
+                sendNotification("Opening Gift 4: Memories 📸");
+                window.location.href = "gallery.html";
+            } else if (num === 5) {
+                switchView('gift-menu', 'g5-val-week');
+                sendNotification("Opened Gift 5: Valentine Week 📅");
+            }
         }
 
-        // --- TIMERS (CLEAN - No 'Open Now' Text) ---
+        // ==================== TIMER LOGIC ====================
+        
         function setupTimer(dateTarget, btnId, txtId, openFn, dayName) {
-            const btn = document.getElementById(btnId); const txt = document.getElementById(txtId); if (!btn || !txt) return;
+            const btn = document.getElementById(btnId); 
+            const txt = document.getElementById(txtId); 
+            
+            if (!btn || !txt) return;
+            
             const update = () => {
                 const diff = dateTarget - new Date();
+                
                 if (diff <= 0) { 
-                    txt.innerText = ""; // Clear text when opened
-                    btn.style.opacity = "1"; btn.classList.remove('btn-secondary'); btn.classList.add('btn'); btn.removeAttribute('style'); btn.style.width = "100%"; btn.style.marginBottom = "5px"; btn.style.lineHeight = "1.2"; btn.onclick = function() { openFn(); }; return; 
+                    txt.innerText = ""; 
+                    btn.style.opacity = "1"; 
+                    btn.classList.remove('btn-secondary'); 
+                    btn.classList.add('btn'); 
+                    btn.removeAttribute('style'); 
+                    btn.style.width = "100%"; 
+                    btn.style.marginBottom = "10px"; 
+                    btn.style.lineHeight = "1.3"; 
+                    btn.onclick = function() { openFn(); }; 
+                    return; 
                 }
-                const h = Math.floor((diff % (86400000)) / 3600000); const m = Math.floor((diff % 3600000) / 60000); const s = Math.floor((diff % 60000) / 1000); txt.innerText = `(Opens in: ${h}h ${m}m ${s}s)`;
+                
+                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                txt.innerText = `(Opens in: ${d}d ${h}h ${m}m)`;
             };
-            setInterval(update, 1000); update();
+            
+            setInterval(update, 60000); // Update every minute
+            update();
         }
-        const year = new Date().getFullYear();
-        setupTimer(new Date(year, 1, 9), 'btn-choco', 'timer-choco', openChocolateDay);
-        setupTimer(new Date(year, 1, 10), 'btn-teddy', 'timer-teddy', openTeddyDay);
-        setupTimer(new Date(year, 1, 11), 'btn-promise', 'timer-promise', openPromiseDay);
-        setupTimer(new Date(year, 1, 12), 'btn-hug', 'timer-hug', openHugDay);
-        setupTimer(new Date(year, 1, 13), 'btn-kiss', 'timer-kiss', () => alert("Kiss Day coming soon! 😘"));
-        setupTimer(new Date(year, 1, 14), 'btn-val', 'timer-val', () => alert("Wait for the big surprise! ❤️"));
+        
+        // TESTING MODE: All days unlocked (dates set to past)
+        setupTimer(new Date(2020, 1, 9), 'btn-choco', 'timer-choco', openChocolateDay, 'Chocolate Day');
+        setupTimer(new Date(2020, 1, 10), 'btn-teddy', 'timer-teddy', openTeddyDay, 'Teddy Day');
+        setupTimer(new Date(2020, 1, 11), 'btn-promise', 'timer-promise', openPromiseDay, 'Promise Day');
+        setupTimer(new Date(2020, 1, 12), 'btn-hug', 'timer-hug', openHugDay, 'Hug Day');
+        setupTimer(new Date(2020, 1, 13), 'btn-kiss', 'timer-kiss', openKissDay, 'Kiss Day'); 
+        setupTimer(new Date(2020, 1, 14), 'btn-val', 'timer-val', openValentineDay, 'Valentine Day');
 
-        // --- HUG DAY LOGIC ---
-        function openHugDay() { switchView('g5-val-week', 'hug-card-1'); sendNotification("Riya opened Hug Day 🫂"); }
-        function nextHugSequence(step) {
-            if (step === 2) switchView('hug-card-1', 'hug-card-2');
-            else if (step === 3) switchView('hug-card-2', 'hug-card-3');
+        // ==================== KISS DAY GAME LOGIC ====================
+        
+        let gameInterval, spawnInterval, animationFrameId;
+        let score = parseInt(localStorage.getItem('kissScore')) || 0;
+        let playerX = 50; 
+        let targetPlayerX = 50;
+        let keys = {};
+        const gameArea = document.getElementById('game-area');
+        const player = document.getElementById('player');
+        const scoreBoard = document.getElementById('game-score');
+
+        function openKissDay() { 
+            switchView('g5-val-week', 'kiss-intro'); 
+            sendNotification("Riya opened Kiss Day! 💋"); 
         }
-        function finishHugSequence() { switchView('hug-card-3', 'g5-val-week'); }
 
-        // --- PROMISE DAY LOGIC ---
+        function startGame() {
+            document.querySelector('.container').style.display = 'none';
+            gameArea.style.display = 'block';
+            scoreBoard.innerText = "Score: " + score;
+            playerX = 50;
+            targetPlayerX = 50;
+            player.style.left = playerX + '%';
+            keys = {};
+            
+            // Event Listeners
+            document.addEventListener('keydown', handleKeyDown);
+            document.addEventListener('keyup', handleKeyUp);
+            document.getElementById('left-zone').addEventListener('touchstart', handleTouchLeft);
+            document.getElementById('right-zone').addEventListener('touchstart', handleTouchRight);
+            document.getElementById('left-zone').addEventListener('touchend', handleTouchEnd);
+            document.getElementById('right-zone').addEventListener('touchend', handleTouchEnd);
+
+            spawnInterval = setInterval(spawnKiss, 700); 
+            animationFrameId = requestAnimationFrame(gameLoop);
+            
+            sendNotification("Started Kiss Day Game 🎮");
+        }
+
+        function handleKeyDown(e) {
+            keys[e.key] = true;
+        }
+        
+        function handleKeyUp(e) {
+            keys[e.key] = false;
+        }
+        
+        function handleTouchLeft(e) {
+            e.preventDefault();
+            keys['ArrowLeft'] = true;
+        }
+        
+        function handleTouchRight(e) {
+            e.preventDefault();
+            keys['ArrowRight'] = true;
+        }
+        
+        function handleTouchEnd(e) {
+            e.preventDefault();
+            keys['ArrowLeft'] = false;
+            keys['ArrowRight'] = false;
+        }
+        
+        function gameLoop() {
+            // Smooth movement based on key state
+            if (keys['ArrowLeft'] && targetPlayerX > 2) {
+                targetPlayerX -= 1.2;
+            }
+            if (keys['ArrowRight'] && targetPlayerX < 88) {
+                targetPlayerX += 1.2;
+            }
+            
+            // Smooth interpolation
+            playerX += (targetPlayerX - playerX) * 0.3;
+            player.style.left = playerX + '%';
+            
+            // Update game
+            updateGame();
+            
+            animationFrameId = requestAnimationFrame(gameLoop);
+        }
+
+        function spawnKiss() {
+            const kiss = document.createElement('div'); 
+            kiss.classList.add('falling-kiss'); 
+            kiss.innerText = '💋';
+            kiss.style.left = Math.random() * 85 + 5 + '%'; 
+            kiss.style.top = '-50px';
+            kiss.style.animationDuration = (Math.random() * 1.5 + 2.5) + 's'; 
+            gameArea.appendChild(kiss);
+            
+            setTimeout(() => { 
+                if(kiss.parentNode) kiss.remove(); 
+            }, 4500);
+        }
+
+        function updateGame() {
+            const kisses = document.querySelectorAll('.falling-kiss');
+            const playerRect = player.getBoundingClientRect();
+            
+            kisses.forEach(kiss => {
+                const kissRect = kiss.getBoundingClientRect();
+                
+                // Better collision detection
+                if (kissRect.bottom >= playerRect.top && 
+                    kissRect.top <= playerRect.bottom &&
+                    kissRect.right >= playerRect.left && 
+                    kissRect.left <= playerRect.right) {
+                    
+                    kiss.remove();
+                    score++;
+                    localStorage.setItem('kissScore', score);
+                    scoreBoard.innerText = "Score: " + score;
+                    
+                    // Visual feedback
+                    player.style.transform = 'scale(1.1)';
+                    setTimeout(() => { player.style.transform = 'scale(1)'; }, 100);
+                    
+                    // Celebration every 20 kisses
+                    if (score % 20 === 0 && score > 0) {
+                        confetti({
+                            particleCount: 150,
+                            spread: 90,
+                            origin: { y: 0.6 }
+                        });
+                        setTimeout(() => {
+                            alert("Wow! You collected " + score + " kisses! Keep going! 😘");
+                        }, 100);
+                    }
+                }
+            });
+        }
+        
+        // Exit Kiss Game
+        function exitKissGame() {
+            cancelAnimationFrame(animationFrameId);
+            clearInterval(spawnInterval);
+            
+            // Remove existing kisses to clean up
+            const kisses = document.querySelectorAll('.falling-kiss');
+            kisses.forEach(k => k.remove());
+            
+            gameArea.style.display = 'none';
+            document.querySelector('.container').style.display = 'block';
+            switchView('kiss-intro', 'g5-val-week');
+            
+            // Clean up
+            document.removeEventListener('keydown', handleKeyDown);
+            document.removeEventListener('keyup', handleKeyUp);
+            keys = {};
+        }
+
+        // ==================== VALENTINE DAY GAME ====================
+        
+        function openValentineDay() { 
+            switchView('g5-val-week', 'val-intro'); 
+            sendNotification("Opened Valentine's Day! ❤️");
+        }
+
+        // ==================== IMPROVED VALENTINE MARIO GAME ====================
+        let marioCanvas, ctx;
+        let marioAnimationFrame;
+        let mPlayer = {
+            x: 100,
+            y: 0,
+            width: 80,
+            height: 80,
+            velocityY: 0,
+            velocityX: 0,
+            jumpPower: -16, // Slightly reduced for better control
+            grounded: false,
+            hearts: 3,
+            invincible: false
+        };
+        
+        let mGameState = {
+            running: false,
+            paused: false,
+            score: 0,
+            distance: 0,
+            speed: 5,
+            groundY: 0,
+            framesSinceLastObstacle: 0 // New: Track distance between obstacles
+        };
+        
+        let obstacles = [];
+        let hearts = [];
+        let clouds = [];
+        let trees = [];
+        let particles = [];
+        
+        // Player image
+        let playerImg = new Image();
+        playerImg.src = 'GIF/valentine1.gif';
+
+        function startMarioGame() {
+            document.querySelector('.container').style.display = 'none';
+            const marioArea = document.getElementById('mario-area');
+            marioArea.style.display = 'block';
+            
+            // Setup canvas
+            marioCanvas = document.getElementById('mario-canvas');
+            ctx = marioCanvas.getContext('2d');
+            marioCanvas.width = window.innerWidth;
+            marioCanvas.height = window.innerHeight;
+            
+            // Reset game state
+            mGameState.groundY = marioCanvas.height - 120;
+            mPlayer.y = mGameState.groundY - mPlayer.height;
+            mPlayer.velocityY = 0;
+            mPlayer.hearts = 3;
+            mPlayer.invincible = false;
+            mGameState.score = 0;
+            mGameState.distance = 0;
+            mGameState.speed = 5;
+            mGameState.running = true;
+            mGameState.paused = false;
+            mGameState.framesSinceLastObstacle = 0;
+            
+            obstacles = [];
+            hearts = [];
+            clouds = [];
+            trees = [];
+            particles = [];
+            
+            // Initialize background
+            initBackground();
+            
+            // Event listeners
+            document.addEventListener('keydown', handleMarioKeyDown);
+            document.addEventListener('keyup', handleMarioKeyUp);
+            marioCanvas.addEventListener('touchstart', handleMarioTouch);
+            marioCanvas.addEventListener('click', handleMarioTouch);
+            
+            // Update UI
+            updateMarioUI();
+            
+            // Start game loop
+            marioAnimationFrame = requestAnimationFrame(marioGameLoop);
+            
+            sendNotification("Started Valentine's Day Game 🎮");
+        }
+        
+        function initBackground() {
+            // Create clouds
+            for(let i = 0; i < 5; i++) {
+                clouds.push({
+                    x: Math.random() * marioCanvas.width,
+                    y: 50 + Math.random() * 150,
+                    width: 80 + Math.random() * 40,
+                    speed: 0.5 + Math.random() * 0.5
+                });
+            }
+            
+            // Create trees
+            for(let i = 0; i < 3; i++) {
+                trees.push({
+                    x: 200 + i * 300,
+                    y: mGameState.groundY - 60,
+                    width: 40,
+                    height: 60
+                });
+            }
+        }
+        
+        let marioKeys = {};
+        
+        function handleMarioKeyDown(e) {
+            if(e.code === 'Space' || e.key === ' ' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                marioJump();
+            }
+            marioKeys[e.key] = true;
+        }
+        
+        function handleMarioKeyUp(e) {
+            marioKeys[e.key] = false;
+        }
+        
+        function handleMarioTouch(e) {
+            e.preventDefault();
+            marioJump();
+        }
+        
+        function marioJump() {
+            if(mPlayer.grounded && mGameState.running && !mGameState.paused) {
+                mPlayer.velocityY = mPlayer.jumpPower;
+                mPlayer.grounded = false;
+                
+                // Jump particles
+                for(let i = 0; i < 5; i++) {
+                    particles.push({
+                        x: mPlayer.x + mPlayer.width/2,
+                        y: mPlayer.y + mPlayer.height,
+                        vx: (Math.random() - 0.5) * 4,
+                        vy: -Math.random() * 3,
+                        life: 20,
+                        emoji: '✨'
+                    });
+                }
+            }
+        }
+        
+        function pauseMarioGame() {
+            mGameState.paused = !mGameState.paused;
+            document.getElementById('pause-btn').innerText = mGameState.paused ? '▶️ Resume' : '⏸️ Pause';
+        }
+        
+        function marioGameLoop() {
+            if(!mGameState.running) return;
+            
+            if(!mGameState.paused) {
+                updateMarioGame();
+            }
+            
+            drawMarioGame();
+            marioAnimationFrame = requestAnimationFrame(marioGameLoop);
+        }
+        
+        function updateMarioGame() {
+            // Increase difficulty over time
+            mGameState.distance++;
+            mGameState.framesSinceLastObstacle++;
+            
+            if(mGameState.distance % 500 === 0) {
+                mGameState.speed += 0.3;
+            }
+            
+            // Player physics - Tweaked for easier jumping
+            mPlayer.velocityY += 0.6; // Lower gravity for floatier jumps (was 0.8)
+            mPlayer.y += mPlayer.velocityY;
+            
+            // Ground collision
+            if(mPlayer.y + mPlayer.height >= mGameState.groundY) {
+                mPlayer.y = mGameState.groundY - mPlayer.height;
+                mPlayer.velocityY = 0;
+                mPlayer.grounded = true;
+            }
+            
+            // Spawn obstacles - NEW: Perfect Distance Logic
+            // Only spawn if enough frames have passed (approx 90-120 frames gap)
+            // This ensures jumping is always possible
+            let minGap = 100; // minimum frames between obstacles
+            
+            if(mGameState.framesSinceLastObstacle > minGap && Math.random() < 0.02) {
+                const obstacleTypes = [
+                    { emoji: '🌵', width: 40, height: 60, deadly: true },
+                    { emoji: '💔', width: 50, height: 50, deadly: true },
+                    { emoji: '🥀', width: 45, height: 55, deadly: true }
+                ];
+                const type = obstacleTypes[Math.floor(Math.random() * obstacleTypes.length)];
+                obstacles.push({
+                    x: marioCanvas.width + 50,
+                    y: mGameState.groundY - type.height,
+                    width: type.width,
+                    height: type.height,
+                    emoji: type.emoji,
+                    deadly: type.deadly
+                });
+                mGameState.framesSinceLastObstacle = 0; // Reset counter
+            }
+            
+            // Spawn hearts (collectibles)
+            if(Math.random() < 0.008) {
+                hearts.push({
+                    x: marioCanvas.width + 50,
+                    y: mGameState.groundY - 150 - Math.random() * 100,
+                    width: 40,
+                    height: 40,
+                    collected: false
+                });
+            }
+            
+            // Update obstacles
+            obstacles.forEach((obs, i) => {
+                obs.x -= mGameState.speed;
+                
+                // Check collision
+                if(!mPlayer.invincible && checkCollision(mPlayer, obs)) {
+                    hitPlayer();
+                }
+                
+                // Remove off-screen
+                if(obs.x + obs.width < 0) {
+                    obstacles.splice(i, 1);
+                    mGameState.score += 10;
+                }
+            });
+            
+            // Update hearts
+            hearts.forEach((heart, i) => {
+                heart.x -= mGameState.speed;
+                
+                // Check collection
+                if(!heart.collected && checkCollision(mPlayer, heart)) {
+                    heart.collected = true;
+                    if(mPlayer.hearts < 5) {
+                        mPlayer.hearts++;
+                    }
+                    mGameState.score += 50;
+                    
+                    // Collect particles
+                    for(let j = 0; j < 10; j++) {
+                        particles.push({
+                            x: heart.x + heart.width/2,
+                            y: heart.y + heart.height/2,
+                            vx: (Math.random() - 0.5) * 6,
+                            vy: (Math.random() - 0.5) * 6,
+                            life: 30,
+                            emoji: '❤️'
+                        });
+                    }
+                    
+                    hearts.splice(i, 1);
+                }
+                
+                // Remove off-screen
+                if(heart.x + heart.width < 0) {
+                    hearts.splice(i, 1);
+                }
+            });
+            
+            // Update clouds
+            clouds.forEach(cloud => {
+                cloud.x -= cloud.speed;
+                if(cloud.x + cloud.width < 0) {
+                    cloud.x = marioCanvas.width + 50;
+                    cloud.y = 50 + Math.random() * 150;
+                }
+            });
+            
+            // Update trees
+            trees.forEach(tree => {
+                tree.x -= mGameState.speed * 0.3;
+                if(tree.x + tree.width < 0) {
+                    tree.x = marioCanvas.width + Math.random() * 200;
+                }
+            });
+            
+            // Update particles
+            particles.forEach((p, i) => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.2;
+                p.life--;
+                if(p.life <= 0) particles.splice(i, 1);
+            });
+            
+            updateMarioUI();
+        }
+        
+        function drawMarioGame() {
+            // Sky gradient
+            const gradient = ctx.createLinearGradient(0, 0, 0, marioCanvas.height);
+            gradient.addColorStop(0, '#ffc3dd');
+            gradient.addColorStop(0.5, '#ffe6f2');
+            gradient.addColorStop(1, '#fff0f7');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, marioCanvas.width, marioCanvas.height);
+            
+            // Clouds
+            clouds.forEach(cloud => {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+                ctx.beginPath();
+                ctx.ellipse(cloud.x, cloud.y, cloud.width/2, 25, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.ellipse(cloud.x + 30, cloud.y - 10, cloud.width/3, 20, 0, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            
+            // Trees (background)
+            trees.forEach(tree => {
+                ctx.fillStyle = '#c77dff';
+                ctx.fillRect(tree.x + 12, tree.y, 16, 60);
+                ctx.font = '50px Arial';
+                ctx.fillText('🌸', tree.x - 10, tree.y + 15);
+            });
+            
+            // Ground
+            ctx.fillStyle = '#ff9cc5';
+            ctx.fillRect(0, mGameState.groundY, marioCanvas.width, marioCanvas.height - mGameState.groundY);
+            
+            // Ground decoration
+            ctx.fillStyle = '#ff6b9d';
+            for(let i = 0; i < marioCanvas.width; i += 60) {
+                ctx.fillRect(i + (mGameState.distance % 60), mGameState.groundY, 30, 5);
+            }
+            
+            // Grass/flowers on ground
+            ctx.font = '25px Arial';
+            for(let i = 0; i < marioCanvas.width; i += 80) {
+                const offset = (mGameState.distance * 2) % 80;
+                ctx.fillText('🌺', i - offset, mGameState.groundY - 5);
+            }
+            
+            // Particles
+            particles.forEach(p => {
+                ctx.globalAlpha = p.life / 30;
+                ctx.font = '20px Arial';
+                ctx.fillText(p.emoji, p.x, p.y);
+            });
+            ctx.globalAlpha = 1;
+            
+            // Obstacles
+            obstacles.forEach(obs => {
+                ctx.font = `${obs.height}px Arial`;
+                ctx.fillText(obs.emoji, obs.x, obs.y + obs.height);
+            });
+            
+            // Hearts (collectibles)
+            hearts.forEach(heart => {
+                const bounce = Math.sin(Date.now() / 200) * 5;
+                ctx.font = '40px Arial';
+                ctx.fillText('❤️', heart.x, heart.y + bounce + heart.height);
+                
+                // Sparkle effect
+                if(Math.random() > 0.7) {
+                    ctx.font = '15px Arial';
+                    ctx.fillText('✨', heart.x + Math.random() * 30, heart.y + Math.random() * 30);
+                }
+            });
+            
+            // Player
+            if(mPlayer.invincible && Math.floor(Date.now() / 100) % 2 === 0) {
+                ctx.globalAlpha = 0.5;
+            }
+            
+            // Draw player image or fallback
+            if(playerImg.complete && playerImg.naturalHeight !== 0) {
+                ctx.drawImage(playerImg, mPlayer.x, mPlayer.y, mPlayer.width, mPlayer.height);
+            } else {
+                ctx.font = '80px Arial';
+                ctx.fillText('🏃‍♀️', mPlayer.x, mPlayer.y + mPlayer.height);
+            }
+            
+            ctx.globalAlpha = 1;
+            
+            // Pause overlay
+            if(mGameState.paused) {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+                ctx.fillRect(0, 0, marioCanvas.width, marioCanvas.height);
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 60px Fredoka';
+                ctx.textAlign = 'center';
+                ctx.fillText('PAUSED', marioCanvas.width/2, marioCanvas.height/2);
+                ctx.textAlign = 'left';
+            }
+        }
+        
+        function checkCollision(a, b) {
+            // New Forgiving Hitbox: shrink collision box by 15px
+            let padding = 15;
+            return a.x + padding < b.x + b.width - padding &&
+                   a.x + a.width - padding > b.x + padding &&
+                   a.y + padding < b.y + b.height - padding &&
+                   a.y + a.height - padding > b.y + padding;
+        }
+        
+        function hitPlayer() {
+            mPlayer.hearts--;
+            mPlayer.invincible = true;
+            
+            // Hit particles
+            for(let i = 0; i < 15; i++) {
+                particles.push({
+                    x: mPlayer.x + mPlayer.width/2,
+                    y: mPlayer.y + mPlayer.height/2,
+                    vx: (Math.random() - 0.5) * 8,
+                    vy: (Math.random() - 0.5) * 8,
+                    life: 25,
+                    emoji: '💔'
+                });
+            }
+            
+            setTimeout(() => {
+                mPlayer.invincible = false;
+            }, 2000);
+            
+            if(mPlayer.hearts <= 0) {
+                gameOver();
+            }
+            
+            updateMarioUI();
+        }
+        
+        function updateMarioUI() {
+            document.getElementById('mario-hearts').innerText = '❤️ × ' + mPlayer.hearts;
+            document.getElementById('mario-distance').innerText = 'Distance: ' + Math.floor(mGameState.distance / 10) + 'm';
+        }
+        
+        function gameOver() {
+            mGameState.running = false;
+            cancelAnimationFrame(marioAnimationFrame);
+            
+            document.getElementById('mario-msg').style.display = 'block';
+            document.getElementById('final-score').innerText = 
+                `You ran ${Math.floor(mGameState.distance / 10)}m and scored ${mGameState.score} points!`;
+            
+            confetti({
+                particleCount: 200,
+                spread: 120,
+                origin: { y: 0.6 }
+            });
+            
+            sendNotification(`Valentine Game completed! Distance: ${Math.floor(mGameState.distance / 10)}m, Score: ${mGameState.score}`);
+        }
+
+        function closeMarioGame() {
+            document.getElementById('mario-area').style.display = 'none';
+            document.getElementById('mario-msg').style.display = 'none';
+            document.querySelector('.container').style.display = 'block';
+            switchView('val-intro', 'gift-menu');
+            
+            // Clean up
+            document.removeEventListener('keydown', handleMarioKeyDown);
+            document.removeEventListener('keyup', handleMarioKeyUp);
+            marioKeys = {};
+        }
+
+        // ==================== HUG DAY LOGIC ====================
+        
+        function openHugDay() { 
+            switchView('g5-val-week', 'hug-card-1'); 
+            sendNotification("Riya opened Hug Day 🫂"); 
+        }
+        
+        function nextHugSequence(step) { 
+            if (step === 2) switchView('hug-card-1', 'hug-card-2'); 
+            else if (step === 3) switchView('hug-card-2', 'hug-card-3'); 
+        }
+        
+        function finishHugSequence() { 
+            switchView('hug-card-3', 'g5-val-week'); 
+        }
+
+        // ==================== PROMISE DAY LOGIC ====================
+        
+        let promiseIndex = 0; 
+        let forgiveNoCount = 0;
+        
         const promises = [
-            "I promise to be your mirror—always honest, speaking only the truth, even when it's hard.",
-            "I promise that no ego will ever be bigger than 'Us'. You will always matter more than my pride.",
-            "I promise to hold your hand through the storms. You will never have to face the hard times alone.",
-            "I promise to listen—not just to your words, but to your silence and your heart, no matter what.",
-            "I promise to protect your heart. My actions might be clumsy, but I will never, ever hurt you intentionally.",
-            "I promise to keep growing, to be a better man for myself, and the best man for you.",
-            "I promise to always choose you. Over anyone, over anything, every single day."
+            "I promise to be your mirror when you doubt yourself, reflecting back all the beauty you can't always see.",
+            "I promise no ego will ever stand between us. Love is bigger than pride, and you're more important than being right.",
+            "I promise to hold your hand through every storm, even when my own hands are shaking.",
+            "I promise to listen — not just to your words, but to your silence, your fears, and your unspoken dreams.",
+            "I promise to protect your heart, your peace, and your trust in me, always.",
+            "I promise to grow with you, not apart from you — to evolve together, not in separate directions.",
+            "I promise to choose you, every single day, even on the days when it's hard."
         ];
-        let promiseIndex = 0; let forgiveNoCount = 0;
-        function openPromiseDay() { switchView('g5-val-week', 'promise-day-card'); promiseIndex = 0; document.querySelector('.promise-text').innerText = promises[0]; document.getElementById('promise-controls').classList.remove('hidden'); document.getElementById('promise-final').classList.add('hidden'); sendNotification("Riya opened Promise Day 🤞"); }
-        function nextPromise() {
-            promiseIndex++;
-            if (promiseIndex < promises.length) {
-                const pText = document.querySelector('.promise-text'); pText.style.opacity = 0;
-                setTimeout(() => { pText.innerText = promises[promiseIndex]; pText.style.opacity = 1; }, 300);
-            } else { document.getElementById('promise-controls').classList.add('hidden'); document.querySelector('.promise-text').classList.add('hidden'); document.getElementById('promise-final').classList.remove('hidden'); document.getElementById('sorry-img').src = 'GIF/sorry1.gif'; forgiveNoCount = 0; }
+        
+        function openPromiseDay() { 
+            switchView('g5-val-week', 'promise-day-card'); 
+            promiseIndex = 0; 
+            document.querySelector('.promise-text').innerText = promises[0]; 
+            document.getElementById('promise-controls').classList.remove('hidden'); 
+            document.getElementById('promise-final').classList.add('hidden'); 
+            sendNotification("Riya opened Promise Day 🤞"); 
         }
+        
+        function nextPromise() { 
+            promiseIndex++; 
+            
+            if (promiseIndex < promises.length) { 
+                const pText = document.querySelector('.promise-text'); 
+                pText.style.opacity = 0; 
+                
+                setTimeout(() => { 
+                    pText.innerText = promises[promiseIndex]; 
+                    pText.style.opacity = 1; 
+                }, 300); 
+            } else { 
+                document.getElementById('promise-controls').classList.add('hidden'); 
+                document.querySelector('.promise-text').classList.add('hidden'); 
+                document.getElementById('promise-final').classList.remove('hidden'); 
+                document.getElementById('sorry-img').src = 'GIF/sorry1.gif'; 
+                forgiveNoCount = 0; 
+            } 
+        }
+        
         function handleForgiveNo() {
             forgiveNoCount++;
             const btnNo = document.getElementById('btn-no-forgive');
             const img = document.getElementById('sorry-img');
-            const randomX = Math.random() * 50 - 25; const randomY = Math.random() * 50 - 25; btnNo.style.transform = `translate(${randomX}px, ${randomY}px)`;
-            if(forgiveNoCount === 1) { btnNo.innerText = "Dil mat todo 💔"; img.src = 'GIF/sorry2.gif'; } 
-            else if(forgiveNoCount === 2) { btnNo.innerText = "Please baby? 🥺"; img.src = 'GIF/sorry3.gif'; } 
-            else if(forgiveNoCount === 3) { img.src = 'GIF/sorry4.gif'; btnNo.classList.add('hidden'); document.getElementById('punishment-section').classList.remove('hidden'); document.getElementById('btn-punish').classList.remove('hidden'); }
+            
+            // Random movement
+            const randomX = Math.random() * 60 - 30; 
+            const randomY = Math.random() * 60 - 30; 
+            btnNo.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            
+            if(forgiveNoCount === 1) { 
+                btnNo.innerText = "Dil mat todo 💔"; 
+                img.src = 'GIF/sorry2.gif'; 
+            } else if(forgiveNoCount === 2) { 
+                btnNo.innerText = "Please baby? 🥺"; 
+                img.src = 'GIF/sorry3.gif'; 
+            } else if(forgiveNoCount === 3) { 
+                img.src = 'GIF/sorry4.gif'; 
+                btnNo.classList.add('hidden'); 
+                document.getElementById('punishment-section').classList.remove('hidden'); 
+                document.getElementById('btn-punish').classList.remove('hidden'); 
+            }
         }
-        function submitPunishment() { const punishment = document.getElementById('punishment-box').value; if(punishment.trim() === "") { alert("Likh to do kuch... 🥺"); return; } sendNotification("Punishment: " + punishment); alert("Accepted 😔❤️"); handleForgiveness(); }
-        function handleForgiveness() { confetti({ particleCount: 200, spread: 100 }); triggerReaction('happy1.gif', 'Yay! I love you! ❤️'); sendNotification("Riya FORGAVE YOU! ❤️"); setTimeout(() => { switchView('promise-day-card', 'g5-val-week'); }, 4000); }
+        
+        function submitPunishment() { 
+            const punishment = document.getElementById('punishment-box').value; 
+            
+            if(punishment.trim() === "") { 
+                alert("Likh to do kuch... 🥺"); 
+                return; 
+            } 
+            
+            sendNotification("Punishment: " + punishment); 
+            alert("Accepted 😔❤️"); 
+            handleForgiveness(); 
+        }
+        
+        function handleForgiveness() { 
+            confetti({ 
+                particleCount: 250, 
+                spread: 120,
+                origin: { y: 0.6 }
+            }); 
+            
+            triggerReaction('happy1.gif', 'Yay! I love you! ❤️'); 
+            sendNotification("Riya FORGAVE YOU! ❤️"); 
+            
+            setTimeout(() => { 
+                switchView('promise-day-card', 'g5-val-week'); 
+            }, 4000); 
+        }
 
-        // --- OTHER LOGIC ---
-        function openChocolateDay() { switchView('g5-val-week', 'chocolate-day-card'); }
-        function nextChocoSequence(step) { if(step===1) switchView('chocolate-day-card','choco-card-1'); else if(step===2) switchView('choco-card-1','choco-card-2'); else if(step===3) switchView('choco-card-2','choco-card-3'); else if(step===4) switchView('choco-card-3','choco-card-4'); }
-        function finishChocoSequence() { switchView('choco-card-4', 'g5-val-week'); }
-        function openTeddyDay() { switchView('g5-val-week', 'teddy-card-1'); }
-        function nextTeddySequence(step) { if(step===2) switchView('teddy-card-1','teddy-card-2'); else if(step===3) switchView('teddy-card-2','teddy-card-3'); }
-        function finishTeddySequence() { switchView('teddy-card-3', 'g5-val-week'); }
-        function openRoseDay() { switchView('g5-val-week', 'rose-day-card'); }
-        function closeRoseDay() { switchView('rose-day-card', 'g5-val-week'); }
-        function openProposeDay() { switchView('g5-val-week', 'propose-day-card-1'); }
-        function nextProposePage() { switchView('propose-day-card-1', 'propose-day-card-2'); }
-        function handleProposeDayYes() { triggerReaction('anya heh.gif', 'Yay! 💍'); confetti(); setTimeout(() => { switchView('propose-day-card-2', 'g5-val-week'); }, 3000); sendNotification("Said YES to Propose Day 💍");}
-        function handleProposeDayNo() { /* Logic inside HTML onclick */ }
+        // ==================== CHOCOLATE DAY LOGIC ====================
+        
+        function openChocolateDay() { 
+            switchView('g5-val-week', 'chocolate-day-card'); 
+            sendNotification("Opened Chocolate Day 🍫");
+        }
+        
+        function nextChocoSequence(step) { 
+            if(step===1) switchView('chocolate-day-card','choco-card-1'); 
+            else if(step===2) switchView('choco-card-1','choco-card-2'); 
+            else if(step===3) switchView('choco-card-2','choco-card-3'); 
+            else if(step===4) switchView('choco-card-3','choco-card-4'); 
+        }
+        
+        function finishChocoSequence() { 
+            switchView('choco-card-4', 'g5-val-week'); 
+        }
 
-        // --- UTILS ---
-        function switchView(hideId, showId) { document.getElementById(hideId).classList.add('hidden'); document.getElementById(showId).classList.remove('hidden'); document.getElementById(showId).classList.add('fade-in'); }
-        function triggerNah() { triggerReaction('nah.gif', 'Nah! 😛'); }
-        function nextQ(c, n) { switchView(c, n); }
-        function finishGift1() { triggerReaction('anya heh.gif', 'Yay!'); setTimeout(() => { document.getElementById('gift1-wrap').classList.add('completed'); switchView('g1-q4', 'gift-menu'); }, 2500); }
-        function finishGift2() { document.getElementById('gift2-wrap').classList.add('completed'); switchView('g2-letter', 'gift-menu'); }
-        function finishGift5() { document.getElementById('gift5-wrap').classList.add('completed'); switchView('g5-val-week', 'gift-menu'); }
-        function handleProposalYes() { confetti(); document.getElementById('gift3-wrap').classList.add('completed'); triggerReaction('anya heh.gif', 'Yay!'); setTimeout(() => { switchView('g3-proposal', 'gift-menu'); }, 3000); sendNotification("Said YES to be Valentine ❤️");}
-        function handleProposalNo() { triggerReaction('Please.gif', 'Please? 🥺'); }
-        function triggerReaction(gifName, text) { const overlay = document.getElementById('gif-overlay'); document.getElementById('overlay-img').src = 'GIF/' + gifName; document.getElementById('overlay-text').innerText = text; overlay.classList.add('active'); setTimeout(() => { overlay.classList.remove('active'); }, 2500); }
+        // ==================== TEDDY DAY LOGIC ====================
+        
+        function openTeddyDay() { 
+            switchView('g5-val-week', 'teddy-card-1'); 
+            sendNotification("Opened Teddy Day 🧸");
+        }
+        
+        function nextTeddySequence(step) { 
+            if(step===2) switchView('teddy-card-1','teddy-card-2'); 
+            else if(step===3) switchView('teddy-card-2','teddy-card-3'); 
+        }
+        
+        function finishTeddySequence() { 
+            switchView('teddy-card-3', 'g5-val-week'); 
+        }
+
+        // ==================== ROSE DAY LOGIC ====================
+        
+        function openRoseDay() { 
+            switchView('g5-val-week', 'rose-day-card'); 
+            createFallingPetals();
+            sendNotification("Opened Rose Day 🌹");
+        }
+        
+        function closeRoseDay() { 
+            switchView('rose-day-card', 'g5-val-week');
+            document.getElementById('petals-container').innerHTML = '';
+        }
+        
+        function createFallingPetals() {
+            const container = document.getElementById('petals-container');
+            container.innerHTML = '';
+            
+            for(let i = 0; i < 20; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                petal.innerText = '🌹';
+                petal.style.left = Math.random() * 100 + '%';
+                petal.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                petal.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(petal);
+            }
+        }
+
+        // ==================== PROPOSE DAY LOGIC ====================
+        
+        function openProposeDay() { 
+            switchView('g5-val-week', 'propose-day-card-1'); 
+            sendNotification("Opened Propose Day 💍");
+        }
+        
+        function nextProposePage() { 
+            switchView('propose-day-card-1', 'propose-day-card-2'); 
+        }
+        
+        let proposeDayNoCount = 0;
+        
+        function handleProposeDayYes() { 
+            confetti({ 
+                particleCount: 200, 
+                spread: 100,
+                origin: { y: 0.6 }
+            }); 
+            
+            triggerReaction('anya heh.gif', 'Yay! 💍'); 
+            sendNotification("Said YES to Propose Day 💍");
+            
+            setTimeout(() => { 
+                switchView('propose-day-card-2', 'g5-val-week'); 
+            }, 3000); 
+        }
+        
+        function handleProposeDayNo() { 
+            proposeDayNoCount++;
+            const btnNo = document.getElementById('propose-day-no-btn');
+            
+            const randomX = Math.random() * 80 - 40;
+            const randomY = Math.random() * 80 - 40;
+            btnNo.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            
+            if(proposeDayNoCount === 1) btnNo.innerText = "Think again? 🥺";
+            else if(proposeDayNoCount === 2) btnNo.innerText = "Please? 💔";
+            else if(proposeDayNoCount === 3) {
+                btnNo.classList.add('hidden');
+                triggerReaction('Please.gif', 'Okay fine... 😢');
+            }
+        }
+
+        // ==================== GIFT 1: QUIZ LOGIC ====================
+        
+        function triggerNah() { 
+            triggerReaction('nah.gif', 'Nah! 😛'); 
+        }
+        
+        function nextQ(currentId, nextId) { 
+            switchView(currentId, nextId); 
+        }
+        
+        function finishGift1() { 
+            confetti({ 
+                particleCount: 150, 
+                spread: 80 
+            }); 
+            
+            triggerReaction('anya heh.gif', 'Perfect! All correct! 🎉'); 
+            sendNotification("Completed Quiz Gift! 🎁");
+            
+            setTimeout(() => { 
+                document.getElementById('gift1-wrap').classList.add('completed'); 
+                switchView('g1-q4', 'gift-menu'); 
+            }, 2500); 
+        }
+
+        // ==================== GIFT 2: LETTER LOGIC ====================
+        
+        function finishGift2() { 
+            document.getElementById('gift2-wrap').classList.add('completed'); 
+            switchView('g2-letter', 'gift-menu'); 
+            sendNotification("Read the Love Letter 💌");
+        }
+
+        // ==================== GIFT 5: VAL WEEK LOGIC ====================
+        
+        function finishGift5() { 
+            document.getElementById('gift5-wrap').classList.add('completed'); 
+            switchView('g5-val-week', 'gift-menu'); 
+        }
+
+        // ==================== GIFT 3: PROPOSAL LOGIC ====================
+        
+        let proposalNoCount = 0;
+        
+        function handleProposalYes() { 
+            confetti({ 
+                particleCount: 300, 
+                spread: 140,
+                origin: { y: 0.5 }
+            }); 
+            
+            document.getElementById('gift3-wrap').classList.add('completed'); 
+            triggerReaction('anya heh.gif', 'Yay! You said yes! 💍❤️'); 
+            sendNotification("Said YES to be Valentine ❤️");
+            
+            setTimeout(() => { 
+                switchView('g3-proposal', 'gift-menu'); 
+            }, 3000); 
+        }
+        
+        function handleProposalNo() { 
+            proposalNoCount++;
+            const btnNo = document.getElementById('g3-no-btn');
+            
+            const randomX = Math.random() * 100 - 50;
+            const randomY = Math.random() * 100 - 50;
+            btnNo.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            
+            if(proposalNoCount === 1) btnNo.innerText = "Think again? 🥺";
+            else if(proposalNoCount === 2) btnNo.innerText = "Pretty please? 💕";
+            else if(proposalNoCount === 3) {
+                btnNo.classList.add('hidden');
+                triggerReaction('Please.gif', 'I\'ll keep trying! 💔');
+            }
+        }
+
+        // ==================== UTILITY FUNCTIONS ====================
+        
+        function switchView(hideId, showId) { 
+            const hideEl = document.getElementById(hideId);
+            const showEl = document.getElementById(showId);
+            
+            hideEl.classList.add('hidden'); 
+            showEl.classList.remove('hidden'); 
+            showEl.classList.add('fade-in');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        function triggerReaction(gifName, text) { 
+            const overlay = document.getElementById('gif-overlay'); 
+            document.getElementById('overlay-img').src = 'GIF/' + gifName; 
+            document.getElementById('overlay-text').innerText = text; 
+            overlay.classList.add('active'); 
+            
+            setTimeout(() => { 
+                overlay.classList.remove('active'); 
+            }, 2500); 
+        }
+        
+        // ==================== PERFORMANCE OPTIMIZATION ====================
+        
+        // Lazy load images
+        document.addEventListener('DOMContentLoaded', () => {
+            const images = document.querySelectorAll('img');
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        if (img.dataset.src) {
+                            img.src = img.dataset.src;
+                            img.removeAttribute('data-src');
+                        }
+                        observer.unobserve(img);
+                    }
+                });
+            });
+            
+            images.forEach(img => imageObserver.observe(img));
+        });
+        
+        // Prevent memory leaks
+        window.addEventListener('beforeunload', () => {
+            clearInterval(gameInterval);
+            clearInterval(spawnInterval);
+            clearInterval(marioInterval);
+        });
+        
+        console.log("🎉 Valentine Website Loaded! Made with ❤️ for Riya");
     </script>
 </body>
 </html>
