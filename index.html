@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>For My Riya ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Pacifico&family=Dancing+Script:wght@700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -21,6 +21,7 @@
             padding: 0; 
             box-sizing: border-box; 
             cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>❤️</text></svg>") 16 0, auto; 
+            -webkit-tap-highlight-color: transparent;
         }
         
         body { 
@@ -34,6 +35,7 @@
             perspective: 1000px; 
             user-select: none;
             position: relative;
+            overscroll-behavior: none;
         }
         
         /* --- ANIMATED BACKGROUND ELEMENTS --- */
@@ -228,7 +230,7 @@
         
         #punishment-box:focus { outline: none; border-color: #ff4757; box-shadow: 0 0 15px rgba(255,71,87,0.3); }
         
-        /* --- KISS DAY GAME STYLES --- */
+        /* --- GAME STYLES --- */
         #game-area, #mario-area {
             position: fixed; 
             top: 0; 
@@ -242,6 +244,7 @@
             touch-action: none;
         }
         
+        /* Kiss Game Score (Top Right) */
         #game-score {
             position: absolute; 
             top: 25px; 
@@ -258,16 +261,16 @@
             animation: scoreFloat 2s ease-in-out infinite;
         }
         
-        /* --- EXIT BUTTON STYLE --- */
+        /* DEFAULT EXIT BUTTON (Top Left) */
         .game-exit-btn {
             position: absolute;
             top: 25px;
             left: 25px;
-            z-index: 1002;
+            z-index: 3000;
             background: rgba(255,255,255,0.9);
             border: 3px solid #ff6b81;
             color: #ff6b81;
-            padding: 8px 20px;
+            padding: 10px 24px;
             border-radius: 50px;
             font-family: 'Fredoka';
             font-weight: bold;
@@ -275,12 +278,23 @@
             cursor: pointer;
             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
             transition: all 0.3s ease;
+            -webkit-user-select: none;
+        }
+
+        /* MARIO EXIT BUTTON (Top Right) - Overrides default to prevent overlap */
+        .mario-exit-btn {
+            left: auto !important;
+            right: 25px !important;
         }
         
         .game-exit-btn:hover {
             background: #ff6b81;
             color: white;
             transform: scale(1.05);
+        }
+        
+        .game-exit-btn:active {
+            transform: scale(0.95);
         }
 
         @keyframes scoreFloat {
@@ -370,29 +384,33 @@
             transform: scale(1.05);
         }
         
+        /* Mario Score (Top Left) */
         #mario-score-display {
             position: absolute;
             top: 25px;
             left: 25px;
             z-index: 2001;
             background: rgba(255,255,255,0.9);
-            padding: 15px 25px;
+            padding: 10px 25px;
             border-radius: 25px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
             font-family: 'Fredoka';
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
         }
         
-        #mario-score-display h3 {
+        #mario-lives {
             color: #ff4757;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             margin: 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
         
-        #mario-score-display p {
-            color: #ff6b81;
-            font-size: 1.1rem;
-            margin: 5px 0 0 0;
+        #mario-coins {
+            color: #f0932b;
+            font-size: 1.3rem;
+            margin: 0;
             font-weight: bold;
         }
 
@@ -589,6 +607,7 @@
             z-index: 2000;
             opacity: 0.05;
             transition: opacity 0.3s;
+            -webkit-tap-highlight-color: transparent;
         }
         .touch-zone:active { opacity: 0.15; }
         #left-zone { left: 0; background: linear-gradient(to right, rgba(255,255,255,0.3), transparent); } 
@@ -602,7 +621,7 @@
             .gift-box { font-size: 3.5rem; }
             .container { padding: 35px 25px; }
             #game-score { font-size: 1.8rem; top: 15px; right: 15px; }
-            .game-exit-btn { font-size: 1rem; padding: 6px 15px; }
+            .game-exit-btn { font-size: 1rem; padding: 8px 20px; }
         }
         
         .container, .btn, .gift-wrapper, img { will-change: transform; }
@@ -919,15 +938,23 @@
                 <p style="font-size: 1.15rem; margin: 15px 0; color: #555;">The most special day for us!</p>
                 <div class="btn-group">
                     <button class="btn" style="background: #e84393;" onclick="startMarioGame()">Play Game 🎮</button>
-                    <button class="btn btn-secondary" onclick="alert('Surprise Shreya ke pass hai! 🎁😉')">See Surprise 🎁</button>
+                    <button class="btn btn-secondary" onclick="openSurprise()">See Surprise 🎁</button>
                 </div>
+            </div>
+
+            <div id="surprise-page" class="hidden choco-card-container">
+                <h1 style="font-family: 'Pacifico', cursive; color: #ff6b81; font-size: 2.5rem; margin-bottom: 20px;">Surprise! 🎉</h1>
+                <img src="GIF/anya heh.gif" style="width: 100%; max-width: 280px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 25px;">
+                <h2 style="color: #ff4757; font-family: 'Fredoka'; font-size: 1.8rem;">Surprise Shreya ke pass hai! 🎁😉</h2>
+                <p style="color: #555; margin-top: 10px;">Go ask her! 🏃‍♀️💨</p>
+                <button class="btn" onclick="closeSurprise()">Back 🔙</button>
             </div>
 
         </div>
     </div>
 
     <div id="game-area">
-        <button class="game-exit-btn" onclick="exitKissGame()">❌ Exit</button>
+        <button class="game-exit-btn" onclick="exitKissGame()" ontouchstart="event.stopPropagation()">❌ Exit</button>
         <div id="game-score">Score: 0</div>
         <div class="touch-zone" id="left-zone"></div>
         <div class="touch-zone" id="right-zone"></div>
@@ -935,9 +962,11 @@
     </div>
 
     <div id="mario-area">
+        <button class="game-exit-btn mario-exit-btn" onclick="exitMarioGame()" ontouchstart="event.stopPropagation()">❌ Exit</button>
+        
         <div id="mario-score-display">
-            <h3 id="mario-hearts">❤️ × 3</h3>
-            <p id="mario-distance">Distance: 0m</p>
+            <h3 id="mario-lives">Lives: ❤️❤️❤️❤️❤️</h3>
+            <p id="mario-coins">Hearts Collected: 0</p>
         </div>
         <div id="mario-controls">
             <button onclick="pauseMarioGame()" id="pause-btn">⏸️ Pause</button>
@@ -1055,7 +1084,8 @@
         // ==================== KISS DAY GAME LOGIC ====================
         
         let gameInterval, spawnInterval, animationFrameId;
-        let score = parseInt(localStorage.getItem('kissScore')) || 0;
+        // CHANGED: Removed localStorage get. Score starts at 0 every time.
+        let score = 0; 
         let playerX = 50; 
         let targetPlayerX = 50;
         let keys = {};
@@ -1071,13 +1101,13 @@
         function startGame() {
             document.querySelector('.container').style.display = 'none';
             gameArea.style.display = 'block';
+            score = 0; // RESET SCORE
             scoreBoard.innerText = "Score: " + score;
             playerX = 50;
             targetPlayerX = 50;
             player.style.left = playerX + '%';
             keys = {};
             
-            // Event Listeners
             document.addEventListener('keydown', handleKeyDown);
             document.addEventListener('keyup', handleKeyUp);
             document.getElementById('left-zone').addEventListener('touchstart', handleTouchLeft);
@@ -1100,37 +1130,32 @@
         }
         
         function handleTouchLeft(e) {
-            e.preventDefault();
             keys['ArrowLeft'] = true;
         }
         
         function handleTouchRight(e) {
-            e.preventDefault();
             keys['ArrowRight'] = true;
         }
         
         function handleTouchEnd(e) {
-            e.preventDefault();
             keys['ArrowLeft'] = false;
             keys['ArrowRight'] = false;
         }
         
         function gameLoop() {
-            // Smooth movement based on key state
-            if (keys['ArrowLeft'] && targetPlayerX > 2) {
-                targetPlayerX -= 1.2;
+            const moveSpeed = 1.5; 
+            
+            if (keys['ArrowLeft'] && targetPlayerX > 5) {
+                targetPlayerX -= moveSpeed;
             }
-            if (keys['ArrowRight'] && targetPlayerX < 88) {
-                targetPlayerX += 1.2;
+            if (keys['ArrowRight'] && targetPlayerX < 95) {
+                targetPlayerX += moveSpeed;
             }
             
-            // Smooth interpolation
-            playerX += (targetPlayerX - playerX) * 0.3;
+            playerX += (targetPlayerX - playerX) * 0.2;
             player.style.left = playerX + '%';
             
-            // Update game
             updateGame();
-            
             animationFrameId = requestAnimationFrame(gameLoop);
         }
 
@@ -1155,7 +1180,6 @@
             kisses.forEach(kiss => {
                 const kissRect = kiss.getBoundingClientRect();
                 
-                // Better collision detection
                 if (kissRect.bottom >= playerRect.top && 
                     kissRect.top <= playerRect.bottom &&
                     kissRect.right >= playerRect.left && 
@@ -1163,14 +1187,11 @@
                     
                     kiss.remove();
                     score++;
-                    localStorage.setItem('kissScore', score);
                     scoreBoard.innerText = "Score: " + score;
                     
-                    // Visual feedback
                     player.style.transform = 'scale(1.1)';
                     setTimeout(() => { player.style.transform = 'scale(1)'; }, 100);
                     
-                    // Celebration every 20 kisses
                     if (score % 20 === 0 && score > 0) {
                         confetti({
                             particleCount: 150,
@@ -1185,12 +1206,10 @@
             });
         }
         
-        // Exit Kiss Game
         function exitKissGame() {
             cancelAnimationFrame(animationFrameId);
             clearInterval(spawnInterval);
             
-            // Remove existing kisses to clean up
             const kisses = document.querySelectorAll('.falling-kiss');
             kisses.forEach(k => k.remove());
             
@@ -1198,17 +1217,26 @@
             document.querySelector('.container').style.display = 'block';
             switchView('kiss-intro', 'g5-val-week');
             
-            // Clean up
             document.removeEventListener('keydown', handleKeyDown);
             document.removeEventListener('keyup', handleKeyUp);
             keys = {};
         }
 
-        // ==================== VALENTINE DAY GAME ====================
+        // ==================== VALENTINE DAY LOGIC ====================
         
         function openValentineDay() { 
             switchView('g5-val-week', 'val-intro'); 
             sendNotification("Opened Valentine's Day! ❤️");
+        }
+
+        // NEW FUNCTIONS FOR SURPRISE PAGE
+        function openSurprise() {
+            switchView('val-intro', 'surprise-page');
+            sendNotification("Opened Surprise Page 🎁");
+        }
+
+        function closeSurprise() {
+            switchView('surprise-page', 'val-intro');
         }
 
         // ==================== IMPROVED VALENTINE MARIO GAME ====================
@@ -1221,20 +1249,20 @@
             height: 80,
             velocityY: 0,
             velocityX: 0,
-            jumpPower: -16, // Slightly reduced for better control
+            jumpPower: -17, 
             grounded: false,
-            hearts: 3,
+            lives: 5,           
+            coins: 0,           
             invincible: false
         };
         
         let mGameState = {
             running: false,
             paused: false,
-            score: 0,
             distance: 0,
             speed: 5,
             groundY: 0,
-            framesSinceLastObstacle: 0 // New: Track distance between obstacles
+            framesSinceLastObstacle: 0 
         };
         
         let obstacles = [];
@@ -1243,30 +1271,29 @@
         let trees = [];
         let particles = [];
         
-        // Player image
         let playerImg = new Image();
-        playerImg.src = 'GIF/valentine1.gif';
+        playerImg.src = 'GIF/mario.gif';
 
         function startMarioGame() {
             document.querySelector('.container').style.display = 'none';
             const marioArea = document.getElementById('mario-area');
             marioArea.style.display = 'block';
             
-            // Setup canvas
             marioCanvas = document.getElementById('mario-canvas');
             ctx = marioCanvas.getContext('2d');
             marioCanvas.width = window.innerWidth;
             marioCanvas.height = window.innerHeight;
             
-            // Reset game state
             mGameState.groundY = marioCanvas.height - 120;
             mPlayer.y = mGameState.groundY - mPlayer.height;
             mPlayer.velocityY = 0;
-            mPlayer.hearts = 3;
+            
+            mPlayer.lives = 5; 
+            mPlayer.coins = 0; 
             mPlayer.invincible = false;
-            mGameState.score = 0;
+            
             mGameState.distance = 0;
-            mGameState.speed = 5;
+            mGameState.speed = 8;
             mGameState.running = true;
             mGameState.paused = false;
             mGameState.framesSinceLastObstacle = 0;
@@ -1277,26 +1304,20 @@
             trees = [];
             particles = [];
             
-            // Initialize background
             initBackground();
             
-            // Event listeners
             document.addEventListener('keydown', handleMarioKeyDown);
             document.addEventListener('keyup', handleMarioKeyUp);
             marioCanvas.addEventListener('touchstart', handleMarioTouch);
             marioCanvas.addEventListener('click', handleMarioTouch);
             
-            // Update UI
             updateMarioUI();
-            
-            // Start game loop
             marioAnimationFrame = requestAnimationFrame(marioGameLoop);
             
             sendNotification("Started Valentine's Day Game 🎮");
         }
         
         function initBackground() {
-            // Create clouds
             for(let i = 0; i < 5; i++) {
                 clouds.push({
                     x: Math.random() * marioCanvas.width,
@@ -1306,7 +1327,6 @@
                 });
             }
             
-            // Create trees
             for(let i = 0; i < 3; i++) {
                 trees.push({
                     x: 200 + i * 300,
@@ -1341,7 +1361,7 @@
                 mPlayer.velocityY = mPlayer.jumpPower;
                 mPlayer.grounded = false;
                 
-                // Jump particles
+                // Particle effect
                 for(let i = 0; i < 5; i++) {
                     particles.push({
                         x: mPlayer.x + mPlayer.width/2,
@@ -1360,6 +1380,20 @@
             document.getElementById('pause-btn').innerText = mGameState.paused ? '▶️ Resume' : '⏸️ Pause';
         }
         
+        // NEW FUNCTION TO EXIT MARIO GAME
+        function exitMarioGame() {
+            mGameState.running = false;
+            cancelAnimationFrame(marioAnimationFrame);
+            
+            document.getElementById('mario-area').style.display = 'none';
+            document.querySelector('.container').style.display = 'block';
+            switchView('val-intro', 'val-intro'); // Ensure we are on the right menu
+            
+            document.removeEventListener('keydown', handleMarioKeyDown);
+            document.removeEventListener('keyup', handleMarioKeyUp);
+            marioKeys = {};
+        }
+
         function marioGameLoop() {
             if(!mGameState.running) return;
             
@@ -1372,35 +1406,33 @@
         }
         
         function updateMarioGame() {
-            // Increase difficulty over time
             mGameState.distance++;
             mGameState.framesSinceLastObstacle++;
             
-            if(mGameState.distance % 500 === 0) {
-                mGameState.speed += 0.3;
+            // GRADUAL SPEED INCREASE
+            if(mGameState.distance % 1000 === 0) {
+                mGameState.speed += 0.2;
             }
             
-            // Player physics - Tweaked for easier jumping
-            mPlayer.velocityY += 0.6; // Lower gravity for floatier jumps (was 0.8)
+            // RESPONSIVE PHYSICS
+            mPlayer.velocityY += 0.7; 
             mPlayer.y += mPlayer.velocityY;
             
-            // Ground collision
             if(mPlayer.y + mPlayer.height >= mGameState.groundY) {
                 mPlayer.y = mGameState.groundY - mPlayer.height;
                 mPlayer.velocityY = 0;
                 mPlayer.grounded = true;
             }
             
-            // Spawn obstacles - NEW: Perfect Distance Logic
-            // Only spawn if enough frames have passed (approx 90-120 frames gap)
-            // This ensures jumping is always possible
-            let minGap = 100; // minimum frames between obstacles
-            
-            if(mGameState.framesSinceLastObstacle > minGap && Math.random() < 0.02) {
+            // NO IMPOSSIBLE JUMPS LOGIC
+            let minGapDistance = 400 + (Math.random() * 200); 
+            let currentGapDistance = mGameState.framesSinceLastObstacle * mGameState.speed;
+
+            if(currentGapDistance > minGapDistance && Math.random() < 0.03) {
                 const obstacleTypes = [
-                    { emoji: '🌵', width: 40, height: 60, deadly: true },
-                    { emoji: '💔', width: 50, height: 50, deadly: true },
-                    { emoji: '🥀', width: 45, height: 55, deadly: true }
+                    { emoji: '🌵', width: 40, height: 60 },
+                    { emoji: '💔', width: 50, height: 50 },
+                    { emoji: '🥀', width: 45, height: 55 }
                 ];
                 const type = obstacleTypes[Math.floor(Math.random() * obstacleTypes.length)];
                 obstacles.push({
@@ -1408,13 +1440,11 @@
                     y: mGameState.groundY - type.height,
                     width: type.width,
                     height: type.height,
-                    emoji: type.emoji,
-                    deadly: type.deadly
+                    emoji: type.emoji
                 });
-                mGameState.framesSinceLastObstacle = 0; // Reset counter
+                mGameState.framesSinceLastObstacle = 0; 
             }
             
-            // Spawn hearts (collectibles)
             if(Math.random() < 0.008) {
                 hearts.push({
                     x: marioCanvas.width + 50,
@@ -1425,35 +1455,25 @@
                 });
             }
             
-            // Update obstacles
             obstacles.forEach((obs, i) => {
                 obs.x -= mGameState.speed;
                 
-                // Check collision
                 if(!mPlayer.invincible && checkCollision(mPlayer, obs)) {
                     hitPlayer();
                 }
                 
-                // Remove off-screen
                 if(obs.x + obs.width < 0) {
                     obstacles.splice(i, 1);
-                    mGameState.score += 10;
                 }
             });
             
-            // Update hearts
             hearts.forEach((heart, i) => {
                 heart.x -= mGameState.speed;
                 
-                // Check collection
                 if(!heart.collected && checkCollision(mPlayer, heart)) {
                     heart.collected = true;
-                    if(mPlayer.hearts < 5) {
-                        mPlayer.hearts++;
-                    }
-                    mGameState.score += 50;
+                    mPlayer.coins++; 
                     
-                    // Collect particles
                     for(let j = 0; j < 10; j++) {
                         particles.push({
                             x: heart.x + heart.width/2,
@@ -1464,17 +1484,14 @@
                             emoji: '❤️'
                         });
                     }
-                    
                     hearts.splice(i, 1);
                 }
                 
-                // Remove off-screen
                 if(heart.x + heart.width < 0) {
                     hearts.splice(i, 1);
                 }
             });
             
-            // Update clouds
             clouds.forEach(cloud => {
                 cloud.x -= cloud.speed;
                 if(cloud.x + cloud.width < 0) {
@@ -1483,7 +1500,6 @@
                 }
             });
             
-            // Update trees
             trees.forEach(tree => {
                 tree.x -= mGameState.speed * 0.3;
                 if(tree.x + tree.width < 0) {
@@ -1491,7 +1507,6 @@
                 }
             });
             
-            // Update particles
             particles.forEach((p, i) => {
                 p.x += p.vx;
                 p.y += p.vy;
@@ -1504,7 +1519,6 @@
         }
         
         function drawMarioGame() {
-            // Sky gradient
             const gradient = ctx.createLinearGradient(0, 0, 0, marioCanvas.height);
             gradient.addColorStop(0, '#ffc3dd');
             gradient.addColorStop(0.5, '#ffe6f2');
@@ -1512,7 +1526,6 @@
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, marioCanvas.width, marioCanvas.height);
             
-            // Clouds
             clouds.forEach(cloud => {
                 ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
                 ctx.beginPath();
@@ -1523,7 +1536,6 @@
                 ctx.fill();
             });
             
-            // Trees (background)
             trees.forEach(tree => {
                 ctx.fillStyle = '#c77dff';
                 ctx.fillRect(tree.x + 12, tree.y, 16, 60);
@@ -1531,24 +1543,20 @@
                 ctx.fillText('🌸', tree.x - 10, tree.y + 15);
             });
             
-            // Ground
             ctx.fillStyle = '#ff9cc5';
             ctx.fillRect(0, mGameState.groundY, marioCanvas.width, marioCanvas.height - mGameState.groundY);
             
-            // Ground decoration
             ctx.fillStyle = '#ff6b9d';
             for(let i = 0; i < marioCanvas.width; i += 60) {
                 ctx.fillRect(i + (mGameState.distance % 60), mGameState.groundY, 30, 5);
             }
             
-            // Grass/flowers on ground
             ctx.font = '25px Arial';
             for(let i = 0; i < marioCanvas.width; i += 80) {
                 const offset = (mGameState.distance * 2) % 80;
                 ctx.fillText('🌺', i - offset, mGameState.groundY - 5);
             }
             
-            // Particles
             particles.forEach(p => {
                 ctx.globalAlpha = p.life / 30;
                 ctx.font = '20px Arial';
@@ -1556,41 +1564,35 @@
             });
             ctx.globalAlpha = 1;
             
-            // Obstacles
             obstacles.forEach(obs => {
                 ctx.font = `${obs.height}px Arial`;
                 ctx.fillText(obs.emoji, obs.x, obs.y + obs.height);
             });
             
-            // Hearts (collectibles)
             hearts.forEach(heart => {
                 const bounce = Math.sin(Date.now() / 200) * 5;
                 ctx.font = '40px Arial';
                 ctx.fillText('❤️', heart.x, heart.y + bounce + heart.height);
                 
-                // Sparkle effect
                 if(Math.random() > 0.7) {
                     ctx.font = '15px Arial';
                     ctx.fillText('✨', heart.x + Math.random() * 30, heart.y + Math.random() * 30);
                 }
             });
             
-            // Player
             if(mPlayer.invincible && Math.floor(Date.now() / 100) % 2 === 0) {
                 ctx.globalAlpha = 0.5;
             }
             
-            // Draw player image or fallback
             if(playerImg.complete && playerImg.naturalHeight !== 0) {
                 ctx.drawImage(playerImg, mPlayer.x, mPlayer.y, mPlayer.width, mPlayer.height);
             } else {
                 ctx.font = '80px Arial';
-                ctx.fillText('🏃‍♀️', mPlayer.x, mPlayer.y + mPlayer.height);
+                ctx.fillText('🏃', mPlayer.x, mPlayer.y + mPlayer.height);
             }
             
             ctx.globalAlpha = 1;
             
-            // Pause overlay
             if(mGameState.paused) {
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
                 ctx.fillRect(0, 0, marioCanvas.width, marioCanvas.height);
@@ -1603,7 +1605,6 @@
         }
         
         function checkCollision(a, b) {
-            // New Forgiving Hitbox: shrink collision box by 15px
             let padding = 15;
             return a.x + padding < b.x + b.width - padding &&
                    a.x + a.width - padding > b.x + padding &&
@@ -1612,10 +1613,9 @@
         }
         
         function hitPlayer() {
-            mPlayer.hearts--;
+            mPlayer.lives--; 
             mPlayer.invincible = true;
             
-            // Hit particles
             for(let i = 0; i < 15; i++) {
                 particles.push({
                     x: mPlayer.x + mPlayer.width/2,
@@ -1631,7 +1631,7 @@
                 mPlayer.invincible = false;
             }, 2000);
             
-            if(mPlayer.hearts <= 0) {
+            if(mPlayer.lives <= 0) {
                 gameOver();
             }
             
@@ -1639,8 +1639,11 @@
         }
         
         function updateMarioUI() {
-            document.getElementById('mario-hearts').innerText = '❤️ × ' + mPlayer.hearts;
-            document.getElementById('mario-distance').innerText = 'Distance: ' + Math.floor(mGameState.distance / 10) + 'm';
+            let lifeString = "";
+            for(let i=0; i<mPlayer.lives; i++) lifeString += "❤️";
+            
+            document.getElementById('mario-lives').innerText = 'Lives: ' + lifeString;
+            document.getElementById('mario-coins').innerText = 'Hearts Collected: ' + mPlayer.coins;
         }
         
         function gameOver() {
@@ -1649,7 +1652,7 @@
             
             document.getElementById('mario-msg').style.display = 'block';
             document.getElementById('final-score').innerText = 
-                `You ran ${Math.floor(mGameState.distance / 10)}m and scored ${mGameState.score} points!`;
+                `Score: ${mPlayer.coins} Hearts!`;
             
             confetti({
                 particleCount: 200,
@@ -1657,7 +1660,7 @@
                 origin: { y: 0.6 }
             });
             
-            sendNotification(`Valentine Game completed! Distance: ${Math.floor(mGameState.distance / 10)}m, Score: ${mGameState.score}`);
+            sendNotification(`Valentine Game completed! Score: ${mPlayer.coins}`);
         }
 
         function closeMarioGame() {
@@ -1666,7 +1669,6 @@
             document.querySelector('.container').style.display = 'block';
             switchView('val-intro', 'gift-menu');
             
-            // Clean up
             document.removeEventListener('keydown', handleMarioKeyDown);
             document.removeEventListener('keyup', handleMarioKeyUp);
             marioKeys = {};
@@ -1737,7 +1739,6 @@
             const btnNo = document.getElementById('btn-no-forgive');
             const img = document.getElementById('sorry-img');
             
-            // Random movement
             const randomX = Math.random() * 60 - 30; 
             const randomY = Math.random() * 60 - 30; 
             btnNo.style.transform = `translate(${randomX}px, ${randomY}px)`;
